@@ -5,134 +5,104 @@ using UnityEngine;
 public class PlayerCtr : MonoBehaviour
 {
     private Rigidbody rb;
+    //private TouchCtr touchCtr;
+    //
 
-    private TouchCtr touchCtr;
+    [SerializeField] //[Range( , )]
+    private float movementSpeed = 10f;
 
-    private float speed = 50f;
+    private Vector3 targetPos;
 
+    private bool isMoving = false;
 
-    public int testing = 0;
-    public int limit = 100;
-
-    public float waitTime = 2f;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
 
-        touchCtr = GetComponent<TouchCtr>();
+        //touchCtr = GetComponent<TouchCtr>();
 
-        // rb.velocity
-        // rb.MovePosition
-    }
-
-    private void FixedUpdate()
-    {
-
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            print("Space");
-            rb.velocity = rb.transform.forward * speed * Time.deltaTime;
-        }
-
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            print("W");
-            rb.velocity = rb.transform.forward * 5f ;
-            //rb.MovePosition(rb.transform.forward * 5f);
-        }
     }
 
     public void OnMovePlayer(TouchCtr.Direction direction)
     {
-        
-        switch (direction)
+        if(!isMoving)
         {
-            //    public enum Direction { UR,DR,DL,UL}
+            isMoving = true;
 
-            case TouchCtr.Direction.UR:
+            print("Switch Start");
 
-                break;
-            case TouchCtr.Direction.DR:
-                break;
-            case TouchCtr.Direction.DL:
-                break;
-            case TouchCtr.Direction.UL:
-                {
-                    //StartCoroutine("Move");                  
-                    
-                }
-                break;
+            switch (direction)
+            {
+                case TouchCtr.Direction.UR:
+                    {
+                        print("onmove UR");
+                        targetPos = new Vector3
+                            (transform.position.x + 1, transform.position.y, transform.position.z);
+
+                    }
+                    break;
+
+                case TouchCtr.Direction.DR:
+                    {
+                        print("onmove DR");
+                        targetPos = new Vector3
+                            (transform.position.x, transform.position.y, transform.position.z - 1);
+
+                    }
+
+                    break;
+
+                case TouchCtr.Direction.DL:
+                    {
+                        print("onmove DL");
+                        targetPos = new Vector3
+                            (transform.position.x - 1, transform.position.y, transform.position.z);
+
+                    }
+
+                    break;
+
+                case TouchCtr.Direction.UL:
+                    {
+                        print("onmove UL");
+
+                        targetPos = new Vector3
+                            (transform.position.x, transform.position.y, transform.position.z + 1);
+
+                    }
+                    break;
+            }
+            StartCoroutine("Movements");
 
         }
-
     }
 
-    /*
-    IEnumerator Move()
+
+    IEnumerator Movements()
     {
-        
-        print("corou start");
-
-        Vector3 currentPos = rb.transform.position;
-
-        Vector3 targetPos = new Vector3(currentPos.x, currentPos.y, currentPos.z + 1);
-
-        //rb.MovePosition(new Vector3(rb.position.x, rb.position.y, rb.position.z + 1));
-        Vector3 up = new Vector3(0, 0, 1);
-
-
-        testing = 0;
-
-        while (true)
+        while (Vector3.Distance(transform.position, targetPos) > 0.05f)
         {
-            ++testing;
+            print("Dis: " + Vector3.Distance(transform.position, targetPos));
 
-            print("corou In While: " + testing);
+            rb.MovePosition(Vector3.Lerp(transform.position, targetPos, movementSpeed * Time.deltaTime));
 
-            rb.MovePosition(transform.position + (up * speed * Time.deltaTime));
-
-            print("Current Pos: " + transform.position);
-            print("Target Pos: " + targetPos);
-            
-
-            if (transform.position.z > targetPos.z)
-            {
-                print("pos reached");
-                break;
-
-            }
-
-            if(Time.time > 3f)
-            {
-                print("time UP");
-                break;
-            }
-
-            
-            if(testing > limit)
-            {
-                print("num reached: testing: " + testing + " | limit: " + limit);
-                break;
-            }
-            
+            yield return null;
 
         }
 
-        print("Out While in Corou");
+        //
+        transform.position = targetPos;
 
-        yield return new WaitForSeconds(waitTime);
+        transform.position = new Vector3
+            ((int)transform.position.x, (int)transform.position.y, (int)transform.position.z);
+        //
 
+        print("Pos: " + transform.position);
+        print("TarPos: " + targetPos);
 
-        //yield return null;
-
-
-        print("corou END");
+        print("end co");
+        isMoving = false;
 
     }
-
-    */
-
-
-
 
 }

@@ -343,7 +343,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 2
 --- !u!114 &189782500
 MonoBehaviour:
@@ -357,9 +357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f161fbc496f4acba375a02cf1cfa8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testing: 0
-  limit: 100
-  waitTime: 2
+  movementSpeed: 10
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,7 +640,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1794050027}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.00000059604645, y: 1.11, z: 1.8320789}
+  m_LocalPosition: {x: -2.73, y: 1.11, z: 1.8320789}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
