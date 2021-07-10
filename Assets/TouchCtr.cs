@@ -9,9 +9,11 @@ public class TouchCtr : MonoBehaviour
     private Vector2 startTouchPosition;
     private Vector2 currentTouchPosition;
     private Vector2 endTouchPosition;
-    //private bool stopTouch = false;
 
-    private float minSwipeRange = 50f;
+    private bool isTouchExecute = false;
+
+    [SerializeField]
+    private float minSwipeRange = 200f;
 
     public enum Direction { UR,DR,DL,UL}
 
@@ -96,13 +98,16 @@ public class TouchCtr : MonoBehaviour
     {
         var distance = Vector2.Distance(startTouchPosition, currentTouchPosition);
 
+        print("Dis: " + distance);
+
         if (distance > minSwipeRange)
         {
+            isTouchExecute = true;
+
             float dy = currentTouchPosition.y - startTouchPosition.y;
             float dx = currentTouchPosition.x - startTouchPosition.x;
 
             float slope = (dy / dx);
-
 
             if (slope > 0)
             {
@@ -134,13 +139,22 @@ public class TouchCtr : MonoBehaviour
 
                 }
             }
+        }
+        else
+        {
+            isTouchExecute = false;
 
+            print("Too short touch range");
         }
     }
 
     private void FinalDirection()
     {
-        playerCtr.OnMovePlayer(finalDirection);
+        if(isTouchExecute)
+        {
+            playerCtr.OnMovePlayer(finalDirection);
+
+        }
     }
 
 

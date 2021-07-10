@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCtr : MonoBehaviour
@@ -9,7 +8,7 @@ public class PlayerCtr : MonoBehaviour
     //
 
     [SerializeField] //[Range( , )]
-    private float movementSpeed = 10f;
+    private float movementSpeed = 11f;
 
     private Vector3 targetPos;
 
@@ -18,14 +17,15 @@ public class PlayerCtr : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-
         //touchCtr = GetComponent<TouchCtr>();
 
+        //
+        rb.freezeRotation = true;
     }
 
     public void OnMovePlayer(TouchCtr.Direction direction)
     {
-        if(!isMoving)
+        if((!isMoving))
         {
             isMoving = true;
 
@@ -72,11 +72,14 @@ public class PlayerCtr : MonoBehaviour
                     }
                     break;
             }
+            //
+            targetPos = new Vector3
+                ((int)targetPos.x, (int)targetPos.y, (int)targetPos.z);
+
             StartCoroutine("Movements");
 
         }
     }
-
 
     IEnumerator Movements()
     {
@@ -90,11 +93,13 @@ public class PlayerCtr : MonoBehaviour
 
         }
 
-        //
+        // ??? Edit ???
         transform.position = targetPos;
 
+        /*
         transform.position = new Vector3
             ((int)transform.position.x, (int)transform.position.y, (int)transform.position.z);
+        */
         //
 
         print("Pos: " + transform.position);
@@ -103,6 +108,19 @@ public class PlayerCtr : MonoBehaviour
         print("end co");
         isMoving = false;
 
+    }
+
+    //
+    public void OnCollisionEnter(Collision collision)
+    {
+        
+    }
+
+
+    // 
+    private void OnCollisionExit(Collision collision)
+    {
+        
     }
 
 }
