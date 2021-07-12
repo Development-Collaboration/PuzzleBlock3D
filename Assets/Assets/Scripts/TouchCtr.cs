@@ -15,9 +15,7 @@ public class TouchCtr : MonoBehaviour
     [SerializeField]
     private float minSwipeRange = 200f;
 
-    public enum Direction { UR,DR,DL,UL}
-
-    private Direction finalDirection;
+    private DIRECTION finalDirection;
 
     private void Awake()
     {
@@ -40,7 +38,7 @@ public class TouchCtr : MonoBehaviour
             if (Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 startTouchPosition = Input.GetTouch(0).position;
-                print("pressed| Pos: " + startTouchPosition);
+                //print("pressed| Pos: " + startTouchPosition);
             }
 
             /////
@@ -57,7 +55,7 @@ public class TouchCtr : MonoBehaviour
             if ((Input.GetTouch(0).phase == TouchPhase.Ended))
             {
                 endTouchPosition = Input.GetTouch(0).position;
-                print("End Swipe| Pos: " + endTouchPosition);
+                //print("End Swipe| Pos: " + endTouchPosition);
 
                 FinalDirection();
             }
@@ -73,7 +71,7 @@ public class TouchCtr : MonoBehaviour
             startTouchPosition = Input.mousePosition;
 
 
-            print("Mouse pressed| Pos: " + startTouchPosition);
+            //print("Mouse pressed| Pos: " + startTouchPosition);
         }
 
         if(Input.GetMouseButton(0))
@@ -86,7 +84,7 @@ public class TouchCtr : MonoBehaviour
         if(Input.GetMouseButtonUp(0))
         {
             endTouchPosition = Input.mousePosition;
-            print("End Mouse| Distance: " + endTouchPosition);
+            //print("End Mouse| Distance: " + endTouchPosition);
 
             FinalDirection();
 
@@ -98,7 +96,7 @@ public class TouchCtr : MonoBehaviour
     {
         var distance = Vector2.Distance(startTouchPosition, currentTouchPosition);
 
-        print("Dis: " + distance);
+        //print("Dis: " + distance);
 
         if (distance > minSwipeRange)
         {
@@ -113,14 +111,14 @@ public class TouchCtr : MonoBehaviour
             {
                 if (dy > 0)
                 {
-                    print("UP RIGT");
-                    finalDirection = Direction.UR;
+                    //print("UP RIGT");
+                    finalDirection = DIRECTION.UR;
 
                 }
                 else if (dy < 0)
                 {
-                    print("Down LEFT");
-                    finalDirection = Direction.DL;
+                   //print("Down LEFT");
+                    finalDirection = DIRECTION.DL;
 
                 }
             }
@@ -128,14 +126,14 @@ public class TouchCtr : MonoBehaviour
             {
                 if (dy > 0)
                 {
-                    print("UP LEFT");
-                    finalDirection = Direction.UL;
+                    //print("UP LEFT");
+                    finalDirection = DIRECTION.UL;
 
                 }
                 else if (dy < 0)
                 {
-                    print("Down Right");
-                    finalDirection = Direction.DR;
+                    //print("Down Right");
+                    finalDirection = DIRECTION.DR;
 
                 }
             }
@@ -144,7 +142,7 @@ public class TouchCtr : MonoBehaviour
         {
             isTouchExecute = false;
 
-            print("Too short touch range");
+            //print("Too short touch range");
         }
     }
 
@@ -152,7 +150,7 @@ public class TouchCtr : MonoBehaviour
     {
         if(isTouchExecute)
         {
-            playerCtr.OnMovePlayer(finalDirection);
+            playerCtr.OnPLayerMovementDirection(finalDirection);
 
         }
     }
