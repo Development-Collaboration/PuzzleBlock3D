@@ -20,16 +20,51 @@ public class PlayerCtr : MonoBehaviour
 
     private Block[] blockArrays = new Block[4];
 
+    //
+    private bool[] restrictedDirectionArray = new bool[4] { false, false, false, false };
+
+
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        //touchCtr = GetComponent<TouchCtr>();
 
         //
         rb.freezeRotation = true;
         
     }
+
+
+    public void OnPLayerMovementDirection(DIRECTION direction)
+    {
+        if ((!isMoving))
+        {
+            DirectionDecision(direction);
+
+            // Detect Restricted Area
+            /*
+            if (direction == DIRECTION.UL)
+            {
+                if (restrictedDirectionArray[(int)DIRECTION.UL] == true)
+                {
+                    print("onp out bc wall");
+
+                    isMoving = false;
+                }
+
+            }
+            */
+
+
+            // execute at Block.cs
+            MoveBlock(direction);
+
+            // execute player move
+            StartCoroutine("ExecuteMovements");
+
+        }
+    }
+
 
     private void DirectionDecision(DIRECTION direction)
     {
@@ -84,23 +119,6 @@ public class PlayerCtr : MonoBehaviour
 
     }
 
-    public void OnPLayerMovementDirection(DIRECTION direction)
-    {
-        if((!isMoving))
-        {
-            isMoving = true;
-
-            DirectionDecision(direction);
-
-            // execute at Block.cs
-            MoveBlock(direction);
-
-            // execute player move
-            StartCoroutine("ExecuteMovements");
-
-        }
-    }
-
 
     private void MoveBlock(DIRECTION direction)
     {
@@ -126,7 +144,6 @@ public class PlayerCtr : MonoBehaviour
     {
         while (Vector3.Distance(transform.position, targetPos) > 0.05f)
         {
-            //print("Dis: " + Vector3.Distance(transform.position, targetPos));
 
             rb.MovePosition(Vector3.Lerp(transform.position, targetPos, movementSpeed * Time.deltaTime));
 
@@ -137,18 +154,6 @@ public class PlayerCtr : MonoBehaviour
         // ??? Edit ???
         transform.position = targetPos;
 
-        /*
-        transform.position = new Vector3
-            ((int)transform.position.x, (int)transform.position.y, (int)transform.position.z);
-        */
-        //
-
-        /*
-        print("Pos: " + transform.position);
-        print("TarPos: " + targetPos);
-
-        print("end co");
-        */
         isMoving = false;
 
     }
@@ -156,8 +161,55 @@ public class PlayerCtr : MonoBehaviour
     
     void OnCollisionStay(Collision collision)
     {
-     
-        if(collision.gameObject.CompareTag("Block") &&
+
+        if(collision.gameObject.CompareTag("Wall"))
+        {
+            Vector3 _contactPoint = collision.contacts[0].normal;
+
+            print("Player coli with w");
+
+            // UL
+            if (_contactPoint.z == -1)
+            {
+               
+                /*
+                print("restrictedDirectionArray[(int)DIRECTION.UL] : " +restrictedDirectionArray[(int)DIRECTION.UL]);
+
+                restrictedDirectionArray[(int)DIRECTION.UL] = true;
+
+                print("After : " + restrictedDirectionArray[(int)DIRECTION.UL]);
+                */
+
+
+            }
+            else
+            {
+                print("not touch");
+                restrictedDirectionArray[(int)DIRECTION.UL] = false;
+
+
+            }
+
+            // DR
+            if (_contactPoint.z == 1)
+            {
+            }
+
+            // UR
+            if (_contactPoint.x == -1)
+            {
+            }
+
+            // DL
+            if (_contactPoint.x == 1)
+            {
+            }
+
+
+        }
+
+        /////////
+        if (collision.gameObject.CompareTag("Block") &&
             Vector3.Distance(this.transform.position, collision.transform.position) < 1.01f)
         {            
             //print("Player Collided point[0]: " + collision.contacts[0].normal);
@@ -169,36 +221,24 @@ public class PlayerCtr : MonoBehaviour
             // UL
             if (_contactPoint.z == -1)
             {
-                //print("obj is UL on p ");
-
                 CollisionWithBlock(DIRECTION.UL, collision);
-
-
             }
 
             // DR
             if (_contactPoint.z == 1)
             {
-                //print("obj is DR on p ");
-
                 CollisionWithBlock(DIRECTION.DR, collision);
-
-
             }
 
             // UR
             if (_contactPoint.x == -1)
             {
-                //print("obj is UR on p ");
                 CollisionWithBlock(DIRECTION.UR, collision);
-
             }
 
             // DL
             if (_contactPoint.x == 1)
             {
-                //print("obj is DL on p ");
-
                 CollisionWithBlock(DIRECTION.DL, collision);
             }
 
@@ -227,7 +267,7 @@ public class PlayerCtr : MonoBehaviour
 
     }
 
-
+  
     //
     /*
     private void OnCollisionExit(Collision collision)

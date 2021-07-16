@@ -15,6 +15,8 @@ public class Block : MonoBehaviour
     private Vector3 targetPos;
     private bool isMoving = false;
 
+    private bool[] restrictedDirectionArray = new bool[4] { false, false, false, false };
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -24,28 +26,102 @@ public class Block : MonoBehaviour
 
     public void OnBlockMove(DIRECTION direction)
     {
-        print("On box move execued form block");
-
-        /*
-        this.transform.position = new Vector3
-            (transform.position.x, transform.position.y + 2, transform.position.z);
-        */
-
-        print("block pos: " + this.transform.position);
-
-        // Player point == player 
-        print("block Direction: " + direction);
+        //print("On box move execued form block");
+        //print("block pos: " + this.transform.position);
+        //print("block Direction: " + direction);
 
         if(!isMoving)
         {
             DirectionDecision(direction);
 
-            // execute block move
+            // Dont execute if there is block or wall toware that direction
+            /*
+             if block || wall == target pos
+            return false
+             */
 
+
+
+            // execute block move
             StartCoroutine("ExecuteMovements");
         }
 
+    }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Block") ||
+            other.gameObject.CompareTag("Wall"))
+        {
+
+
+        }
+
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+
+        if (collision.gameObject.CompareTag("Wall")
+            ||
+            (collision.gameObject.CompareTag("Block") &&
+            Vector3.Distance(this.transform.position, collision.transform.position) < 1.01f))
+        {
+            print("Collided point[0]: " + collision.contacts[0].normal);
+
+            Vector3 _contactPoint = collision.contacts[0].normal;
+
+            print("contactPoint: " + _contactPoint);
+
+            // UL
+            if (_contactPoint.z == -1)
+            {
+                //print("obj is UL on p ");
+
+                CollisionWithRestrictedObject(DIRECTION.UL, collision);
+
+
+            }
+
+            // DR
+            if (_contactPoint.z == 1)
+            {
+                //print("obj is DR on p ");
+
+                CollisionWithRestrictedObject(DIRECTION.DR, collision);
+
+
+            }
+
+            // UR
+            if (_contactPoint.x == -1)
+            {
+                //print("obj is UR on p ");
+                CollisionWithRestrictedObject(DIRECTION.UR, collision);
+
+            }
+
+            // DL
+            if (_contactPoint.x == 1)
+            {
+                //print("obj is DL on p ");
+
+                CollisionWithRestrictedObject(DIRECTION.DL, collision);
+            }
+
+            //// can't find the diff
+            //print("Player Collided point[1]: " + collision.contacts[1].normal);
+            //print("Player Collided point[2]: " + collision.contacts[2].normal);
+            //print("Player Collided point[3]: " + collision.contacts[3].normal);            
+
+        }
+
+    }
+
+    private void CollisionWithRestrictedObject(DIRECTION direction, Collision collision)
+    {
+        print("collition tag:  " + collision.gameObject.tag);
+        print("collition restrictedDirection: " + direction);
     }
 
 
