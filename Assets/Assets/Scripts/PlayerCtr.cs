@@ -33,8 +33,6 @@ public class PlayerCtr : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-
-        //
         rb.freezeRotation = true;
         isMoving = false;
         IsRestricted = false;
@@ -130,6 +128,7 @@ public class PlayerCtr : MonoBehaviour
         // Wall Detection
 
         Debug.DrawRay(transform.position, transform.TransformDirection(rayTransformDirection) * movementDistance, Color.red, 0.5f);      
+
         if (Physics.Raycast(this.transform.position, transform.TransformDirection(rayTransformDirection),
             out hit, (movementDistance)))
         {

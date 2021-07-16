@@ -2,73 +2,56 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Block : MonoBehaviour
+public class BasicMovement : MonoBehaviour
 {
-    private PlayerCtr playerCtr;
+    protected Rigidbody rb;
 
-    private Rigidbody rb;
-
-    private string player = "Player";
-    private string block = "Block";
-    private string wall = "Wall";
-
+    protected string block = "Block";
+    protected string wall = "Wall";
 
     [SerializeField] //[Range( , )]
-    private float movementSpeed = 11f;
-    private int movementDistance = 1;
+    protected float movementSpeed = 11f;
 
-    private Vector3 currentPos;
-    private Vector3 targetPos;
-    private bool isMoving = false;
+    //[SerializeField] //[Range( , )]
+    protected int movementDistance = 1;
+
+    protected Vector3 currentPos;
+    protected Vector3 targetPos;
+    protected bool isMoving = false;
 
     public bool IsRestricted { get; set; }
 
-    /*
-    private bool[] isRestrictedDirectionArray = new bool[4] { false, false, false, false };
 
-    private bool isTriggerOn = false;
-    private bool isCollideWithBlock = false;
-    private bool isCollideWithWall = false;
-    */
-
-
-
-    private void Awake()
+    protected virtual void Awake()
     {
-        playerCtr = FindObjectOfType<PlayerCtr>();
-
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-        IsRestricted = false;
         isMoving = false;
-
+        IsRestricted = false;
     }
 
-
-
-    public void OnBlockMove(DIRECTION direction)
+    protected virtual void MovementsControl(DIRECTION direction)
     {
-        if(!isMoving)
+        if ((!isMoving))
         {
-            //
             currentPos = this.transform.position;
             IsRestricted = false;
 
-            //
+            // + wall detection
             DirectionDecision(direction);
+
+            // execute at Block.cs
+            //MoveBlock(direction);
 
             if (IsRestricted)
             {
                 targetPos = currentPos;
                 return;
             }
-
+            // execute player move
             StartCoroutine("ExecuteMovements");
-
         }
-
     }
-
 
     IEnumerator ExecuteMovements()
     {
@@ -89,8 +72,7 @@ public class Block : MonoBehaviour
 
     }
 
-
-    private void DirectionDecision(DIRECTION direction)
+    protected virtual void DirectionDecision(DIRECTION direction)
     {
         RaycastHit hit;
         Vector3 rayTransformDirection = Vector3.zero;
@@ -150,94 +132,35 @@ public class Block : MonoBehaviour
 
         // Wall Detection
 
-        // Debug.DrawRay(transform.position, transform.TransformDirection(rayTransformDirection) * movementDistance, Color.red, 0.5f);      
+        Debug.DrawRay(transform.position, transform.TransformDirection(rayTransformDirection) * movementDistance, Color.red, 0.5f);
         if (Physics.Raycast(this.transform.position, transform.TransformDirection(rayTransformDirection),
             out hit, (movementDistance)))
         {
+            print("Hit info: " + hit.transform.tag);
 
             if (hit.transform.CompareTag(wall))
             {
-                print("from Block : Wall Dectected");
-
-                IsRestricted = true;
-
-                playerCtr.IsRestricted = true;
-
+                CollideWithWall(hit);
             }
 
             if (hit.transform.CompareTag(block))
             {
-                print("from Block : another block on that direction Dectected");
 
-                IsRestricted = true;
-
-                playerCtr.IsRestricted = true;
-
-
-
+                CollideWithBlock(hit, direction);
             }
         }
-
-
-
     }
 
-
-
-    /*
-    private void DirectionDecision(DIRECTION direction)
+    protected virtual void CollideWithWall(RaycastHit hit)
     {
 
-        isMoving = true;
+    }
 
-        switch (direction)
-        {
-            case DIRECTION.UR:
-                {
-                    //print("onmove UR");
-                    targetPos = new Vector3
-                        (transform.position.x + movementDistance, transform.position.y, transform.position.z);
-
-                }
-                break;
-
-            case DIRECTION.DR:
-                {
-                    //print("onmove DR");
-                    targetPos = new Vector3
-                        (transform.position.x, transform.position.y, transform.position.z - movementDistance);
-
-                }
-
-                break;
-
-            case DIRECTION.DL:
-                {
-                    //print("onmove DL");
-                    targetPos = new Vector3
-                        (transform.position.x - movementDistance, transform.position.y, transform.position.z);
-
-                }
-
-                break;
-
-            case DIRECTION.UL:
-                {
-                    //print("onmove UL");
-
-                    targetPos = new Vector3
-                        (transform.position.x, transform.position.y, transform.position.z + movementDistance);
-
-                }
-                break;
-        }
-        //
-        targetPos = new Vector3
-            ((int)targetPos.x, (int)targetPos.y, (int)targetPos.z);
-
+    protected virtual void CollideWithBlock(RaycastHit hit, DIRECTION direction)
+    {
 
     }
-    */
 
 
+    
 }
