@@ -24,7 +24,7 @@ public class TouchCtr : MonoBehaviour
     }
 
 
-    private void Update()
+    private void FixedUpdate()
     {
         Swipe();
 
