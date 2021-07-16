@@ -9,21 +9,26 @@ public class PlayerCtr : MonoBehaviour
     //private TouchCtr touchCtr;
     //
 
+    private string block = "Block";
+    private string wall = "Wall";
+
     [SerializeField] //[Range( , )]
     private float movementSpeed = 11f;
 
     //[SerializeField] //[Range( , )]
     private int movementDistance = 1;
 
+
+    private Vector3 currentPos;
     private Vector3 targetPos;
     private bool isMoving = false;
 
     private Block[] blockArrays = new Block[4];
 
     //
-    private bool[] restrictedDirectionArray = new bool[4] { false, false, false, false };
+    //private bool[] isRestrictedDirectionArray = new bool[4] { false, false, false, false };
 
-
+    public bool IsRestricted { get; set; }
 
     private void Awake()
     {
@@ -31,33 +36,32 @@ public class PlayerCtr : MonoBehaviour
 
         //
         rb.freezeRotation = true;
-        
+        isMoving = false;
+        IsRestricted = false;
+
+
     }
 
-
+    
     public void OnPLayerMovementDirection(DIRECTION direction)
     {
         if ((!isMoving))
         {
-            DirectionDecision(direction);
+            currentPos = this.transform.position;
+            IsRestricted = false;
 
-            // Detect Restricted Area
-            /*
-            if (direction == DIRECTION.UL)
-            {
-                if (restrictedDirectionArray[(int)DIRECTION.UL] == true)
-                {
-                    print("onp out bc wall");
 
-                    isMoving = false;
-                }
-
-            }
-            */
-
+            // + wall detection
+            DirectionDecision(direction);                
 
             // execute at Block.cs
-            MoveBlock(direction);
+            //MoveBlock(direction);
+
+            if (IsRestricted)
+            {
+                targetPos = currentPos;
+                return;
+            }
 
             // execute player move
             StartCoroutine("ExecuteMovements");
@@ -65,11 +69,10 @@ public class PlayerCtr : MonoBehaviour
         }
     }
 
-
     private void DirectionDecision(DIRECTION direction)
     {
-
-        isMoving = true;
+        RaycastHit hit;
+        Vector3 rayTransformDirection = Vector3.zero;
 
         switch (direction)
         {
@@ -79,6 +82,7 @@ public class PlayerCtr : MonoBehaviour
                     targetPos = new Vector3
                         (transform.position.x + movementDistance, transform.position.y, transform.position.z);
 
+                    rayTransformDirection = transform.TransformDirection(Vector3.right);
                 }
                 break;
 
@@ -87,6 +91,8 @@ public class PlayerCtr : MonoBehaviour
                     //print("onmove DR");
                     targetPos = new Vector3
                         (transform.position.x, transform.position.y, transform.position.z - movementDistance);
+
+                    rayTransformDirection = transform.TransformDirection(Vector3.back);
 
                 }
 
@@ -97,6 +103,8 @@ public class PlayerCtr : MonoBehaviour
                     //print("onmove DL");
                     targetPos = new Vector3
                         (transform.position.x - movementDistance, transform.position.y, transform.position.z);
+
+                    rayTransformDirection = transform.TransformDirection(Vector3.left);
 
                 }
 
@@ -109,6 +117,8 @@ public class PlayerCtr : MonoBehaviour
                     targetPos = new Vector3
                         (transform.position.x, transform.position.y, transform.position.z + movementDistance);
 
+                    rayTransformDirection = transform.TransformDirection(Vector3.forward);
+
                 }
                 break;
         }
@@ -117,100 +127,68 @@ public class PlayerCtr : MonoBehaviour
             ((int)targetPos.x, (int)targetPos.y, (int)targetPos.z);
 
 
-    }
+        // Wall Detection
 
-
-    private void MoveBlock(DIRECTION direction)
-    {
-        if(null != blockArrays[(int)direction])
+        Debug.DrawRay(transform.position, transform.TransformDirection(rayTransformDirection) * movementDistance, Color.red, 0.5f);      
+        if (Physics.Raycast(this.transform.position, transform.TransformDirection(rayTransformDirection),
+            out hit, (movementDistance)))
         {
-            if(true == blockArrays[(int)direction].IsBlockCollideWPlayer)
+            print("Hit info: " + hit.transform.tag);
+
+            if (hit.transform.CompareTag(wall))
             {
+                print("Wall Dectected");
+
+                IsRestricted = true;
+
+            }
+
+            if(hit.transform.CompareTag(block))
+            {
+                //
+                blockArrays[(int)direction] = hit.collider.GetComponent<Block>();
+
+                //                
                 blockArrays[(int)direction].OnBlockMove(direction);
-            }
-            else
-            {
-                print("player 에서 block null 처리" + direction);
+
+                //
                 blockArrays[(int)direction] = null;
+
+
             }
+        }   
 
-        }
 
-        
 
     }
+
+ 
 
     IEnumerator ExecuteMovements()
     {
+        isMoving = true;
+
         while (Vector3.Distance(transform.position, targetPos) > 0.05f)
         {
 
             rb.MovePosition(Vector3.Lerp(transform.position, targetPos, movementSpeed * Time.deltaTime));
 
             yield return null;
-
-        }
+        }       
 
         // ??? Edit ???
         transform.position = targetPos;
-
         isMoving = false;
+
 
     }
 
-    
+    /*
     void OnCollisionStay(Collision collision)
     {
 
-        if(collision.gameObject.CompareTag("Wall"))
-        {
-            Vector3 _contactPoint = collision.contacts[0].normal;
-
-            print("Player coli with w");
-
-            // UL
-            if (_contactPoint.z == -1)
-            {
-               
-                /*
-                print("restrictedDirectionArray[(int)DIRECTION.UL] : " +restrictedDirectionArray[(int)DIRECTION.UL]);
-
-                restrictedDirectionArray[(int)DIRECTION.UL] = true;
-
-                print("After : " + restrictedDirectionArray[(int)DIRECTION.UL]);
-                */
-
-
-            }
-            else
-            {
-                print("not touch");
-                restrictedDirectionArray[(int)DIRECTION.UL] = false;
-
-
-            }
-
-            // DR
-            if (_contactPoint.z == 1)
-            {
-            }
-
-            // UR
-            if (_contactPoint.x == -1)
-            {
-            }
-
-            // DL
-            if (_contactPoint.x == 1)
-            {
-            }
-
-
-        }
-
-        /////////
-        if (collision.gameObject.CompareTag("Block") &&
-            Vector3.Distance(this.transform.position, collision.transform.position) < 1.01f)
+        if (collision.gameObject.CompareTag(block) &&
+        Vector3.Distance(this.transform.position, collision.transform.position) < 1.01f)
         {            
             //print("Player Collided point[0]: " + collision.contacts[0].normal);
 
@@ -241,12 +219,6 @@ public class PlayerCtr : MonoBehaviour
             {
                 CollisionWithBlock(DIRECTION.DL, collision);
             }
-
-            //// can't find the diff
-            //print("Player Collided point[1]: " + collision.contacts[1].normal);
-            //print("Player Collided point[2]: " + collision.contacts[2].normal);
-            //print("Player Collided point[3]: " + collision.contacts[3].normal);            
-
         }
         
 
@@ -258,38 +230,33 @@ public class PlayerCtr : MonoBehaviour
         // "" Left on p x == 1
     }
 
-
     private void CollisionWithBlock(DIRECTION direction, Collision collision)
     {
         blockArrays[(int)direction] = collision.gameObject.GetComponent<Block>();
-        blockArrays[(int)direction].IsBlockCollideWPlayer = true;
-
-
+        blockArrays[(int)direction].IsBlockCollideWithPlayer = true;
     }
 
-  
-    //
-    /*
-    private void OnCollisionExit(Collision collision)
+    
+    private void MoveBlock(DIRECTION direction)
     {
 
-        print("No longer in contact with " + collision.transform.name);
-        print(": " + collision.transform.tag);
+         //
+         if(null != blockArrays[(int)direction])
+         {
+             if(true == blockArrays[(int)direction].IsBlockCollideWithPlayer)
+             {
+                 blockArrays[(int)direction].OnBlockMove(direction);
+             }
+             else
+             {
+                 //print("player 에서 block null 처리" + direction);
+                 blockArrays[(int)direction] = null;
+             }
 
+         }        
 
-        if (collision.transform.CompareTag("Block"))
-        {
-            print("colide exit");
-
-
-            print("Player Collided point[0]: " + collision.contacts[0].normal);
-
-            Vector3 _exitPoint = collision.contacts[0].normal;
-
-            print("_exitPoint: " + _exitPoint);
-
-
-        }
-    }
+     }
     */
+     
+
 }

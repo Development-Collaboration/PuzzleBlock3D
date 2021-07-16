@@ -4,129 +4,80 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
+    private PlayerCtr playerCtr;
+
     private Rigidbody rb;
 
-    public bool IsBlockCollideWPlayer { get; set; }
+    private string player = "Player";
+    private string block = "Block";
+    private string wall = "Wall";
+
 
     [SerializeField] //[Range( , )]
     private float movementSpeed = 11f;
     private int movementDistance = 1;
 
+    private Vector3 currentPos;
+
     private Vector3 targetPos;
     private bool isMoving = false;
 
-    private bool[] restrictedDirectionArray = new bool[4] { false, false, false, false };
+    public bool IsRestricted { get; set; }
+
+    /*
+    private bool[] isRestrictedDirectionArray = new bool[4] { false, false, false, false };
+
+    private bool isTriggerOn = false;
+    private bool isCollideWithBlock = false;
+    private bool isCollideWithWall = false;
+    */
+
+
 
     private void Awake()
     {
+        playerCtr = FindObjectOfType<PlayerCtr>();
+
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-        IsBlockCollideWPlayer = false;
+
+        IsRestricted = false;
+
+
     }
+
+
 
     public void OnBlockMove(DIRECTION direction)
     {
-        //print("On box move execued form block");
-        //print("block pos: " + this.transform.position);
-        //print("block Direction: " + direction);
-
         if(!isMoving)
         {
+            //
+            currentPos = this.transform.position;
+            IsRestricted = false;
+
+
+
+            //
             DirectionDecision(direction);
 
-            // Dont execute if there is block or wall toware that direction
-            /*
-             if block || wall == target pos
-            return false
-             */
+            if (IsRestricted)
+            {
+                targetPos = currentPos;
+                return;
+            }
 
-
-
-            // execute block move
             StartCoroutine("ExecuteMovements");
-        }
-
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.CompareTag("Block") ||
-            other.gameObject.CompareTag("Wall"))
-        {
-
 
         }
 
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-
-        if (collision.gameObject.CompareTag("Wall")
-            ||
-            (collision.gameObject.CompareTag("Block") &&
-            Vector3.Distance(this.transform.position, collision.transform.position) < 1.01f))
-        {
-            print("Collided point[0]: " + collision.contacts[0].normal);
-
-            Vector3 _contactPoint = collision.contacts[0].normal;
-
-            print("contactPoint: " + _contactPoint);
-
-            // UL
-            if (_contactPoint.z == -1)
-            {
-                //print("obj is UL on p ");
-
-                CollisionWithRestrictedObject(DIRECTION.UL, collision);
-
-
-            }
-
-            // DR
-            if (_contactPoint.z == 1)
-            {
-                //print("obj is DR on p ");
-
-                CollisionWithRestrictedObject(DIRECTION.DR, collision);
-
-
-            }
-
-            // UR
-            if (_contactPoint.x == -1)
-            {
-                //print("obj is UR on p ");
-                CollisionWithRestrictedObject(DIRECTION.UR, collision);
-
-            }
-
-            // DL
-            if (_contactPoint.x == 1)
-            {
-                //print("obj is DL on p ");
-
-                CollisionWithRestrictedObject(DIRECTION.DL, collision);
-            }
-
-            //// can't find the diff
-            //print("Player Collided point[1]: " + collision.contacts[1].normal);
-            //print("Player Collided point[2]: " + collision.contacts[2].normal);
-            //print("Player Collided point[3]: " + collision.contacts[3].normal);            
-
-        }
-
-    }
-
-    private void CollisionWithRestrictedObject(DIRECTION direction, Collision collision)
-    {
-        print("collition tag:  " + collision.gameObject.tag);
-        print("collition restrictedDirection: " + direction);
     }
 
 
     IEnumerator ExecuteMovements()
     {
+        isMoving = true;
+
         while (Vector3.Distance(transform.position, targetPos) > 0.05f)
         {
 
@@ -137,23 +88,107 @@ public class Block : MonoBehaviour
         }
 
         transform.position = targetPos;
-
         isMoving = false;
 
+
     }
 
 
-    private void OnTriggerExit(Collider other)
+    private void DirectionDecision(DIRECTION direction)
     {
-        if (other.transform.CompareTag("Player"))
-        {
-            print("Exit w P (from block) ");
+        RaycastHit hit;
+        Vector3 rayTransformDirection = Vector3.zero;
 
-            IsBlockCollideWPlayer = false;
+        switch (direction)
+        {
+            case DIRECTION.UR:
+                {
+                    //print("onmove UR");
+                    targetPos = new Vector3
+                        (transform.position.x + movementDistance, transform.position.y, transform.position.z);
+
+                    rayTransformDirection = transform.TransformDirection(Vector3.right);
+                }
+                break;
+
+            case DIRECTION.DR:
+                {
+                    //print("onmove DR");
+                    targetPos = new Vector3
+                        (transform.position.x, transform.position.y, transform.position.z - movementDistance);
+
+                    rayTransformDirection = transform.TransformDirection(Vector3.back);
+
+                }
+
+                break;
+
+            case DIRECTION.DL:
+                {
+                    //print("onmove DL");
+                    targetPos = new Vector3
+                        (transform.position.x - movementDistance, transform.position.y, transform.position.z);
+
+                    rayTransformDirection = transform.TransformDirection(Vector3.left);
+
+                }
+
+                break;
+
+            case DIRECTION.UL:
+                {
+                    //print("onmove UL");
+
+                    targetPos = new Vector3
+                        (transform.position.x, transform.position.y, transform.position.z + movementDistance);
+
+                    rayTransformDirection = transform.TransformDirection(Vector3.forward);
+
+                }
+                break;
         }
+        //
+        targetPos = new Vector3
+            ((int)targetPos.x, (int)targetPos.y, (int)targetPos.z);
+
+
+        // Wall Detection
+
+        // Debug.DrawRay(transform.position, transform.TransformDirection(rayTransformDirection) * movementDistance, Color.red, 0.5f);      
+        if (Physics.Raycast(this.transform.position, transform.TransformDirection(rayTransformDirection),
+            out hit, (movementDistance)))
+        {
+
+            if (hit.transform.CompareTag(wall))
+            {
+                print("from Block : Wall Dectected");
+
+                IsRestricted = true;
+
+                playerCtr.IsRestricted = true;
+
+            }
+
+            if (hit.transform.CompareTag(block))
+            {
+                print("from Block : another block on that direction Dectected");
+
+                IsRestricted = true;
+
+                playerCtr.IsRestricted = true;
+
+
+
+            }
+        }
+
+
+
     }
 
 
+
+    /*
     private void DirectionDecision(DIRECTION direction)
     {
 
@@ -206,7 +241,7 @@ public class Block : MonoBehaviour
 
 
     }
-
+    */
 
 
 }
