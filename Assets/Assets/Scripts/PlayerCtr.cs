@@ -129,7 +129,7 @@ public class PlayerCtr : MonoBehaviour
 
         // Wall Detection
 
-        // Debug.DrawRay(transform.position, transform.TransformDirection(rayTransformDirection) * movementDistance, Color.red, 0.5f);      
+        Debug.DrawRay(transform.position, transform.TransformDirection(rayTransformDirection) * movementDistance, Color.red, 0.5f);      
         if (Physics.Raycast(this.transform.position, transform.TransformDirection(rayTransformDirection),
             out hit, (movementDistance)))
         {
@@ -148,11 +148,10 @@ public class PlayerCtr : MonoBehaviour
                 //
                 blockArrays[(int)direction] = hit.collider.GetComponent<Block>();
 
-
-
-                ///
+                //                
                 blockArrays[(int)direction].OnBlockMove(direction);
 
+                //
                 blockArrays[(int)direction] = null;
 
 
