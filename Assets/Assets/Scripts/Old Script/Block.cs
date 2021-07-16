@@ -18,7 +18,6 @@ public class Block : MonoBehaviour
     private int movementDistance = 1;
 
     private Vector3 currentPos;
-
     private Vector3 targetPos;
     private bool isMoving = false;
 
@@ -40,9 +39,8 @@ public class Block : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-
         IsRestricted = false;
-
+        isMoving = false;
 
     }
 
@@ -55,8 +53,6 @@ public class Block : MonoBehaviour
             //
             currentPos = this.transform.position;
             IsRestricted = false;
-
-
 
             //
             DirectionDecision(direction);
