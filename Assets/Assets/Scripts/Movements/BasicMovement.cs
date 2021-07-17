@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicMovement : MonoBehaviour
+public abstract class BasicMovement : MonoBehaviour
 {
     protected Rigidbody rb;
 
     protected string block = "Block";
     protected string wall = "Wall";
+    protected string goal = "Goal";
 
     [SerializeField] //[Range( , )]
     protected float movementSpeed = 11f;
@@ -53,6 +54,7 @@ public class BasicMovement : MonoBehaviour
         }
     }
 
+
     IEnumerator ExecuteMovements()
     {
         isMoving = true;
@@ -72,9 +74,9 @@ public class BasicMovement : MonoBehaviour
 
     }
 
+
     protected virtual void DirectionDecision(DIRECTION direction)
     {
-        RaycastHit hit;
         Vector3 rayTransformDirection = Vector3.zero;
 
         switch (direction)
@@ -130,9 +132,18 @@ public class BasicMovement : MonoBehaviour
             ((int)targetPos.x, (int)targetPos.y, (int)targetPos.z);
 
 
-        // Wall Detection
+        RaycastCheck(rayTransformDirection, direction);
 
+
+    }
+
+    protected virtual void RaycastCheck(Vector3 rayTransformDirection, DIRECTION direction)
+    {
+        RaycastHit hit;
+
+        // Wall Detection
         Debug.DrawRay(transform.position, transform.TransformDirection(rayTransformDirection) * movementDistance, Color.red, 0.5f);
+
         if (Physics.Raycast(this.transform.position, transform.TransformDirection(rayTransformDirection),
             out hit, (movementDistance)))
         {
@@ -148,18 +159,24 @@ public class BasicMovement : MonoBehaviour
 
                 CollideWithBlock(hit, direction);
             }
+
+            if (hit.transform.CompareTag(goal))
+            {
+
+                CollideWithGoal(hit);
+            }
+
+
         }
     }
 
-    protected virtual void CollideWithWall(RaycastHit hit)
-    {
 
-    }
 
-    protected virtual void CollideWithBlock(RaycastHit hit, DIRECTION direction)
-    {
+    protected virtual void CollideWithWall(RaycastHit hit) {  }
 
-    }
+    protected virtual void CollideWithBlock(RaycastHit hit, DIRECTION direction)  {  }
+
+    protected virtual void CollideWithGoal(RaycastHit hit) {  }
 
 
     

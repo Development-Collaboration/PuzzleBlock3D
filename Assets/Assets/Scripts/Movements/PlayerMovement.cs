@@ -6,6 +6,7 @@ public class PlayerMovement : BasicMovement
 {
     private BlockMovement[] blockArrays = new BlockMovement[4];
 
+    
 
     protected override void Awake()
     {
@@ -22,7 +23,6 @@ public class PlayerMovement : BasicMovement
 
     protected override void CollideWithWall(RaycastHit hit)
     {
-        print("Wall Dectected");
         IsRestricted = true;
 
     }
@@ -39,6 +39,11 @@ public class PlayerMovement : BasicMovement
         blockArrays[(int)direction] = null;
     }
 
+    protected override void CollideWithGoal(RaycastHit hit)
+    {
+        //base.CollideWithGoal(hit);
 
+        IsRestricted = true;
 
+    }
 }
