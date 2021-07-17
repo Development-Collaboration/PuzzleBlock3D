@@ -40,4 +40,13 @@ public class BlockMovement : BasicMovement
         playerMovement.IsRestricted = true;
     }
 
+
+    protected override void CollideWithGoal(RaycastHit hit)
+    {
+        //base.CollideWithGoal(hit);
+
+        print("Block Reached Goal");
+    }
+
+
 }
