@@ -8,7 +8,7 @@ public class Block : MonoBehaviour
 
     private Rigidbody rb;
 
-    private string player = "Player";
+    //private string player = "Player";
     private string block = "Block";
     private string wall = "Wall";
 
