@@ -5,7 +5,12 @@ using UnityEngine;
 public class SceneLoader : MonoBehaviour
 {
 
-    private int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+    private int currentSceneIndex;
+
+    private void Start()
+    {
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+    }
 
 
     public void RestartScene()

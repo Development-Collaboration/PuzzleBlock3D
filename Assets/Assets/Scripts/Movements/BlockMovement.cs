@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BlockMovement : BasicMovement
 {
     private PlayerMovement playerMovement;
 
+    private Block block;
 
     protected override void Awake()
     {
@@ -13,11 +12,18 @@ public class BlockMovement : BasicMovement
 
         playerMovement = FindObjectOfType<PlayerMovement>();
 
+        //block = FindObjectOfType<Block>();
+
+        block = GetComponent<Block>();
+       
     }
 
     public void OnBlockMovementDirection(DIRECTION direction)
     {
         base.MovementsControl(direction);
+
+        gameStatus.BlockMovementCounts();
+
     }
 
 
@@ -46,6 +52,9 @@ public class BlockMovement : BasicMovement
         //base.CollideWithGoal(hit);
 
         print("Block Reached Goal");
+
+        
+        block.GoalInBlock();
     }
 
 

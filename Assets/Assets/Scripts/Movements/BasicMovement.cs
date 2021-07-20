@@ -1,15 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BasicMovement : MonoBehaviour
 {
     protected Rigidbody rb;
+    protected GameStatus gameStatus;
 
-    protected string block = "Block";
-    protected string wall = "Wall";
-    protected string goal = "Goal";
+    //
+    private string stringBlock = "Block";
+    private string stingWall = "Wall";
+    private string stringGoal = "Goal";
 
+    //
     [SerializeField] //[Range( , )]
     protected float movementSpeed = 11f;
 
@@ -22,10 +24,14 @@ public abstract class BasicMovement : MonoBehaviour
 
     public bool IsRestricted { get; set; }
 
+    [SerializeField] protected int movementCounts = 0;
 
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
+
+        gameStatus = FindObjectOfType<GameStatus>();
+
         rb.freezeRotation = true;
         isMoving = false;
         IsRestricted = false;
@@ -49,6 +55,9 @@ public abstract class BasicMovement : MonoBehaviour
                 targetPos = currentPos;
                 return;
             }
+
+            ++movementCounts;
+
             // execute player move
             StartCoroutine("ExecuteMovements");
         }
@@ -147,20 +156,20 @@ public abstract class BasicMovement : MonoBehaviour
         if (Physics.Raycast(this.transform.position, transform.TransformDirection(rayTransformDirection),
             out hit, (movementDistance)))
         {
-            print("Hit info: " + hit.transform.tag);
+            //print("Hit info: " + hit.transform.tag);
 
-            if (hit.transform.CompareTag(wall))
+            if (hit.transform.CompareTag(stingWall))
             {
                 CollideWithWall(hit);
             }
 
-            if (hit.transform.CompareTag(block))
+            if (hit.transform.CompareTag(stringBlock))
             {
 
                 CollideWithBlock(hit, direction);
             }
 
-            if (hit.transform.CompareTag(goal))
+            if (hit.transform.CompareTag(stringGoal))
             {
 
                 CollideWithGoal(hit);

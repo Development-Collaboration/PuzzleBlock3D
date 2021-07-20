@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : BasicMovement
 {
     private BlockMovement[] blockArrays = new BlockMovement[4];
 
-    
 
     protected override void Awake()
     {
@@ -18,6 +15,8 @@ public class PlayerMovement : BasicMovement
     public void OnPLayerMovementDirection(DIRECTION direction)
     {
         base.MovementsControl(direction);
+
+        gameStatus.PlayerMovementCount(movementCounts);
     }
 
 

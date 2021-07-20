@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Goal : MonoBehaviour
 {
     //private string player = "Player";
-    private string block = "Block";
+    //private string block = "Block";
 
 
     // Start is called before the first frame update
@@ -23,11 +21,13 @@ public class Goal : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        /*
         if (other.gameObject.CompareTag(block))
         {
             print("reached goal");
             other.gameObject.SetActive(false);
         }
+        */
     }
 
 }
