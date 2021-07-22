@@ -1,8 +1,11 @@
 using UnityEngine;
 
+
+//
+using System.Collections.Generic;
+//
 public class TouchDetection : MonoBehaviour
 {
-    
     private PlayerMovement playerMovement;
 
     private Vector2 startTouchPosition;
@@ -16,12 +19,23 @@ public class TouchDetection : MonoBehaviour
 
     private DIRECTION finalDirection;
 
+
+    private BasicMovement[] basicMovementArray;
+
+    private bool isTouchStart = false;
+
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
 
     }
 
+    private void Start()
+    {
+        //basicMovementArray = FindObjectsOfType(typeof(BasicMovement)) as BasicMovement[];
+        basicMovementArray = FindObjectsOfType<BasicMovement>();
+
+    }
 
     private void FixedUpdate()
     {
@@ -38,6 +52,8 @@ public class TouchDetection : MonoBehaviour
             {
                 startTouchPosition = Input.GetTouch(0).position;
                 //print("pressed| Pos: " + startTouchPosition);
+
+                isTouchStart = true;
             }
 
             /////
@@ -71,6 +87,9 @@ public class TouchDetection : MonoBehaviour
 
 
             //print("Mouse pressed| Pos: " + startTouchPosition);
+
+            isTouchStart = true;
+
         }
 
         if (Input.GetMouseButton(0))
@@ -147,8 +166,16 @@ public class TouchDetection : MonoBehaviour
 
     private void FinalDirection()
     {
-        if (isTouchExecute)
+        if (isTouchExecute && isTouchStart)
         {
+            for(int i = 0; i < basicMovementArray.Length; ++i)
+            {
+                if(basicMovementArray[i] != null)
+                    basicMovementArray[i].RecordPoints();
+            }
+
+            isTouchStart = false;
+
             playerMovement.OnPLayerMovementDirection(finalDirection);
 
         }
