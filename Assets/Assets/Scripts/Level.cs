@@ -6,29 +6,41 @@ public class Level : MonoBehaviour
 {
     // Cached Reference
     SceneLoader sceneLoader;
+    private GameStatus gameStatus;
 
 
     // Params 
-    [SerializeField] private int blocks;
+    private int blockCounts;
     private int minGoalReach = 0;
+
+    public int BlockCounts { get { return blockCounts; } }
 
 
     private void Awake()
     {
         sceneLoader = FindObjectOfType<SceneLoader>();
+        gameStatus = FindObjectOfType<GameStatus>();
     }
-
 
     public void CountBlocks()
     {
-        ++blocks;
+        ++blockCounts;
+        CurrentAmountBlock();
     }
+
+    public void CurrentAmountBlock()
+    {
+        gameStatus.AmountBlockLeft(blockCounts);
+    }
+
 
     public void GoalInBlock()
     {
-        --blocks;
+        --blockCounts;
 
-        if(blocks <= minGoalReach)
+        CurrentAmountBlock();
+
+        if (blockCounts <= minGoalReach)
         {
             sceneLoader.LoadNextScene();
         }

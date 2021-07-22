@@ -12,11 +12,14 @@ public class Block : MonoBehaviour
         blockMovement = GetComponent<BlockMovement>();
 
         level = FindObjectOfType<Level>();
+
+        CountBlocks();
+
     }
 
     private void Start()
     {
-        CountBlocks();
+        //CountBlocks();
     }
 
     private void CountBlocks()
