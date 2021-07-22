@@ -6,25 +6,12 @@ public class PointsInTime
     public Vector3 position;
     public Quaternion rotation;
     public Vector3 scale;
-
-    //
-    public int movementCounts;
-
-    /*
-    public PointsInTime(Vector3 _position, Quaternion _rotation, Vector3 _scale,
-        int _movementCounts)
+ 
+    public PointsInTime(Vector3 _position, Quaternion _rotation, Vector3 _sacle)
     {
         position = _position;
         rotation = _rotation;
-        scale = _scale;
+        scale = _sacle;
 
-        movementCounts = _movementCounts;
-    }
-    */
-
-    public PointsInTime(Vector3 _position, Quaternion _rotation)
-    {
-        position = _position;
-        rotation = _rotation;
     }
 }

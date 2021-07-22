@@ -13,7 +13,6 @@ public abstract class BasicMovement : MonoBehaviour
     private string stingWall = "Wall";
     private string stringGoal = "Goal";
 
-
     //
     [SerializeField] //[Range( , )]
     protected float movementSpeed = 11f;
@@ -28,12 +27,8 @@ public abstract class BasicMovement : MonoBehaviour
     public bool IsRestricted { get; set; }
 
     [SerializeField] protected int movementCounts = 0;
-
-
     //
     protected List<PointsInTime> pointsInTimes;
-    private bool isRecording = false;
-
 
     protected virtual void Awake()
     {
@@ -48,53 +43,6 @@ public abstract class BasicMovement : MonoBehaviour
         pointsInTimes = new List<PointsInTime>();
 
     }
-
-    private void FixedUpdate()
-    {
-        /*
-        if(!gameStatus.IsRecording)
-        {
-            RecordPoints();
-
-        }
-        */
-
-        /*
-        if (Input.GetMouseButtonDown(0))
-        {
-            RecordPoints();
-        }
-
-        if (Input.touchCount > 0)
-        {
-            RecordPoints();
-
-        }
-        */
-        /*
-        if (Input.GetTouch(0).phase == TouchPhase.Began)
-        {
-        }
-        */
-
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            RecordPoints();
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            RewindPoints();
-            
-
-        }
-    }
-
 
     protected virtual void MovementsControl(DIRECTION direction)
     {
@@ -256,7 +204,7 @@ public abstract class BasicMovement : MonoBehaviour
         print("Record: " + this.gameObject.name + " | pos: " + this.transform.position);
 
         pointsInTimes.Insert(0,
-           new PointsInTime(transform.position, transform.rotation));
+           new PointsInTime(transform.position, transform.rotation, transform.localScale));
 
     }
 
@@ -270,10 +218,12 @@ public abstract class BasicMovement : MonoBehaviour
 
             transform.position = points.position;
             transform.rotation = points.rotation;
+            transform.localScale = points.scale;
+            //--movementCounts;
 
             pointsInTimes.RemoveAt(0);
 
-            --movementCounts;
+            
         }
     }
 

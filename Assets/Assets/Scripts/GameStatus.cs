@@ -10,6 +10,9 @@ public class GameStatus : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameTime;
     [SerializeField] private TextMeshProUGUI blockLeft;
 
+    [SerializeField] private TextMeshProUGUI rewind;
+
+
     //
     private int playerMovementCounts;
     private int blockMovementCounts;
@@ -18,7 +21,7 @@ public class GameStatus : MonoBehaviour
     private int timeMin;
     private float timeSec;
 
-    //
+    private int rewindCount;
     private BasicMovement[] basicMovementArray;
 
 
@@ -27,8 +30,10 @@ public class GameStatus : MonoBehaviour
         playerMoved.text = "Player Moved: 0";
         blockMoved.text = "Block Moved: 0";
         gameTime.text = "Game Playing Time: 0:0";
-
         blockLeft.text = "Block: " + blockLeftCounts;
+
+        rewind.text = "Rewind: 0";
+        
 
         StartCoroutine(CountdownTimer());
 
@@ -65,12 +70,13 @@ public class GameStatus : MonoBehaviour
 
     }
 
+
     public void BlockMovementCounts()
     {
         ++blockMovementCounts;
-
         blockMoved.text = "Block Moved: " + blockMovementCounts.ToString();
     }
+    
 
     public void AmountBlockLeft(int blockCounts)
     {
@@ -87,6 +93,10 @@ public class GameStatus : MonoBehaviour
             if (basicMovementArray[i] != null)
                 basicMovementArray[i].RewindPoints();
         }
+
+        ++rewindCount;
+
+        rewind.text = "Rewind: " + rewindCount;
 
     }
 
