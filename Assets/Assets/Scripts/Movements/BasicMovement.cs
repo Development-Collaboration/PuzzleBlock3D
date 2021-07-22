@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
 public abstract class BasicMovement : MonoBehaviour
 {
+
     protected Rigidbody rb;
     protected GameStatus gameStatus;
 
@@ -10,6 +12,7 @@ public abstract class BasicMovement : MonoBehaviour
     private string stringBlock = "Block";
     private string stingWall = "Wall";
     private string stringGoal = "Goal";
+
 
     //
     [SerializeField] //[Range( , )]
@@ -26,6 +29,12 @@ public abstract class BasicMovement : MonoBehaviour
 
     [SerializeField] protected int movementCounts = 0;
 
+
+    //
+    protected List<PointsInTime> pointsInTimes;
+    private bool isRecording = false;
+
+
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -35,12 +44,63 @@ public abstract class BasicMovement : MonoBehaviour
         rb.freezeRotation = true;
         isMoving = false;
         IsRestricted = false;
+
+        pointsInTimes = new List<PointsInTime>();
+
     }
+
+    private void FixedUpdate()
+    {
+        /*
+        if(!gameStatus.IsRecording)
+        {
+            RecordPoints();
+
+        }
+        */
+
+        /*
+        if (Input.GetMouseButtonDown(0))
+        {
+            RecordPoints();
+        }
+
+        if (Input.touchCount > 0)
+        {
+            RecordPoints();
+
+        }
+        */
+        /*
+        if (Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+        }
+        */
+
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            RecordPoints();
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            RewindPoints();
+            
+
+        }
+    }
+
 
     protected virtual void MovementsControl(DIRECTION direction)
     {
+
         if ((!isMoving))
-        {
+        {            
             currentPos = this.transform.position;
             IsRestricted = false;
 
@@ -57,15 +117,16 @@ public abstract class BasicMovement : MonoBehaviour
             }
 
             ++movementCounts;
-
             // execute player move
             StartCoroutine("ExecuteMovements");
+
         }
     }
 
 
     IEnumerator ExecuteMovements()
     {
+
         isMoving = true;
 
         while (Vector3.Distance(transform.position, targetPos) > 0.05f)
@@ -81,8 +142,8 @@ public abstract class BasicMovement : MonoBehaviour
         isMoving = false;
 
 
-    }
 
+    }
 
     protected virtual void DirectionDecision(DIRECTION direction)
     {
@@ -190,5 +251,31 @@ public abstract class BasicMovement : MonoBehaviour
     protected virtual void CollideWithGoal(RaycastHit hit) {  }
 
 
-    
+    public void RecordPoints()
+    {
+        print("Record: " + this.gameObject.name + " | pos: " + this.transform.position);
+
+        pointsInTimes.Insert(0,
+           new PointsInTime(transform.position, transform.rotation));
+
+    }
+
+    public void RewindPoints()
+    {
+        if (pointsInTimes.Count > 0)
+        {
+            print("Rewind");
+
+            PointsInTime points = pointsInTimes[0];
+
+            transform.position = points.position;
+            transform.rotation = points.rotation;
+
+            pointsInTimes.RemoveAt(0);
+
+            --movementCounts;
+        }
+    }
+
+
 }

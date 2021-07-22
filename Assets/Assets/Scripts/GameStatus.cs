@@ -4,19 +4,23 @@ using TMPro;
 
 public class GameStatus : MonoBehaviour
 {
-    [SerializeField] private int playerMovementCounts = 0;
-    [SerializeField] private int blockMovementCounts = 0;
-
-    [SerializeField] private int blockLeftCounts;
-
+    //
     [SerializeField] private TextMeshProUGUI playerMoved;
     [SerializeField] private TextMeshProUGUI blockMoved;
     [SerializeField] private TextMeshProUGUI gameTime;
     [SerializeField] private TextMeshProUGUI blockLeft;
 
+    //
+    private int playerMovementCounts;
+    private int blockMovementCounts;
+    private int blockLeftCounts;
 
     private int timeMin;
     private float timeSec;
+
+    //
+    private BasicMovement[] basicMovementArray;
+
 
     private void Start()
     {
@@ -28,11 +32,14 @@ public class GameStatus : MonoBehaviour
 
         StartCoroutine(CountdownTimer());
 
+        basicMovementArray = FindObjectsOfType<BasicMovement>();
+
+
     }
 
     IEnumerator CountdownTimer()
-    {        
-        while(true)
+    {
+        while (true)
         {
             yield return new WaitForSeconds(1f);
 
@@ -72,6 +79,19 @@ public class GameStatus : MonoBehaviour
         blockLeft.text = "Block: " + blockCounts;
 
     }
+
+    public void OnRewind()
+    {
+        for (int i = 0; i < basicMovementArray.Length; ++i)
+        {
+            if (basicMovementArray[i] != null)
+                basicMovementArray[i].RewindPoints();
+        }
+
+    }
+
+
+
 
 
 }

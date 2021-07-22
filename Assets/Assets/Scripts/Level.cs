@@ -30,7 +30,10 @@ public class Level : MonoBehaviour
     public void CurrentAmountBlock()
     {
         if(null != gameStatus)
-        gameStatus.AmountBlockLeft(blockCounts);
+        {
+            gameStatus.AmountBlockLeft(blockCounts);
+
+        }
     }
 
 

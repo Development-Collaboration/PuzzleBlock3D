@@ -20,6 +20,7 @@ public class BlockMovement : BasicMovement
 
     public void OnBlockMovementDirection(DIRECTION direction)
     {
+
         base.MovementsControl(direction);
 
         gameStatus.BlockMovementCounts();
@@ -57,5 +58,8 @@ public class BlockMovement : BasicMovement
         block.GoalInBlock();
     }
 
+
+
+    
 
 }
