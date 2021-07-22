@@ -8,7 +8,6 @@ public class Level : MonoBehaviour
     SceneLoader sceneLoader;
     private GameStatus gameStatus;
 
-
     // Params 
     private int blockCounts;
     private int minGoalReach = 0;
@@ -30,6 +29,7 @@ public class Level : MonoBehaviour
 
     public void CurrentAmountBlock()
     {
+        if(null != gameStatus)
         gameStatus.AmountBlockLeft(blockCounts);
     }
 
@@ -44,5 +44,13 @@ public class Level : MonoBehaviour
         {
             sceneLoader.LoadNextScene();
         }
+    }
+
+
+    //
+
+    public void RestartLevel()
+    {
+        sceneLoader.RestartScene();
     }
 }
