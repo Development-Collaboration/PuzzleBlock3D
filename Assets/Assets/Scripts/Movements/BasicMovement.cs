@@ -79,7 +79,14 @@ public abstract class BasicMovement : MonoBehaviour
 
         while (Vector3.Distance(transform.position, targetPos) > 0.05f)
         {
+            /*
+                     var horizontal = Input.GetAxis("Horizontal");
+        var vertical = Input.GetAxis("Vertical");
 
+        if(controlThis)
+            transform.Translate(new Vector3(horizontal, 0, vertical) * (speed * Time.deltaTime));
+             
+             */
             rb.MovePosition(Vector3.Lerp(transform.position, targetPos, movementSpeed * Time.deltaTime));
 
             yield return null;
@@ -145,12 +152,10 @@ public abstract class BasicMovement : MonoBehaviour
                 }
                 break;
         }
-        //
-        //targetPos = new Vector3
-        //    ((int)targetPos.x, (int)targetPos.y, (int)targetPos.z);
 
         targetPos = new Vector3
             (Mathf.RoundToInt(targetPos.x), Mathf.RoundToInt(targetPos.y), Mathf.RoundToInt(targetPos.z));
+
 
         RaycastCheck(rayTransformDirection, direction);
 
