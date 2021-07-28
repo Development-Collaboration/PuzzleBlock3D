@@ -51,8 +51,10 @@ public abstract class BasicMovement : MonoBehaviour
     {
 
         if ((!isMoving))
-        {            
-            currentPos = this.transform.position;
+        {
+            //currentPos = this.transform.position;
+            currentPos = rb.position;
+
             IsRestricted = false;
 
             // + wall detection
@@ -63,7 +65,11 @@ public abstract class BasicMovement : MonoBehaviour
 
             if (IsRestricted)
             {
-                targetPos = currentPos;
+                //targetPos = currentPos;
+
+                print("Restricted");
+                targetPos =  transform.TransformDirection(currentPos);
+
                 return;
             }
 
@@ -118,24 +124,84 @@ public abstract class BasicMovement : MonoBehaviour
 
         //Vector3 destinationPosition = rb.position + transform.TransformDirection(targetPos);
 
-        print("Co start");
 
-        while(Vector3.Distance(transform.TransformDirection(rb.position), (rb.position + transform.TransformDirection(targetPos))) >= 0.05f)
+
+        /*
+        while (Vector3.Distance(transform.TransformDirection(rb.position), targetPos) >= 0.05f)
         {
             print("in While");
             print("rb pos" + transform.TransformDirection(rb.position));
-            print("target pos" + (rb.position + transform.TransformDirection(targetPos)));
+            print("target pos" + targetPos);
 
-            rb.MovePosition(rb.position + transform.TransformDirection(targetPos * (movementSpeed * Time.deltaTime)));
+            rb.MovePosition(targetPos);
+
+            //rb.MovePosition(rb.position + transform.TransformDirection(targetPos * (movementSpeed * Time.deltaTime)));
+
+            //rb.MovePosition((targetPos * (movementSpeed * Time.deltaTime)));
+
+            //rb.MovePosition(Vector3.Lerp(transform.TransformDirection(rb.position), targetPos, movementSpeed * Time.deltaTime));
+
 
             yield return null;
 
         }
+        */
+
+        //Vector3 newPosition = rigidbody.position + transform.TransformDirection(localPositionOffset);
+        //rigidbody.MovePosition(newPosition);
+        /////////////////////
+
+        // 이거됨
+        /*
+        print(this.name);
+        print("Co start");
+
+            print("in While");
+            print("rb trans pos" + transform.TransformDirection(rb.position)); // 이거 안맞음
+
+        print("rb pos" + rb.position);
+
+        print("target pos" + targetPos);
+
+            rb.MovePosition(targetPos);
+
+ 
+        yield return null;
+
 
         print("End Co");
 
 
         isMoving = false;
+        */
+
+        //print(this.name);
+        //print("Co start");
+
+        while(Vector3.Distance(rb.position, targetPos) >= 0.05f)
+        {
+            /*
+            print("in While");
+            print("rb trans pos" + transform.TransformDirection(rb.position)); // 이거 안맞음
+
+            print("rb pos" + rb.position);
+
+            print("target pos" + targetPos);
+            */
+            //rb.MovePosition(targetPos);
+            rb.MovePosition(Vector3.Lerp(rb.position, targetPos, movementSpeed * Time.deltaTime));
+
+            yield return null;
+        }
+
+
+
+        print("End Co");
+
+        rb.MovePosition(targetPos);
+
+        isMoving = false;
+
 
     }
 
@@ -197,9 +263,14 @@ public abstract class BasicMovement : MonoBehaviour
                 break;
         }
 
-        targetPos = new Vector3
-    (Mathf.RoundToInt(targetPos.x), Mathf.RoundToInt(targetPos.y), Mathf.RoundToInt(targetPos.z));
 
+
+        targetPos = (rb.position + transform.TransformDirection(targetPos));
+
+        targetPos = new Vector3(Mathf.RoundToInt(targetPos.x), Mathf.RoundToInt(targetPos.y), Mathf.RoundToInt(targetPos.z));
+
+
+        //targetPos = (transform.TransformDirection(rb.position) + transform.TransformDirection(targetPos));
 
 
         /*
