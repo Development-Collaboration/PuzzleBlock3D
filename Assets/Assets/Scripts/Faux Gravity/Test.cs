@@ -8,7 +8,7 @@ public class Test : MonoBehaviour
     {
         Vector3 pos = other.transform.position;
 
-        other.transform.position = new Vector3(pos.x, this.transform.position.y-1f, other.transform.position.z +1);
+        other.transform.position = new Vector3(pos.x, -2f, 7f);
         print("hit test");
     }
 }

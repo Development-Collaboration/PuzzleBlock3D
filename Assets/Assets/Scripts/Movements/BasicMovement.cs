@@ -12,13 +12,16 @@ public abstract class BasicMovement : MonoBehaviour
     private string stringBlock = "Block";
     private string stingWall = "Wall";
     private string stringGoal = "Goal";
-
+    private string stringGravityTransfer = "GravityTransfer";
+    
     //
     [SerializeField] //[Range( , )]
     protected float movementSpeed = 11f;
 
     //[SerializeField] //[Range( , )]
     protected int movementDistance = 1;
+
+    private float rayDistance = 1.25f;
 
     protected Vector3 currentPos;
     protected Vector3 targetPos;
@@ -77,17 +80,13 @@ public abstract class BasicMovement : MonoBehaviour
 
         isMoving = true;
 
+        /*
         while (Vector3.Distance(transform.position, targetPos) > 0.05f)
         {
-            /*
-                     var horizontal = Input.GetAxis("Horizontal");
-        var vertical = Input.GetAxis("Vertical");
-
-        if(controlThis)
-            transform.Translate(new Vector3(horizontal, 0, vertical) * (speed * Time.deltaTime));
-             
-             */
+ 
             rb.MovePosition(Vector3.Lerp(transform.position, targetPos, movementSpeed * Time.deltaTime));
+
+
 
             yield return null;
 
@@ -95,8 +94,48 @@ public abstract class BasicMovement : MonoBehaviour
 
         transform.position = targetPos;
         isMoving = false;
+        */
 
 
+        ///
+
+        /*
+        Vector3 newPosition = rb.position + transform.TransformDirection(targetPos);
+
+        while (Vector3.Distance(rb.position, newPosition) > 0.05f)
+        {
+            rb.MovePosition(newPosition * (movementSpeed * Time.deltaTime));
+            yield return null;
+        }
+
+
+        isMoving = false;
+        */
+
+        //Vector3 newPosition = rb.position + (transform.TransformDirection(targetPos) * (movementSpeed * Time.deltaTime));
+
+        // Vector3 newPosition = rb.position + (transform.TransformDirection(targetPos * (movementSpeed * Time.deltaTime)));
+
+        //Vector3 destinationPosition = rb.position + transform.TransformDirection(targetPos);
+
+        print("Co start");
+
+        while(Vector3.Distance(transform.TransformDirection(rb.position), (rb.position + transform.TransformDirection(targetPos))) >= 0.05f)
+        {
+            print("in While");
+            print("rb pos" + transform.TransformDirection(rb.position));
+            print("target pos" + (rb.position + transform.TransformDirection(targetPos)));
+
+            rb.MovePosition(rb.position + transform.TransformDirection(targetPos * (movementSpeed * Time.deltaTime)));
+
+            yield return null;
+
+        }
+
+        print("End Co");
+
+
+        isMoving = false;
 
     }
 
@@ -104,6 +143,66 @@ public abstract class BasicMovement : MonoBehaviour
     {
         Vector3 rayTransformDirection = Vector3.zero;
 
+        switch (direction)
+        {
+            case DIRECTION.UR:
+                {
+
+                    //print("onmove UR");
+                    //targetPos = new Vector3(movementDistance, 0, 0);
+
+                    targetPos = Vector3.right * movementDistance;
+
+                    rayTransformDirection = transform.TransformDirection(Vector3.right);
+                }
+                break;
+
+            case DIRECTION.DR:
+                {
+                    //print("onmove DR");
+                    //targetPos = new Vector3(0, 0, - movementDistance);
+                    targetPos = Vector3.back * movementDistance;
+
+
+                    rayTransformDirection = transform.TransformDirection(Vector3.back);
+
+                }
+
+                break;
+
+            case DIRECTION.DL:
+                {
+                    //print("onmove DL");
+                    //targetPos = new Vector3( - movementDistance, 0, 0);
+
+                    targetPos = Vector3.left * movementDistance;
+
+                    rayTransformDirection = transform.TransformDirection(Vector3.left);
+
+                }
+
+                break;
+
+            case DIRECTION.UL:
+                {
+                    //print("onmove UL");
+
+                    //targetPos = new Vector3(0,0, movementDistance);
+                    targetPos = Vector3.forward * movementDistance;
+
+                    rayTransformDirection = transform.TransformDirection(Vector3.forward);
+
+
+                }
+                break;
+        }
+
+        targetPos = new Vector3
+    (Mathf.RoundToInt(targetPos.x), Mathf.RoundToInt(targetPos.y), Mathf.RoundToInt(targetPos.z));
+
+
+
+        /*
         switch (direction)
         {
             case DIRECTION.UR:
@@ -149,12 +248,16 @@ public abstract class BasicMovement : MonoBehaviour
 
                     rayTransformDirection = transform.TransformDirection(Vector3.forward);
 
+                    
                 }
                 break;
         }
 
-        targetPos = new Vector3
+                targetPos = new Vector3
             (Mathf.RoundToInt(targetPos.x), Mathf.RoundToInt(targetPos.y), Mathf.RoundToInt(targetPos.z));
+
+        
+        */
 
 
         RaycastCheck(rayTransformDirection, direction);
@@ -166,11 +269,17 @@ public abstract class BasicMovement : MonoBehaviour
     {
         RaycastHit hit;
 
-        // Wall Detection
-        Debug.DrawRay(transform.position, transform.TransformDirection(rayTransformDirection) * movementDistance, Color.red, 0.5f);
+        //transform.InverseTransformDirection
 
-        if (Physics.Raycast(this.transform.position, transform.TransformDirection(rayTransformDirection),
-            out hit, (movementDistance)))
+        // Wall Detection
+        //Debug.DrawRay(transform.position, transform.TransformDirection(rayTransformDirection) * (movementDistance * rayDistance), Color.red, 1.5f);
+
+        // movementDistance * rayDistance
+        Debug.DrawRay(transform.position, rayTransformDirection * (movementDistance * rayDistance), Color.red, 2f);
+
+
+        //if (Physics.Raycast(this.transform.position, transform.TransformDirection(rayTransformDirection),out hit, (movementDistance * rayDistance)))
+        if (Physics.Raycast(this.transform.position, rayTransformDirection, out hit, (movementDistance * rayDistance)))
         {
             //print("Hit info: " + hit.transform.tag);
 
@@ -191,8 +300,16 @@ public abstract class BasicMovement : MonoBehaviour
                 CollideWithGoal(hit);
             }
 
+            //
+            if (hit.transform.CompareTag(stringGravityTransfer))
+            {
 
+                CollideWithGravityTransfer(hit, direction);
+            }
+
+            
         }
+        
     }
 
 
@@ -203,10 +320,11 @@ public abstract class BasicMovement : MonoBehaviour
 
     protected virtual void CollideWithGoal(RaycastHit hit) {  }
 
+    protected virtual void CollideWithGravityTransfer(RaycastHit hit, DIRECTION direction) { }
 
     public void RecordPoints()
     {
-        print("Record: " + this.gameObject.name + " | pos: " + this.transform.position);
+        //print("Record: " + this.gameObject.name + " | pos: " + this.transform.position);
 
         pointsInTimes.Insert(0,
            new PointsInTime(transform.position, transform.rotation, transform.localScale));
@@ -217,7 +335,7 @@ public abstract class BasicMovement : MonoBehaviour
     {
         if (pointsInTimes.Count > 0)
         {
-            print("Rewind");
+            //print("Rewind");
 
             PointsInTime points = pointsInTimes[0];
 

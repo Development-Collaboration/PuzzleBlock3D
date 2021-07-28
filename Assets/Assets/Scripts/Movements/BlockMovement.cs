@@ -21,7 +21,7 @@ public class BlockMovement : BasicMovement
     public void OnBlockMovementDirection(DIRECTION direction)
     {
 
-        base.MovementsControl(direction);
+        MovementsControl(direction);
 
         gameStatus.BlockMovementCounts();
     }
@@ -59,6 +59,19 @@ public class BlockMovement : BasicMovement
 
 
 
-    
+    protected override void CollideWithGravityTransfer(RaycastHit hit, DIRECTION direction)
+    {
+
+        print("from Block : Collide with GT");
+
+
+        /*
+        IsRestricted = true;
+
+        playerMovement.IsRestricted = true;
+        */
+    }
+
+
 
 }

@@ -17,7 +17,7 @@ public class TestControl : MonoBehaviour
     void Update()
     {
         
-         var horizontal = Input.GetAxis("Horizontal");
+        var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
 
         /*
@@ -27,10 +27,9 @@ public class TestControl : MonoBehaviour
         targetPos.Set(horizontal, 0, vertical);
         targetPos = targetPos.normalized * 10 * Time.deltaTime;
 
-
+        //this.transform.worldToLocalMatrix
 
         rb.MovePosition(transform.position + targetPos);
-
 
     }
 }

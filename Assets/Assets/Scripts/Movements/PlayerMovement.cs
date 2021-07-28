@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerMovement : BasicMovement
 {
-    private BlockMovement[] blockArrays = new BlockMovement[4];
+    private BlockMovement[] blockArrays = new BlockMovement[6];
 
     //
     /*
@@ -158,6 +158,8 @@ public class PlayerMovement : BasicMovement
 
     protected override void CollideWithBlock(RaycastHit hit, DIRECTION direction)
     {
+        print(this.name + " Hit: " + hit.transform.name);
+
 
         blockArrays[(int)direction] = hit.collider.GetComponent<BlockMovement>();
 

@@ -47,7 +47,12 @@ public class GravityControl : MonoBehaviour
             // push down
             rb.AddForce((gravityUP * -gravity.orbitGravity) * rb.mass);
         }
-
+        /*
+        else if (null == gravity)
+        {
+            rb.AddForce(Vector3.zero);
+        }
+        */
 
     }
 }
