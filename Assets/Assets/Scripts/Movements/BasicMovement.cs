@@ -230,6 +230,7 @@ public abstract class BasicMovement : MonoBehaviour
 
     protected virtual void CollideWithGravityTransfer(RaycastHit hit, DIRECTION direction) { }
 
+    //
     public void RecordPoints()
     {
         //print("Record: " + this.gameObject.name + " | pos: " + this.transform.position);

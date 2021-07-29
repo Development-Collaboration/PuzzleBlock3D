@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerMovement : BasicMovement
 {
-    private BlockMovement[] blockArrays = new BlockMovement[6];
+    private BlockMovement[] blockArrays = new BlockMovement[4];
 
     //
     /*
