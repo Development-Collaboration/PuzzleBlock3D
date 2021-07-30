@@ -187,7 +187,19 @@ public class PlayerMovement : BasicMovement
     {
         IsRestricted = true;
 
-        transform.position = new Vector3(transform.position.x, -2f, 6f);
+        //transform.position = new Vector3(transform.position.x, -2f, 6f);
+        //
+
+        //transform.position = new Vector3(transform.forward + 1f, -2f, 6f);
+
+        gravityTransfer = hit.collider.GetComponent<GravityTransfer>();
+
+        Vector3 tarPos = rb.position + (transform.forward * movementDistance);
+
+
+        //gravityTransfer.rayCheck(rb.position);
+        gravityTransfer.rayCheck(rb.position, tarPos);
+
 
     }
 }

@@ -169,9 +169,12 @@ public abstract class BasicMovement : MonoBehaviour
 
 
         print("End Co");
-        print("End time: " + durationLimit);
 
         rb.MovePosition(targetPos);
+
+        print("End Position: " + rb.position);
+
+        print("transform.TransformDirection: " + transform.TransformDirection(rb.position));
 
         isMoving = false;
 
