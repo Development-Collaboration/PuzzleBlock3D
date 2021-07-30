@@ -55,50 +55,46 @@ public abstract class BasicMovement : MonoBehaviour
             currentPos = rb.position;
 
             IsRestricted = false;
-            DirectionDecision(direction);
+            DirectionDecision(direction); // raycheck
 
 
             if (IsRestricted)
             {
                 print("Restricted");
-                //targetPos =  transform.TransformDirection(currentPos);
-                //targetPos = rb.position;
-                //rb.position = currentPos;
 
-                targetPos = currentPos;
+                // I dont think it's neccessary
+                //targetPos = currentPos;
                 return;
             }
+
+
 
             ++movementCounts;
             // execute player move
             StartCoroutine("ExecuteMovements");
 
         }
-        
-       
 
-            // print("transform.forward: " + transform.forward);
+        #region // Comments for targetpos testing
+        // print("transform.forward: " + transform.forward);
+        //print("targetPos: " + targetPos);
 
-            //print("targetPos: " + targetPos);
+        //targetPos = rb.position + (transform.TransformDirection(transform.forward));
+        //print("targetPos TransformDirection(transform.forward: " + targetPos);
 
-            //targetPos = rb.position + (transform.TransformDirection(transform.forward));
-            //print("targetPos TransformDirection(transform.forward: " + targetPos);
+        //targetPos = rb.position + (transform.TransformDirection(Vector3.forward));
+        //print("targetPos transform.TransformDirection(Vector3.forward: " + targetPos);
 
-            //targetPos = rb.position + (transform.TransformDirection(Vector3.forward));
-            //print("targetPos transform.TransformDirection(Vector3.forward: " + targetPos);
+        // x
+        //targetPos = rb.position + (transform.TransformDirection(rb.position));
+        //print("targetPos transform.TransformDirection(rb.position: " + targetPos);
 
-            // x
-            //targetPos = rb.position + (transform.TransformDirection(rb.position));
-            //print("targetPos transform.TransformDirection(rb.position: " + targetPos);
+        //targetPos = rb.position + (targetPos * movementDistance);
+        //targetPos = new Vector3(Mathf.RoundToInt(targetPos.x), Mathf.RoundToInt(targetPos.y), Mathf.RoundToInt(targetPos.z));
 
-            //targetPos = rb.position + (targetPos * movementDistance);
-            //targetPos = new Vector3(Mathf.RoundToInt(targetPos.x), Mathf.RoundToInt(targetPos.y), Mathf.RoundToInt(targetPos.z));
+        //targetPos = rb.position + (transform.forward * movementDistance);
 
-
-            //targetPos = rb.position + (transform.forward * movementDistance);
-
-
-
+        #endregion
 
     }
 
@@ -159,15 +155,21 @@ public abstract class BasicMovement : MonoBehaviour
         //print(this.name);
         print("Co start");
 
-        while (Vector3.Distance(rb.position, targetPos) >= 0.05f)
+        float durationLimit = 0.5f;
+
+        while (durationLimit >= 0f  && Vector3.Distance(rb.position, targetPos) >= 0.05f)
         {
+
+            durationLimit -= Time.deltaTime;
 
             rb.MovePosition(Vector3.Lerp(rb.position, targetPos, movementSpeed * Time.deltaTime));
 
             yield return null;
         }
 
+
         print("End Co");
+        print("End time: " + durationLimit);
 
         rb.MovePosition(targetPos);
 
@@ -192,7 +194,7 @@ public abstract class BasicMovement : MonoBehaviour
 
         if (Physics.Raycast(this.transform.position, rayTransformDirection, out hit, rayMaxDistance))
         {
-            //print("Hit info: " + hit.transform.tag);
+            Debug.Log("Hit info: " + hit.transform.tag);
 
             if (hit.transform.CompareTag(stingWall))
             {

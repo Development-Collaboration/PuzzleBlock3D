@@ -3,9 +3,13 @@ using UnityEngine;
 
 public class PlayerMovement : BasicMovement
 {
-    private BlockMovement[] blockArrays = new BlockMovement[4];
+
+    private GravityTransfer gravityTransfer;
 
     //
+    private BlockMovement[] blockArrays = new BlockMovement[4];
+
+    #region OldMovement Before BasciMovements.script
     /*
     public bool isRewinding = false;
     private List<Vector3> positions;
@@ -136,6 +140,7 @@ public class PlayerMovement : BasicMovement
 
     */
 
+    #endregion
 
     protected override void Awake()
     {
@@ -175,6 +180,14 @@ public class PlayerMovement : BasicMovement
         //base.CollideWithGoal(hit);
 
         IsRestricted = true;
+
+    }
+
+    protected override void CollideWithGravityTransfer(RaycastHit hit, DIRECTION direction)
+    {
+        IsRestricted = true;
+
+        transform.position = new Vector3(transform.position.x, -2f, 6f);
 
     }
 }

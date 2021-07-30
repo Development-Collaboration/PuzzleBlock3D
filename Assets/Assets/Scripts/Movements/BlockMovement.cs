@@ -21,7 +21,7 @@ public class BlockMovement : BasicMovement
     public void OnBlockMovementDirection(DIRECTION direction)
     {
 
-        MovementsControl(direction);
+        MovementsControl (direction);
 
         gameStatus.BlockMovementCounts();
     }
