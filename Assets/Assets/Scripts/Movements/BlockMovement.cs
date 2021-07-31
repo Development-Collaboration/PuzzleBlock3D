@@ -70,6 +70,30 @@ public class BlockMovement : BasicMovement
 
         playerMovement.IsRestricted = true;
         */
+
+        gravityTransfer = hit.collider.GetComponent<GravityTransfer>();
+        Vector3 tarPos = rb.position + (transform.forward * movementDistance);
+        gravityTransfer.RayCheck(rb.position, tarPos, this.transform.tag);
+
+
+        if (gravityTransfer.IsGoodToGo)
+        {
+            //test tele
+            targetPos = rb.position + (transform.forward * movementDistance) + Vector3.down;
+            targetPos = new Vector3(Mathf.RoundToInt(targetPos.x), Mathf.RoundToInt(targetPos.y), Mathf.RoundToInt(targetPos.z));
+
+            rb.position = targetPos;
+
+            gravityTransfer.IsGoodToGo = false;
+
+        }
+        else
+        {
+            IsRestricted = true;
+            playerMovement.IsRestricted = true;
+
+        }
+
     }
 
 

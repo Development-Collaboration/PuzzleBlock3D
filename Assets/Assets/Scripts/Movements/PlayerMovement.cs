@@ -4,7 +4,6 @@ using UnityEngine;
 public class PlayerMovement : BasicMovement
 {
 
-    private GravityTransfer gravityTransfer;
 
     //
     private BlockMovement[] blockArrays = new BlockMovement[4];
@@ -167,11 +166,7 @@ public class PlayerMovement : BasicMovement
 
 
         blockArrays[(int)direction] = hit.collider.GetComponent<BlockMovement>();
-
-        //                
         blockArrays[(int)direction].OnBlockMovementDirection(direction);
-
-        //
         blockArrays[(int)direction] = null;
     }
 
@@ -185,21 +180,43 @@ public class PlayerMovement : BasicMovement
 
     protected override void CollideWithGravityTransfer(RaycastHit hit, DIRECTION direction)
     {
-        IsRestricted = true;
+        // test
+        //IsRestricted = true;
 
-        //transform.position = new Vector3(transform.position.x, -2f, 6f);
-        //
-
-        //transform.position = new Vector3(transform.forward + 1f, -2f, 6f);
-
+        // good
         gravityTransfer = hit.collider.GetComponent<GravityTransfer>();
-
         Vector3 tarPos = rb.position + (transform.forward * movementDistance);
+        gravityTransfer.RayCheck(rb.position, tarPos, this.transform.tag);
+
+        //??
+        // if nothing there go
+        // if wall restricted
+        // if two blcok restrickted
+        // if one block movethat, then tele player;
 
 
-        //gravityTransfer.rayCheck(rb.position);
-        gravityTransfer.rayCheck(rb.position, tarPos);
+        if(gravityTransfer.IsGoodToGo)
+        {
+            //test tele
+            targetPos = rb.position + (transform.forward * movementDistance) + Vector3.down;
+            targetPos = new Vector3(Mathf.RoundToInt(targetPos.x), Mathf.RoundToInt(targetPos.y), Mathf.RoundToInt(targetPos.z));
+
+            rb.position = targetPos;
+
+            gravityTransfer.IsGoodToGo = false;
+
+            // rotate object
+
+        }
+        else
+        {
+            IsRestricted = true;
+
+        }
+
 
 
     }
+
+
 }

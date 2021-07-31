@@ -29,6 +29,13 @@ public abstract class BasicMovement : MonoBehaviour
 
     public bool IsRestricted { get; set; }
 
+
+    protected GravityTransfer gravityTransfer;
+
+    public bool IsMoveByGT { get; set; }
+
+
+
     [SerializeField] protected int movementCounts = 0;
     //
     protected List<PointsInTime> pointsInTimes;
@@ -45,6 +52,8 @@ public abstract class BasicMovement : MonoBehaviour
 
         pointsInTimes = new List<PointsInTime>();
 
+        IsMoveByGT = false;
+
     }
 
     protected virtual void MovementsControl(DIRECTION direction)
@@ -57,7 +66,9 @@ public abstract class BasicMovement : MonoBehaviour
             IsRestricted = false;
             DirectionDecision(direction); // raycheck
 
+            RaycastCheck(transform.forward, direction);
 
+            // if another block or wall then return;
             if (IsRestricted)
             {
                 print("Restricted");
@@ -67,11 +78,26 @@ public abstract class BasicMovement : MonoBehaviour
                 return;
             }
 
+            //
+            if (IsMoveByGT)
+            {
+                print("Collide with GT");
+
+                rb.MovePosition(targetPos);
+
+                IsMoveByGT = false;
+
+                ++movementCounts;
+
+            }
+            else
+            {
+                ++movementCounts;
+                // execute player move
+                StartCoroutine("ExecuteMovements");
+            }
 
 
-            ++movementCounts;
-            // execute player move
-            StartCoroutine("ExecuteMovements");
 
         }
 
@@ -100,7 +126,7 @@ public abstract class BasicMovement : MonoBehaviour
 
     protected virtual void DirectionDecision(DIRECTION direction)
     {
-        Vector3 rayTransformDirection = Vector3.zero;
+        //Vector3 rayTransformDirection = Vector3.zero;
 
         switch (direction)
         {
@@ -135,17 +161,27 @@ public abstract class BasicMovement : MonoBehaviour
 
                 }
                 break;
+
+            //
+            case DIRECTION.DOWN:
+                {
+                    transform.forward = Vector3.down;
+
+                }
+                break;
+
         }
 
         //rayTransformDirection = transform.TransformDirection(transform.forward);
-        rayTransformDirection = transform.forward;
+        //rayTransformDirection = transform.forward;
 
         targetPos = rb.position + (transform.forward * movementDistance);
         targetPos = new Vector3(Mathf.RoundToInt(targetPos.x), Mathf.RoundToInt(targetPos.y), Mathf.RoundToInt(targetPos.z));
 
-        RaycastCheck(rayTransformDirection, direction);
+        // RaycastCheck(rayTransformDirection, direction);
 
     }
+
 
     IEnumerator ExecuteMovements()
     {
@@ -181,8 +217,6 @@ public abstract class BasicMovement : MonoBehaviour
 
 
     }
-
-
 
     protected virtual void RaycastCheck(Vector3 rayTransformDirection, DIRECTION direction)
     {
@@ -236,7 +270,9 @@ public abstract class BasicMovement : MonoBehaviour
 
     protected virtual void CollideWithGoal(RaycastHit hit) {  }
 
-    protected virtual void CollideWithGravityTransfer(RaycastHit hit, DIRECTION direction) { }
+    protected virtual void CollideWithGravityTransfer(RaycastHit hit, DIRECTION direction) {  }
+
+
 
     //
     public void RecordPoints()

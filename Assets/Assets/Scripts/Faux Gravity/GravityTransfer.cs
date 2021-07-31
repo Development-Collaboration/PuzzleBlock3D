@@ -8,6 +8,15 @@ public class GravityTransfer : MonoBehaviour
 
     Vector3 posGT = Vector3.zero;
 
+    private BlockMovement block;
+
+    public bool IsGoodToGo { get; set; }
+
+    private void Awake()
+    {
+        IsGoodToGo = false;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         /*
@@ -42,13 +51,13 @@ public class GravityTransfer : MonoBehaviour
         }
     }
 
-    public void rayCheck(Vector3 objPos ,Vector3 rayStartPos)
+    public void RayCheck(Vector3 objPos ,Vector3 rayStartPos, string tag)
     {
-        print("ray check on GT sended from P");
+       // print("ray check on GT sended from P");
 
-        print("objPos: " + objPos);
+        //print("objPos: " + objPos);
 
-        print("rayStartPos: " + rayStartPos);
+       // print("rayStartPos: " + rayStartPos);
 
         RaycastHit hit;
 
@@ -57,19 +66,94 @@ public class GravityTransfer : MonoBehaviour
         //print("Distance bw this and GT" + );
 
 
+        Debug.DrawRay(rayStartPos, Vector3.down * rayMaxDistance, Color.green, 3f);
 
-        if (objPos.z < transform.position.z)
+        // Use this one
+        /*
+        if (Physics.Raycast(rayStartPos, Vector3.down, out hit, rayMaxDistance))
         {
-            print("this is behind GT , shoot ray bot");
+            //Debug.Log("From GT, Hit info: " + hit.transform.tag);
+            //Debug.Log("From GT Hit pos: " + hit.transform.position);
 
-            Debug.DrawRay(rayStartPos, Vector3.down * rayMaxDistance, Color.blue, 3f);
+            if(hit.transform.CompareTag("Block"))
+            {
+                block = hit.collider.GetComponent<BlockMovement>();
+
+                block.IsMoveByGT = true;
+
+                block.OnBlockMovementDirection(DIRECTION.DOWN);
+
+                
+            } s
+        }
+        */
+
+        if ("Player" == tag)
+        {
+            // Check down
+            // if nothing player go, 
+            //  if 1 block push, hold, (check from block) then move player
+            // if 2 two or wall no move;
+
+            if (Physics.Raycast(rayStartPos, Vector3.down, out hit, 1.25f))
+            {
+                //Debug.Log("From GT, Hit info: " + hit.transform.tag);
+                //Debug.Log("From GT Hit pos: " + hit.transform.position);
+
+                if (hit.transform.CompareTag("Block"))
+                {
+                    block = hit.collider.GetComponent<BlockMovement>();
+
+                    block.IsMoveByGT = true;
+
+                    block.OnBlockMovementDirection(DIRECTION.DOWN);
+
+                    if(!block.IsRestricted)
+                    {
+                        IsGoodToGo = true;
+
+                        print("1 Block P go");
+                        print("Is Good To Go: " + IsGoodToGo);
+                        
+                    }
+
+                }
+
+                else if(hit.transform.CompareTag("Wall"))
+                {
+                    return;
+                }
+            }
+            // nothing
+            else
+            {
+                
+                IsGoodToGo = true;
+
+                print("Is Good To Go: " + IsGoodToGo);
+            }
+
 
         }
-        else if (objPos.z > transform.position.z)
+        else if ("Block" == tag)
         {
-            print("this is front of GT , shoot ray bot");
 
-            Debug.DrawRay(rayStartPos, Vector3.down * rayMaxDistance, Color.yellow, 3f);
+            if (Physics.Raycast(rayStartPos, Vector3.down, out hit, 1.25f))
+            {
+                if (hit.transform.CompareTag("Block") || hit.transform.CompareTag("Wall"))
+                {
+                    return;
+                }
+            }
+            // nothing
+            else
+            {
+
+                IsGoodToGo = true;
+
+                print("Is Good To Go: " + IsGoodToGo);
+            }
+
 
         }
 
