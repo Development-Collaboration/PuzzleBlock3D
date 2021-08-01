@@ -180,22 +180,11 @@ public class PlayerMovement : BasicMovement
 
     protected override void CollideWithGravityTransfer(RaycastHit hit, DIRECTION direction)
     {
-        // test
-        //IsRestricted = true;
-
-        // good
-        gravityTransfer = hit.collider.GetComponent<GravityTransfer>();
-        Vector3 tarPos = rb.position + (transform.forward * movementDistance);
-        gravityTransfer.RayCheck(rb.position, tarPos, this.transform.tag);
-
-        //??
-        // if nothing there go
-        // if wall restricted
-        // if two blcok restrickted
-        // if one block movethat, then tele player;
+        // raycheck from GT
+        base.CollideWithGravityTransfer(hit, direction);
 
 
-        if(gravityTransfer.IsGoodToGo)
+        if (gravityTransfer.IsGoodToGo)
         {
             //test tele
             targetPos = rb.position + (transform.forward * movementDistance) + Vector3.down;
@@ -214,9 +203,9 @@ public class PlayerMovement : BasicMovement
 
         }
 
-
-
     }
+
+
 
 
 }

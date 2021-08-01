@@ -62,18 +62,8 @@ public class BlockMovement : BasicMovement
     protected override void CollideWithGravityTransfer(RaycastHit hit, DIRECTION direction)
     {
 
-        print("from Block : Collide with GT");
-
-
-        /*
-        IsRestricted = true;
-
-        playerMovement.IsRestricted = true;
-        */
-
-        gravityTransfer = hit.collider.GetComponent<GravityTransfer>();
-        Vector3 tarPos = rb.position + (transform.forward * movementDistance);
-        gravityTransfer.RayCheck(rb.position, tarPos, this.transform.tag);
+        // raycheck from GT
+        base.CollideWithGravityTransfer(hit, direction);
 
 
         if (gravityTransfer.IsGoodToGo)

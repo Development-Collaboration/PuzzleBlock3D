@@ -6,6 +6,13 @@ public class GravityTransfer : MonoBehaviour
 {
     [SerializeField] private GameObject centerObject;
 
+    private string stringBlock = "Block";
+    private string stingWall = "Wall";
+    private string stingPlayer = "Player";
+    private string stringGoal = "Goal";
+
+
+
     Vector3 posGT = Vector3.zero;
 
     private BlockMovement block;
@@ -17,9 +24,11 @@ public class GravityTransfer : MonoBehaviour
         IsGoodToGo = false;
     }
 
+
+    /*
     private void OnTriggerEnter(Collider other)
     {
-        /*
+        
         print("hit GravityTransfer");
 
         Vector3 otherPos = other.transform.position;
@@ -38,8 +47,9 @@ public class GravityTransfer : MonoBehaviour
                 
 
         }
-        */
+        
     }
+
 
 
     private void Update()
@@ -50,62 +60,30 @@ public class GravityTransfer : MonoBehaviour
 
         }
     }
+    */
 
-    public void RayCheck(Vector3 objPos ,Vector3 rayStartPos, string tag)
+    public void RayCheck(Vector3 rayStartPos, string tag)
     {
-       // print("ray check on GT sended from P");
-
-        //print("objPos: " + objPos);
-
-       // print("rayStartPos: " + rayStartPos);
 
         RaycastHit hit;
 
         float rayMaxDistance = 10f;
 
-        //print("Distance bw this and GT" + );
-
 
         Debug.DrawRay(rayStartPos, Vector3.down * rayMaxDistance, Color.green, 3f);
 
-        // Use this one
-        /*
-        if (Physics.Raycast(rayStartPos, Vector3.down, out hit, rayMaxDistance))
+
+        if (stingPlayer == tag)
         {
-            //Debug.Log("From GT, Hit info: " + hit.transform.tag);
-            //Debug.Log("From GT Hit pos: " + hit.transform.position);
-
-            if(hit.transform.CompareTag("Block"))
-            {
-                block = hit.collider.GetComponent<BlockMovement>();
-
-                block.IsMoveByGT = true;
-
-                block.OnBlockMovementDirection(DIRECTION.DOWN);
-
-                
-            } s
-        }
-        */
-
-        if ("Player" == tag)
-        {
-            // Check down
-            // if nothing player go, 
-            //  if 1 block push, hold, (check from block) then move player
-            // if 2 two or wall no move;
 
             if (Physics.Raycast(rayStartPos, Vector3.down, out hit, 1.25f))
             {
-                //Debug.Log("From GT, Hit info: " + hit.transform.tag);
-                //Debug.Log("From GT Hit pos: " + hit.transform.position);
+                print("Raycheck GT: " + hit.transform.tag);
 
                 if (hit.transform.CompareTag("Block"))
                 {
                     block = hit.collider.GetComponent<BlockMovement>();
-
                     block.IsMoveByGT = true;
-
                     block.OnBlockMovementDirection(DIRECTION.DOWN);
 
                     if(!block.IsRestricted)
@@ -119,40 +97,42 @@ public class GravityTransfer : MonoBehaviour
 
                 }
 
-                else if(hit.transform.CompareTag("Wall"))
+                else if(hit.transform.CompareTag(stingWall) || hit.transform.CompareTag(stringGoal))
                 {
                     return;
                 }
-            }
-            // nothing
-            else
-            {
-                
-                IsGoodToGo = true;
+                // nothing
+                else
+                {
+                    print("GT NOthing");
 
-                print("Is Good To Go: " + IsGoodToGo);
+                    IsGoodToGo = true;
+                }
             }
-
 
         }
-        else if ("Block" == tag)
+
+
+        else if (stringBlock == tag)
         {
 
             if (Physics.Raycast(rayStartPos, Vector3.down, out hit, 1.25f))
             {
-                if (hit.transform.CompareTag("Block") || hit.transform.CompareTag("Wall"))
+                
+                if (hit.transform.CompareTag(stringBlock) || hit.transform.CompareTag(stingWall))
                 {
                     return;
                 }
-            }
-            // nothing
-            else
-            {
+                // nothing
+                else
+                {
 
-                IsGoodToGo = true;
+                    IsGoodToGo = true;
 
-                print("Is Good To Go: " + IsGoodToGo);
+                }
+
             }
+
 
 
         }
@@ -161,6 +141,8 @@ public class GravityTransfer : MonoBehaviour
     }
 
 
+    // notusing it
+    /*
     public void checkPositionCompareWithCenterObject()
     {
         //Vector3 difference = new Vector3(centerObject.transform.position - this.transform.position);
@@ -256,7 +238,7 @@ public class GravityTransfer : MonoBehaviour
 
 
     }
-
+    */
 
 
     #region // Just Save for later"checkPositionCompareWithCenterObject"

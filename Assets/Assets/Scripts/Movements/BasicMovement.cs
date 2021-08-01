@@ -270,7 +270,14 @@ public abstract class BasicMovement : MonoBehaviour
 
     protected virtual void CollideWithGoal(RaycastHit hit) {  }
 
-    protected virtual void CollideWithGravityTransfer(RaycastHit hit, DIRECTION direction) {  }
+
+    protected virtual void CollideWithGravityTransfer(RaycastHit hit, DIRECTION direction)
+    {
+        gravityTransfer = hit.collider.GetComponent<GravityTransfer>();
+        Vector3 tarPos = rb.position + (transform.forward * movementDistance);
+        gravityTransfer.RayCheck(tarPos, this.transform.tag);
+
+    }
 
 
 
