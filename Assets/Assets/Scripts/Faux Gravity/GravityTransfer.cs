@@ -80,7 +80,7 @@ public class GravityTransfer : MonoBehaviour
             {
                 print("Raycheck GT: " + hit.transform.tag);
 
-                if (hit.transform.CompareTag("Block"))
+                if (hit.transform.CompareTag(stringBlock))
                 {
                     block = hit.collider.GetComponent<BlockMovement>();
                     block.IsMoveByGT = true;
@@ -110,9 +110,11 @@ public class GravityTransfer : MonoBehaviour
                 }
             }
 
+
+
         }
 
-
+        /////////
         else if (stringBlock == tag)
         {
 

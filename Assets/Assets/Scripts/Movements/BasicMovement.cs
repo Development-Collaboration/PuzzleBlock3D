@@ -280,8 +280,6 @@ public abstract class BasicMovement : MonoBehaviour
     }
 
 
-
-    //
     public void RecordPoints()
     {
         //print("Record: " + this.gameObject.name + " | pos: " + this.transform.position);

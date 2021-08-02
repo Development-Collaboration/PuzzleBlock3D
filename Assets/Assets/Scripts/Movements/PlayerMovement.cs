@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerMovement : BasicMovement
 {
-
+    private AllGameObjectsTransform allGameObjectsTransform;
 
     //
     private BlockMovement[] blockArrays = new BlockMovement[4];
@@ -144,6 +144,8 @@ public class PlayerMovement : BasicMovement
     protected override void Awake()
     {
         base.Awake();
+
+        allGameObjectsTransform = FindObjectOfType<AllGameObjectsTransform>();
     }
 
     public void OnPLayerMovementDirection(DIRECTION direction)
@@ -194,7 +196,10 @@ public class PlayerMovement : BasicMovement
 
             gravityTransfer.IsGoodToGo = false;
 
+
             // rotate object
+            allGameObjectsTransform.RotateTransform(direction);
+
 
         }
         else
