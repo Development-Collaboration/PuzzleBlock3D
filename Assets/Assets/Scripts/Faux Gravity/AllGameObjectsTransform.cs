@@ -35,49 +35,41 @@ public class AllGameObjectsTransform : MonoBehaviour
         isRotating = false;
     }
 
-    public void RotateTransform(DIRECTION direction)
+    public void RotateTransform(GravityPosition gravityPosition)
     {
+        print("rotate");
 
-        switch (direction)
+        switch (gravityPosition)
         {
-            case DIRECTION.UR:
-                {
-                    angleZ += 90f;
-
-                }
+            case GravityPosition.UP:
+                targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[0]);
                 break;
 
-            case DIRECTION.DR:
-                {
-                    angleX += 90f;
-
-                }
-
+            case GravityPosition.UL:
+                targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[1]);
                 break;
 
-            case DIRECTION.DL:
-                {
-                    angleZ -= 90f;
-
-                }
-
+            case GravityPosition.DOWN:
+                targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[2]);
                 break;
 
-            case DIRECTION.UL:
-                {
-                    angleX -= 90f;
-                }
+            case GravityPosition.DR:
+                targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[3]);
                 break;
 
+            case GravityPosition.UR:
+                targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[4]);
+                break;
 
+            case GravityPosition.DL:
+                targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[5]);
+                break;
         }
 
+        StartCoroutine("Rotate");
 
     }
 
-
-
-    
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -137,6 +129,8 @@ public class AllGameObjectsTransform : MonoBehaviour
 
     IEnumerator Rotate()
     {
+        print("co rotate start");
+
         float durationLimit = 1f;
 
         isRotating = true;
@@ -200,4 +194,5 @@ public class AllGameObjectsTransform : MonoBehaviour
 
     }
 
+    
 }

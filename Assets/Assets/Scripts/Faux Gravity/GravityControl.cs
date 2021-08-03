@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GravityControl : MonoBehaviour
 {
-    public GravityOrbit gravity;
+    public GravityOrbit gravityOrbit;
     private Rigidbody rb;
 
     public float rotationSpeed = 20f;
@@ -12,34 +12,33 @@ public class GravityControl : MonoBehaviour
     GravityOrbit currentG = null;
     GravityOrbit nextG = null;
 
+    public GravityPosition GetGravityPos { get; set; }
+
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
 
-        //gravity = FindObjectOfType<GravityOrbit>();
     }
 
-    private void Start()
-    {
-    }
+
 
     private void FixedUpdate()
     {
         // fixed
 
-        if (null != gravity)
+        if (null != gravityOrbit)
         {
             Vector3 gravityUP = Vector3.zero;
             //
 
-            if (gravity.FixedDirection)
+            if (gravityOrbit.FixedDirection)
             {
-                gravityUP = gravity.transform.up;
+                gravityUP = gravityOrbit.transform.up;
             }
             else
             {
-                gravityUP = (transform.position - gravity.transform.position).normalized;
+                gravityUP = (transform.position - gravityOrbit.transform.position).normalized;
 
             }
 
@@ -52,7 +51,11 @@ public class GravityControl : MonoBehaviour
 
 
             // push down
-            rb.AddForce((gravityUP * -gravity.OrbitGravity) * rb.mass);
+            rb.AddForce((gravityUP * -gravityOrbit.OrbitGravity) * rb.mass);
+
+
+            GetGravityPos = gravityOrbit.gravityPos;
+
         }
         /*
         else if (null == gravity)
@@ -62,4 +65,8 @@ public class GravityControl : MonoBehaviour
         */
 
     }
+
+ 
 }
+
+

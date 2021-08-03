@@ -32,10 +32,6 @@ public abstract class BasicMovement : MonoBehaviour
 
     protected GravityTransfer gravityTransfer;
 
-    public bool IsMoveByGT { get; set; }
-
-
-
     [SerializeField] protected int movementCounts = 0;
     //
     protected List<PointsInTime> pointsInTimes;
@@ -52,13 +48,15 @@ public abstract class BasicMovement : MonoBehaviour
 
         pointsInTimes = new List<PointsInTime>();
 
-        IsMoveByGT = false;
+
 
     }
 
+    
+
     protected virtual void MovementsControl(DIRECTION direction)
     {
-        
+        /*
         if ((!isMoving))
         {
             currentPos = rb.position;
@@ -100,7 +98,7 @@ public abstract class BasicMovement : MonoBehaviour
 
 
         }
-
+        */
         #region // Comments for targetpos testing
         // print("transform.forward: " + transform.forward);
         //print("targetPos: " + targetPos);
@@ -123,6 +121,43 @@ public abstract class BasicMovement : MonoBehaviour
         #endregion
 
     }
+
+    /*
+    IEnumerator ExecuteMovements()
+    {
+
+        isMoving = true;
+
+        //print(this.name);
+        print("Co start");
+
+        float durationLimit = 0.5f;
+
+        while (durationLimit >= 0f && Vector3.Distance(rb.position, targetPos) >= 0.05f)
+        {
+
+            durationLimit -= Time.deltaTime;
+
+            rb.MovePosition(Vector3.Lerp(rb.position, targetPos, movementSpeed * Time.deltaTime));
+
+            yield return null;
+        }
+
+
+        print("End Co");
+
+        rb.MovePosition(targetPos);
+
+        print("End Position: " + rb.position);
+
+        print("transform.TransformDirection: " + transform.TransformDirection(rb.position));
+
+        isMoving = false;
+
+
+
+    }
+    */
 
     protected virtual void DirectionDecision(DIRECTION direction)
     {
@@ -182,40 +217,7 @@ public abstract class BasicMovement : MonoBehaviour
     }
 
 
-    IEnumerator ExecuteMovements()
-    {
 
-        isMoving = true;
-
-        //print(this.name);
-        print("Co start");
-
-        float durationLimit = 0.5f;
-
-        while (durationLimit >= 0f  && Vector3.Distance(rb.position, targetPos) >= 0.05f)
-        {
-
-            durationLimit -= Time.deltaTime;
-
-            rb.MovePosition(Vector3.Lerp(rb.position, targetPos, movementSpeed * Time.deltaTime));
-
-            yield return null;
-        }
-
-
-        print("End Co");
-
-        rb.MovePosition(targetPos);
-
-        print("End Position: " + rb.position);
-
-        print("transform.TransformDirection: " + transform.TransformDirection(rb.position));
-
-        isMoving = false;
-
-
-
-    }
 
     protected virtual void RaycastCheck(Vector3 rayTransformDirection, DIRECTION direction)
     {

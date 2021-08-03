@@ -83,7 +83,7 @@ public class GravityTransfer : MonoBehaviour
                 if (hit.transform.CompareTag(stringBlock))
                 {
                     block = hit.collider.GetComponent<BlockMovement>();
-                    block.IsMoveByGT = true;
+                    //block.IsMoveByGT = true;
                     block.OnBlockMovementDirection(DIRECTION.DOWN);
 
                     if(!block.IsRestricted)
