@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum DIRECTION { UR, DR, DL, UL, DOWN}
+public enum DIRECTION { UR, DR, DL, UL, DOWN, UP }
 
 
 public class GameManager : MonoBehaviour

@@ -12,9 +12,16 @@ public class GravityControl : MonoBehaviour
     GravityOrbit currentG = null;
     GravityOrbit nextG = null;
 
-    private void Start()
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+
+        //gravity = FindObjectOfType<GravityOrbit>();
+    }
+
+    private void Start()
+    {
     }
 
     private void FixedUpdate()
@@ -26,7 +33,7 @@ public class GravityControl : MonoBehaviour
             Vector3 gravityUP = Vector3.zero;
             //
 
-            if (gravity.fixedDirection)
+            if (gravity.FixedDirection)
             {
                 gravityUP = gravity.transform.up;
             }
@@ -45,7 +52,7 @@ public class GravityControl : MonoBehaviour
 
 
             // push down
-            rb.AddForce((gravityUP * -gravity.orbitGravity) * rb.mass);
+            rb.AddForce((gravityUP * -gravity.OrbitGravity) * rb.mass);
         }
         /*
         else if (null == gravity)

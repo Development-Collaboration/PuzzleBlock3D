@@ -178,7 +178,6 @@ public abstract class BasicMovement : MonoBehaviour
         targetPos = rb.position + (transform.forward * movementDistance);
         targetPos = new Vector3(Mathf.RoundToInt(targetPos.x), Mathf.RoundToInt(targetPos.y), Mathf.RoundToInt(targetPos.z));
 
-        // RaycastCheck(rayTransformDirection, direction);
 
     }
 

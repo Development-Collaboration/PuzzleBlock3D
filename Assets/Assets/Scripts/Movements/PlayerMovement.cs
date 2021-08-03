@@ -150,9 +150,11 @@ public class PlayerMovement : BasicMovement
 
     public void OnPLayerMovementDirection(DIRECTION direction)
     {
+
         base.MovementsControl(direction);
 
         gameStatus.PlayerMovementCount(movementCounts);
+
     }
 
 

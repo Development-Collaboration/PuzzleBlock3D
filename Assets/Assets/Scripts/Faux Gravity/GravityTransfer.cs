@@ -67,7 +67,7 @@ public class GravityTransfer : MonoBehaviour
 
         RaycastHit hit;
 
-        float rayMaxDistance = 10f;
+        float rayMaxDistance = 1.25f;
 
 
         Debug.DrawRay(rayStartPos, Vector3.down * rayMaxDistance, Color.green, 3f);
@@ -76,7 +76,7 @@ public class GravityTransfer : MonoBehaviour
         if (stingPlayer == tag)
         {
 
-            if (Physics.Raycast(rayStartPos, Vector3.down, out hit, 1.25f))
+            if (Physics.Raycast(rayStartPos, Vector3.down, out hit, rayMaxDistance))
             {
                 print("Raycheck GT: " + hit.transform.tag);
 
@@ -104,10 +104,18 @@ public class GravityTransfer : MonoBehaviour
                 // nothing
                 else
                 {
-                    print("GT NOthing");
+                    print("GT NO tag");
 
                     IsGoodToGo = true;
                 }
+            }
+
+            // nothing
+            else
+            {
+                print("GT NOthing");
+
+                IsGoodToGo = true;
             }
 
 

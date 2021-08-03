@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class GravityOrbit : MonoBehaviour
 {
-    public float orbitGravity;
+    public float OrbitGravity { get; set; }
 
-    public bool fixedDirection;
+    public bool FixedDirection { get; set; }
+
+    private void Awake()
+    {
+        OrbitGravity = 10f;
+        FixedDirection = true;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
