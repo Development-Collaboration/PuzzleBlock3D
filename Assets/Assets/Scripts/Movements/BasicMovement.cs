@@ -12,7 +12,8 @@ public abstract class BasicMovement : MonoBehaviour
     private string stringBlock = "Block";
     private string stingWall = "Wall";
     private string stringGoal = "Goal";
-
+    private string stringGravityTransfer = "GravityTransfer";
+    
     //
     [SerializeField] //[Range( , )]
     protected float movementSpeed = 11f;
@@ -20,11 +21,16 @@ public abstract class BasicMovement : MonoBehaviour
     //[SerializeField] //[Range( , )]
     protected int movementDistance = 1;
 
+    private float rayDistance = 1.25f;
+
     protected Vector3 currentPos;
     protected Vector3 targetPos;
     protected bool isMoving = false;
 
     public bool IsRestricted { get; set; }
+
+
+    protected GravityTransfer gravityTransfer;
 
     [SerializeField] protected int movementCounts = 0;
     //
@@ -42,80 +48,135 @@ public abstract class BasicMovement : MonoBehaviour
 
         pointsInTimes = new List<PointsInTime>();
 
+
+
     }
+
+    
 
     protected virtual void MovementsControl(DIRECTION direction)
     {
-
+        /*
         if ((!isMoving))
-        {            
-            currentPos = this.transform.position;
+        {
+            currentPos = rb.position;
+
             IsRestricted = false;
+            DirectionDecision(direction); // raycheck
 
-            // + wall detection
-            DirectionDecision(direction);
+            RaycastCheck(transform.forward, direction);
 
-            // execute at Block.cs
-            //MoveBlock(direction);
-
+            // if another block or wall then return;
             if (IsRestricted)
             {
-                targetPos = currentPos;
+                print("Restricted");
+
+                // I dont think it's neccessary
+                //targetPos = currentPos;
                 return;
             }
 
-            ++movementCounts;
-            // execute player move
-            StartCoroutine("ExecuteMovements");
+            //
+            if (IsMoveByGT)
+            {
+                print("Collide with GT");
+
+                rb.MovePosition(targetPos);
+
+                IsMoveByGT = false;
+
+                ++movementCounts;
+
+            }
+            else
+            {
+                ++movementCounts;
+                // execute player move
+                StartCoroutine("ExecuteMovements");
+            }
+
+
 
         }
+        */
+        #region // Comments for targetpos testing
+        // print("transform.forward: " + transform.forward);
+        //print("targetPos: " + targetPos);
+
+        //targetPos = rb.position + (transform.TransformDirection(transform.forward));
+        //print("targetPos TransformDirection(transform.forward: " + targetPos);
+
+        //targetPos = rb.position + (transform.TransformDirection(Vector3.forward));
+        //print("targetPos transform.TransformDirection(Vector3.forward: " + targetPos);
+
+        // x
+        //targetPos = rb.position + (transform.TransformDirection(rb.position));
+        //print("targetPos transform.TransformDirection(rb.position: " + targetPos);
+
+        //targetPos = rb.position + (targetPos * movementDistance);
+        //targetPos = new Vector3(Mathf.RoundToInt(targetPos.x), Mathf.RoundToInt(targetPos.y), Mathf.RoundToInt(targetPos.z));
+
+        //targetPos = rb.position + (transform.forward * movementDistance);
+
+        #endregion
+
     }
 
-
+    /*
     IEnumerator ExecuteMovements()
     {
 
         isMoving = true;
 
-        while (Vector3.Distance(transform.position, targetPos) > 0.05f)
+        //print(this.name);
+        print("Co start");
+
+        float durationLimit = 0.5f;
+
+        while (durationLimit >= 0f && Vector3.Distance(rb.position, targetPos) >= 0.05f)
         {
 
-            rb.MovePosition(Vector3.Lerp(transform.position, targetPos, movementSpeed * Time.deltaTime));
+            durationLimit -= Time.deltaTime;
+
+            rb.MovePosition(Vector3.Lerp(rb.position, targetPos, movementSpeed * Time.deltaTime));
 
             yield return null;
-
         }
 
-        transform.position = targetPos;
+
+        print("End Co");
+
+        rb.MovePosition(targetPos);
+
+        print("End Position: " + rb.position);
+
+        print("transform.TransformDirection: " + transform.TransformDirection(rb.position));
+
         isMoving = false;
 
 
 
     }
+    */
 
     protected virtual void DirectionDecision(DIRECTION direction)
     {
-        Vector3 rayTransformDirection = Vector3.zero;
+        //Vector3 rayTransformDirection = Vector3.zero;
 
         switch (direction)
         {
             case DIRECTION.UR:
                 {
-                    //print("onmove UR");
-                    targetPos = new Vector3
-                        (transform.position.x + movementDistance, transform.position.y, transform.position.z);
+                    transform.forward = Vector3.right;
 
-                    rayTransformDirection = transform.TransformDirection(Vector3.right);
+
                 }
                 break;
 
             case DIRECTION.DR:
                 {
-                    //print("onmove DR");
-                    targetPos = new Vector3
-                        (transform.position.x, transform.position.y, transform.position.z - movementDistance);
+                    transform.forward = Vector3.back;
 
-                    rayTransformDirection = transform.TransformDirection(Vector3.back);
 
                 }
 
@@ -123,11 +184,7 @@ public abstract class BasicMovement : MonoBehaviour
 
             case DIRECTION.DL:
                 {
-                    //print("onmove DL");
-                    targetPos = new Vector3
-                        (transform.position.x - movementDistance, transform.position.y, transform.position.z);
-
-                    rayTransformDirection = transform.TransformDirection(Vector3.left);
+                    transform.forward = Vector3.left;
 
                 }
 
@@ -135,39 +192,47 @@ public abstract class BasicMovement : MonoBehaviour
 
             case DIRECTION.UL:
                 {
-                    //print("onmove UL");
-
-                    targetPos = new Vector3
-                        (transform.position.x, transform.position.y, transform.position.z + movementDistance);
-
-                    rayTransformDirection = transform.TransformDirection(Vector3.forward);
+                    transform.forward = Vector3.forward;
 
                 }
                 break;
+
+            //
+            case DIRECTION.DOWN:
+                {
+                    transform.forward = Vector3.down;
+
+                }
+                break;
+
         }
-        //
-        //targetPos = new Vector3
-        //    ((int)targetPos.x, (int)targetPos.y, (int)targetPos.z);
 
-        targetPos = new Vector3
-            (Mathf.RoundToInt(targetPos.x), Mathf.RoundToInt(targetPos.y), Mathf.RoundToInt(targetPos.z));
+        //rayTransformDirection = transform.TransformDirection(transform.forward);
+        //rayTransformDirection = transform.forward;
 
-        RaycastCheck(rayTransformDirection, direction);
+        targetPos = rb.position + (transform.forward * movementDistance);
+        targetPos = new Vector3(Mathf.RoundToInt(targetPos.x), Mathf.RoundToInt(targetPos.y), Mathf.RoundToInt(targetPos.z));
 
 
     }
+
+
+
 
     protected virtual void RaycastCheck(Vector3 rayTransformDirection, DIRECTION direction)
     {
         RaycastHit hit;
 
-        // Wall Detection
-        Debug.DrawRay(transform.position, transform.TransformDirection(rayTransformDirection) * movementDistance, Color.red, 0.5f);
+        float rayMaxDistance = (movementDistance * rayDistance);
 
-        if (Physics.Raycast(this.transform.position, transform.TransformDirection(rayTransformDirection),
-            out hit, (movementDistance)))
+        Debug.DrawRay(transform.position, rayTransformDirection * rayMaxDistance, Color.red, 2f);
+        //Debug.DrawRay(transform.position, rayTransformDirection * 10f, Color.red, 2f);
+
+        //if (Physics.Raycast(this.transform.position, transform.TransformDirection(rayTransformDirection),out hit, (movementDistance * rayDistance)))
+
+        if (Physics.Raycast(this.transform.position, rayTransformDirection, out hit, rayMaxDistance))
         {
-            //print("Hit info: " + hit.transform.tag);
+            Debug.Log("Hit info: " + hit.transform.tag);
 
             if (hit.transform.CompareTag(stingWall))
             {
@@ -186,8 +251,16 @@ public abstract class BasicMovement : MonoBehaviour
                 CollideWithGoal(hit);
             }
 
+            //
+            if (hit.transform.CompareTag(stringGravityTransfer))
+            {
 
+                CollideWithGravityTransfer(hit, direction);
+            }
+
+            
         }
+        
     }
 
 
@@ -199,9 +272,18 @@ public abstract class BasicMovement : MonoBehaviour
     protected virtual void CollideWithGoal(RaycastHit hit) {  }
 
 
+    protected virtual void CollideWithGravityTransfer(RaycastHit hit, DIRECTION direction)
+    {
+        gravityTransfer = hit.collider.GetComponent<GravityTransfer>();
+        Vector3 tarPos = rb.position + (transform.forward * movementDistance);
+        gravityTransfer.RayCheck(tarPos, this.transform.tag);
+
+    }
+
+
     public void RecordPoints()
     {
-        print("Record: " + this.gameObject.name + " | pos: " + this.transform.position);
+        //print("Record: " + this.gameObject.name + " | pos: " + this.transform.position);
 
         pointsInTimes.Insert(0,
            new PointsInTime(transform.position, transform.rotation, transform.localScale));
@@ -212,7 +294,7 @@ public abstract class BasicMovement : MonoBehaviour
     {
         if (pointsInTimes.Count > 0)
         {
-            print("Rewind");
+            //print("Rewind");
 
             PointsInTime points = pointsInTimes[0];
 
@@ -228,4 +310,106 @@ public abstract class BasicMovement : MonoBehaviour
     }
 
 
+    #region OldMevements
+    // works on different gravity but no rotation
+
+    /*
+    IEnumerator ExecuteMovements()
+    {
+
+        isMoving = true;
+
+        //print(this.name);
+        print("Co start");
+
+        while (Vector3.Distance(rb.position, targetPos) >= 0.05f)
+        {
+
+            //print("in While");
+            //print("rb trans pos" + transform.TransformDirection(rb.position)); // 이거 안맞음
+            //print("rb pos" + rb.position);
+            //print("target pos" + targetPos);
+
+
+            //rb.MovePosition(targetPos);
+            rb.MovePosition(Vector3.Lerp(rb.position, targetPos, movementSpeed * Time.deltaTime));
+
+            yield return null;
+        }
+
+        print("End Co");
+
+        rb.MovePosition(targetPos);
+
+        isMoving = false;
+
+
+
+    }
+
+    protected virtual void DirectionDecision(DIRECTION direction)
+    {
+        Vector3 rayTransformDirection = Vector3.zero;
+
+        switch (direction)
+        {
+            case DIRECTION.UR:
+                {
+
+                    //print("onmove UR");
+                    //targetPos = new Vector3(movementDistance, 0, 0);
+
+                    targetPos = Vector3.right * movementDistance;
+
+                    rayTransformDirection = transform.TransformDirection(Vector3.right);
+                }
+                break;
+
+            case DIRECTION.DR:
+                {
+                    //print("onmove DR");
+                    //targetPos = new Vector3(0, 0, - movementDistance);
+                    targetPos = Vector3.back * movementDistance;
+
+
+                    rayTransformDirection = transform.TransformDirection(Vector3.back);
+                }
+
+                break;
+
+            case DIRECTION.DL:
+                {
+                    //print("onmove DL");
+                    //targetPos = new Vector3( - movementDistance, 0, 0);
+                    targetPos = Vector3.left * movementDistance;
+
+                    rayTransformDirection = transform.TransformDirection(Vector3.left);
+
+                }
+
+                break;
+
+            case DIRECTION.UL:
+                {
+                    //print("onmove UL");
+                    //targetPos = new Vector3(0,0, movementDistance);
+                    targetPos = Vector3.forward * movementDistance;
+
+                    rayTransformDirection = transform.TransformDirection(Vector3.forward);
+
+
+
+                }
+                break;
+        }
+
+        targetPos = (rb.position + transform.TransformDirection(targetPos));
+
+        targetPos = new Vector3(Mathf.RoundToInt(targetPos.x), Mathf.RoundToInt(targetPos.y), Mathf.RoundToInt(targetPos.z));
+
+        RaycastCheck(rayTransformDirection, direction);
+
+    }
+    */
+    #endregion
 }
