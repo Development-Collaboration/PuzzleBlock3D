@@ -9,9 +9,6 @@ public class GravityControl : MonoBehaviour
 
     public float rotationSpeed = 20f;
 
-    GravityOrbit currentG = null;
-    GravityOrbit nextG = null;
-
     public GravityPosition GetGravityPos { get; set; }
 
 

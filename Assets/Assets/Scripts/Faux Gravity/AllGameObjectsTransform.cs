@@ -9,14 +9,8 @@ public class AllGameObjectsTransform : MonoBehaviour
 
     private Vector3[] allGameObjectsEdgeArrays = new Vector3[6];
 
-    //private BlockMovement[] blockArrays = new BlockMovement[4];
-
 
     [SerializeField] private float rotationSpeed = 5f;
-
-    private float angleX = 0f;
-    private float angleY = 0f;
-    private float angleZ = 0f;
 
     private Quaternion targetRotation;
 
