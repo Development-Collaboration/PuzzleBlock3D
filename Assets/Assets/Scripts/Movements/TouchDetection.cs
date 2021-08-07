@@ -39,9 +39,14 @@ public class TouchDetection : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        // For Debug
+        MouseDrag();
+
+        // Control Options
         Swipe();
 
-        MouseDrag();
+        //
     }
 
     public void Swipe()
@@ -78,6 +83,50 @@ public class TouchDetection : MonoBehaviour
             ////
         }
     }
+
+    public void RecordButtonPressed()
+    {
+        for (int i = 0; i < basicMovementArray.Length; ++i)
+        {
+            if (basicMovementArray[i] != null)
+                basicMovementArray[i].RecordPoints();
+        }
+    }
+
+
+    public void OnButtonUL()
+    {
+        RecordButtonPressed();
+
+        playerMovement.OnPLayerMovementDirection(DIRECTION.UL);
+
+    }
+
+    public void OnButtonUR()
+    {
+        RecordButtonPressed();
+
+        playerMovement.OnPLayerMovementDirection(DIRECTION.UR);
+
+    }
+
+    public void OnButtonDL()
+    {
+        RecordButtonPressed();
+
+        playerMovement.OnPLayerMovementDirection(DIRECTION.DL);
+
+    }
+
+    public void OnButtonDR()
+    {
+        RecordButtonPressed();
+
+        playerMovement.OnPLayerMovementDirection(DIRECTION.DR);
+
+    }
+
+
 
     public void MouseDrag()
     {
