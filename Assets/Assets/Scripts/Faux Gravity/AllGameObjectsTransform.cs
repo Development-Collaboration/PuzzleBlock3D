@@ -38,6 +38,42 @@ public class AllGameObjectsTransform : MonoBehaviour
         touchDetection = FindObjectOfType<TouchDetection>();
     }
 
+    public void InstanteRotation(GravityPosition gravityPosition)
+    {
+        print("InstanteRotation");
+
+
+        switch (gravityPosition)
+        {
+            case GravityPosition.UP:
+                targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[0]);
+                break;
+
+            case GravityPosition.UL:
+                targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[1]);
+                break;
+
+            case GravityPosition.DOWN:
+                targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[2]);
+                break;
+
+            case GravityPosition.DR:
+                targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[3]);
+                break;
+
+            case GravityPosition.UR:
+                targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[4]);
+                break;
+
+            case GravityPosition.DL:
+                targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[5]);
+                break;
+        }
+
+        transform.rotation = targetRotation;
+
+    }
+
     public void RotateTransform(GravityPosition gravityPosition)
     {
         print("rotate");
@@ -204,6 +240,8 @@ public class AllGameObjectsTransform : MonoBehaviour
         //transform.Rotate(newRotation);
 
     }
+
+    
 
 
 }

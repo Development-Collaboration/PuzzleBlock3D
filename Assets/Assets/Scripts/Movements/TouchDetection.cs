@@ -249,6 +249,10 @@ public class TouchDetection : MonoBehaviour
             if (basicMovementArray[i] != null)
                 basicMovementArray[i].RecordPoints();
         }
+
+        playerMovement.RecordGravityPos();
+
+        
     }
 
 

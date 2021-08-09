@@ -24,7 +24,7 @@ public class GameStatus : MonoBehaviour
     private int rewindCount;
     private BasicMovement[] basicMovementArray;
 
-    //private PlayerMovement[] playerMovementArray;
+    private PlayerMovement playerMovement;
 
 
     private void Start()
@@ -42,6 +42,7 @@ public class GameStatus : MonoBehaviour
         basicMovementArray = FindObjectsOfType<BasicMovement>();
 
 
+        playerMovement = FindObjectOfType<PlayerMovement>();
     }
 
     IEnumerator CountdownTimer()
@@ -90,6 +91,10 @@ public class GameStatus : MonoBehaviour
 
     public void OnRewind()
     {
+        playerMovement.RewindGravityPos();
+
+
+        //
         for (int i = 0; i < basicMovementArray.Length; ++i)
         {
             if (basicMovementArray[i] != null)
@@ -100,6 +105,7 @@ public class GameStatus : MonoBehaviour
 
             
         }
+
 
 
 
