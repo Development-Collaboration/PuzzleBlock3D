@@ -144,6 +144,11 @@ public class PlayerMovement : BasicMovement
 
     #endregion
 
+    //private List<GravityPosInTime> gravityPosInTimes;
+
+    public bool IsUnmovable { get; set; }
+   
+
     protected override void Awake()
     {
         base.Awake();
@@ -153,6 +158,11 @@ public class PlayerMovement : BasicMovement
 
         //
         gravityControl = GetComponent<GravityControl>();
+
+        // gravityPosInTimes = new List<GravityPosInTime>();
+
+        IsUnmovable = false;
+
     }
 
     public void OnPLayerMovementDirection(DIRECTION direction)
@@ -304,6 +314,8 @@ public class PlayerMovement : BasicMovement
         }
               
     }
+
+
 
 
 

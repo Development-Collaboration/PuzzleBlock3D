@@ -36,6 +36,7 @@ public abstract class BasicMovement : MonoBehaviour
     //
     protected List<PointsInTime> pointsInTimes;
 
+
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();

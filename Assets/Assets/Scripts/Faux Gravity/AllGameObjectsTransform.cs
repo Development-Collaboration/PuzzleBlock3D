@@ -7,14 +7,19 @@ public class AllGameObjectsTransform : MonoBehaviour
 
     //public enum DIRECTION { UR, DR, DL, UL, DOWN, UP }
 
+    private PlayerMovement playerMovement;
+
     private Vector3[] allGameObjectsEdgeArrays = new Vector3[6];
 
+    private TouchDetection touchDetection;
 
     [SerializeField] private float rotationSpeed = 5f;
 
     private Quaternion targetRotation;
 
     public bool isRotating { get; set; }
+
+     
 
     private void Awake()
     {
@@ -27,6 +32,10 @@ public class AllGameObjectsTransform : MonoBehaviour
 
 
         isRotating = false;
+
+        playerMovement = FindObjectOfType<PlayerMovement>();
+
+        touchDetection = FindObjectOfType<TouchDetection>();
     }
 
     public void RotateTransform(GravityPosition gravityPosition)
@@ -129,6 +138,10 @@ public class AllGameObjectsTransform : MonoBehaviour
 
         isRotating = true;
 
+
+        playerMovement.IsUnmovable = true;
+        touchDetection.OnDisableControlButton();
+
         while (transform.rotation != targetRotation && durationLimit >= 0f)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation,
@@ -141,8 +154,12 @@ public class AllGameObjectsTransform : MonoBehaviour
         }
 
         transform.rotation = targetRotation;
-
         isRotating = false;
+
+
+        playerMovement.IsUnmovable = false;
+        touchDetection.OnEnableControlButton();
+
 
         /*
         float durationLimit = 1f;
@@ -188,5 +205,5 @@ public class AllGameObjectsTransform : MonoBehaviour
 
     }
 
-    
+
 }

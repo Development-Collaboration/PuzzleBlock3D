@@ -1614,6 +1614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSwipeRange: 200
+  controlButtonArray: []
 --- !u!54 &189782499
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2373,6 +2374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSwipeRange: 200
+  controlButtonArray: []
 --- !u!54 &295340471
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3731,6 +3733,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSwipeRange: 200
+  controlButtonArray: []
 --- !u!54 &522933696
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6114,7 +6117,7 @@ GameObject:
   - component: {fileID: 881590033}
   - component: {fileID: 881590032}
   m_Layer: 5
-  m_Name: UL_Button (1)
+  m_Name: DL_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6482,6 +6485,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSwipeRange: 200
+  controlButtonArray: []
 --- !u!54 &937707665
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8849,6 +8853,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSwipeRange: 200
+  controlButtonArray:
+  - {fileID: 565523002}
+  - {fileID: 1735309247}
+  - {fileID: 1735309247}
 --- !u!54 &1718991624
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10718,6 +10726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSwipeRange: 200
+  controlButtonArray: []
 --- !u!54 &2101253134
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10875,6 +10884,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSwipeRange: 200
+  controlButtonArray: []
 --- !u!54 &2107493207
 Rigidbody:
   m_ObjectHideFlags: 0
