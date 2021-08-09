@@ -24,6 +24,8 @@ public class GameStatus : MonoBehaviour
     private int rewindCount;
     private BasicMovement[] basicMovementArray;
 
+    //private PlayerMovement[] playerMovementArray;
+
 
     private void Start()
     {
@@ -91,8 +93,15 @@ public class GameStatus : MonoBehaviour
         for (int i = 0; i < basicMovementArray.Length; ++i)
         {
             if (basicMovementArray[i] != null)
+            {
                 basicMovementArray[i].RewindPoints();
+                //playerMovementArray[i].RewindGravity();
+            }
+
+            
         }
+
+
 
         ++rewindCount;
 

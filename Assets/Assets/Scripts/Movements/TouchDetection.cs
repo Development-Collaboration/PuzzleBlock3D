@@ -3,6 +3,7 @@ using UnityEngine;
 
 //
 using System.Collections.Generic;
+using UnityEngine.UI;
 //
 public class TouchDetection : MonoBehaviour
 {
@@ -18,11 +19,12 @@ public class TouchDetection : MonoBehaviour
     private float minSwipeRange = 200f;
 
     private DIRECTION finalDirection;
-
-
     private BasicMovement[] basicMovementArray;
 
     private bool isTouchStart = false;
+
+    [SerializeField]
+    private Button[] controlButtonArray;
 
     private void Awake()
     {
@@ -39,14 +41,17 @@ public class TouchDetection : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(!playerMovement.IsUnmovable)
+        {
+            // For Debug
+            MouseDrag();
 
-        // For Debug
-        MouseDrag();
+            // Control Options
+            Swipe();
 
-        // Control Options
-        Swipe();
+        }
 
-        //
+
     }
 
     public void Swipe()
@@ -84,19 +89,11 @@ public class TouchDetection : MonoBehaviour
         }
     }
 
-    public void RecordButtonPressed()
-    {
-        for (int i = 0; i < basicMovementArray.Length; ++i)
-        {
-            if (basicMovementArray[i] != null)
-                basicMovementArray[i].RecordPoints();
-        }
-    }
 
 
     public void OnButtonUL()
     {
-        RecordButtonPressed();
+        RecordingPosints();
 
         playerMovement.OnPLayerMovementDirection(DIRECTION.UL);
 
@@ -104,7 +101,7 @@ public class TouchDetection : MonoBehaviour
 
     public void OnButtonUR()
     {
-        RecordButtonPressed();
+        RecordingPosints();
 
         playerMovement.OnPLayerMovementDirection(DIRECTION.UR);
 
@@ -112,7 +109,7 @@ public class TouchDetection : MonoBehaviour
 
     public void OnButtonDL()
     {
-        RecordButtonPressed();
+        RecordingPosints();
 
         playerMovement.OnPLayerMovementDirection(DIRECTION.DL);
 
@@ -120,11 +117,30 @@ public class TouchDetection : MonoBehaviour
 
     public void OnButtonDR()
     {
-        RecordButtonPressed();
+        RecordingPosints();
 
         playerMovement.OnPLayerMovementDirection(DIRECTION.DR);
 
     }
+
+    public void OnDisableControlButton()
+    {
+        for (int i = 0; i < controlButtonArray.Length; ++i)
+        {
+            controlButtonArray[i].interactable = false;
+
+        }
+    }
+
+    public void OnEnableControlButton()
+    {
+        for (int i = 0; i < controlButtonArray.Length; ++i)
+        {
+            controlButtonArray[i].interactable = true;
+        }
+    }
+
+   // public void 
 
 
 
@@ -217,16 +233,21 @@ public class TouchDetection : MonoBehaviour
     {
         if (isTouchExecute && isTouchStart)
         {
-            for(int i = 0; i < basicMovementArray.Length; ++i)
-            {
-                if(basicMovementArray[i] != null)
-                    basicMovementArray[i].RecordPoints();
-            }
+            RecordingPosints();
 
             isTouchStart = false;
 
             playerMovement.OnPLayerMovementDirection(finalDirection);
 
+        }
+    }
+
+    private void RecordingPosints()
+    {
+        for (int i = 0; i < basicMovementArray.Length; ++i)
+        {
+            if (basicMovementArray[i] != null)
+                basicMovementArray[i].RecordPoints();
         }
     }
 
