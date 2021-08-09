@@ -12,6 +12,7 @@ public class GravityControl : MonoBehaviour
     public GravityPosition GetGravityPos { get; set; }
 
 
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();

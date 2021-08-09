@@ -144,7 +144,7 @@ public class PlayerMovement : BasicMovement
 
     #endregion
 
-    //private List<GravityPosInTime> gravityPosInTimes;
+    private List<GravityPosInTime> gravityPosInTimes;
 
     public bool IsUnmovable { get; set; }
    
@@ -159,7 +159,7 @@ public class PlayerMovement : BasicMovement
         //
         gravityControl = GetComponent<GravityControl>();
 
-        // gravityPosInTimes = new List<GravityPosInTime>();
+        gravityPosInTimes = new List<GravityPosInTime>();
 
         IsUnmovable = false;
 
@@ -315,7 +315,23 @@ public class PlayerMovement : BasicMovement
               
     }
 
+    public void RecordGravityPos()
+    {
+        gravityPosInTimes.Insert(0, new GravityPosInTime((int)gravityControl.GetGravityPos));
 
+    }
+
+    public void RewindGravityPos()
+    {
+        if(gravityPosInTimes.Count > 0)
+        {
+            GravityPosInTime points = gravityPosInTimes[0];
+
+            allGameObjectsTransform.InstanteRotation((GravityPosition)points.gravityPos);
+
+            gravityPosInTimes.RemoveAt(0);
+        }
+    }
 
 
 
