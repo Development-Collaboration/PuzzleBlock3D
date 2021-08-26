@@ -40,11 +40,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnApplicationQuit()
-    {
-        
-    }
-
-
+    
 
 }
