@@ -13,7 +13,7 @@ public class AllGameObjectsTransform : MonoBehaviour
 
     private TouchDetection touchDetection;
 
-    [SerializeField] private float rotationSpeed = 5f;
+    [SerializeField] private float rotationSpeed = 1.5f;
 
     private Quaternion targetRotation;
 
@@ -29,7 +29,6 @@ public class AllGameObjectsTransform : MonoBehaviour
         allGameObjectsEdgeArrays[3] = new Vector3(90, 0, 0);
         allGameObjectsEdgeArrays[4] = new Vector3(0, 0, 90);
         allGameObjectsEdgeArrays[5] = new Vector3(0, 0, -90);
-
 
         isRotating = false;
 
@@ -161,10 +160,9 @@ public class AllGameObjectsTransform : MonoBehaviour
         }
 
 
-
-
-
     }
+
+  
 
     IEnumerator Rotate()
     {
