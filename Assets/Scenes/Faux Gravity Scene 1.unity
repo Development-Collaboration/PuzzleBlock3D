@@ -935,6 +935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerObject: {fileID: 639399463}
+  gravityTransferPosition: 2
 --- !u!65 &127477648
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3899,6 +3900,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerObject: {fileID: 639399463}
+  gravityTransferPosition: 9
 --- !u!65 &482632784
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4453,6 +4455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerObject: {fileID: 639399463}
+  gravityTransferPosition: 1
 --- !u!65 &529748613
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7900,6 +7903,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerObject: {fileID: 639399463}
+  gravityTransferPosition: 3
 --- !u!65 &1049815591
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8161,6 +8165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerObject: {fileID: 639399463}
+  gravityTransferPosition: 10
 --- !u!65 &1172488524
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10022,6 +10027,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerObject: {fileID: 639399463}
+  gravityTransferPosition: 11
 --- !u!65 &1675259367
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10849,6 +10855,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerObject: {fileID: 639399463}
+  gravityTransferPosition: 5
 --- !u!65 &1775166751
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11365,6 +11372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerObject: {fileID: 639399463}
+  gravityTransferPosition: 8
 --- !u!65 &1868072377
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11941,6 +11949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerObject: {fileID: 639399463}
+  gravityTransferPosition: 6
 --- !u!65 &1994276680
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12211,6 +12220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerObject: {fileID: 639399463}
+  gravityTransferPosition: 4
 --- !u!65 &2028258181
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12424,6 +12434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerObject: {fileID: 639399463}
+  gravityTransferPosition: 0
 --- !u!4 &2093696532
 Transform:
   m_ObjectHideFlags: 0
@@ -13019,6 +13030,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centerObject: {fileID: 639399463}
+  gravityTransferPosition: 7
 --- !u!65 &2147013870
 BoxCollider:
   m_ObjectHideFlags: 0

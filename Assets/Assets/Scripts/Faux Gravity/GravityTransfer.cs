@@ -6,6 +6,14 @@ public class GravityTransfer : MonoBehaviour
 {
     [SerializeField] private GameObject centerObject;
 
+    public enum GravityTransferPosition {
+        TF,TL,TR,TB,
+        BF,BB,BR,BL,
+        FR,FL,L,R
+    }
+
+    public GravityTransferPosition gravityTransferPosition;
+
     private string stringBlock = "Block";
     private string stingWall = "Wall";
     private string stingPlayer = "Player";
