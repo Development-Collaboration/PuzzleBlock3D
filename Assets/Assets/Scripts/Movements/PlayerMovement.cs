@@ -6,6 +6,8 @@ public class PlayerMovement : BasicMovement
 {
     private GravityControl gravityControl;
 
+    private GravityPosition lastGravityPosition;
+
     private AllGameObjectsTransform allGameObjectsTransform;
     private bool rotateAllGameObjectsTransform = false;
     //
@@ -230,7 +232,12 @@ public class PlayerMovement : BasicMovement
 
         if(rotateAllGameObjectsTransform)
         {
-            allGameObjectsTransform.RotateTransform(gravityControl.GetGravityPos);
+            //allGameObjectsTransform.RotateTransform(gravityControl.GetGravityPos, gravityTransfer.gravityTransferPosition);
+            //allGameObjectsTransform.RotateTransform(gravityControl.GetGravityPos);
+
+            allGameObjectsTransform.RotateTransform(gravityControl.GetGravityPos, lastGravityPosition, gravityTransfer.gravityTransferPosition);
+
+
 
             rotateAllGameObjectsTransform = false;
         }
@@ -279,6 +286,7 @@ public class PlayerMovement : BasicMovement
         // raycheck from GT
         base.CollideWithGravityTransfer(hit, direction);
 
+        lastGravityPosition = gravityControl.GetGravityPos;
 
         if (gravityTransfer.IsGoodToGo)
         {
