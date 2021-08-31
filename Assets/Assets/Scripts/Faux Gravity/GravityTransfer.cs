@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GravityTransferPosition
+{
+    TF, TL, TR, TB,
+    BF, BB, BR, BL,
+    FR, FL, L, R
+}
+
 public class GravityTransfer : MonoBehaviour
 {
     [SerializeField] private GameObject centerObject;
 
-    public enum GravityTransferPosition {
-        TF,TL,TR,TB,
-        BF,BB,BR,BL,
-        FR,FL,L,R
-    }
+
 
     public GravityTransferPosition gravityTransferPosition;
 
