@@ -11,6 +11,8 @@ public class ScanMode : MonoBehaviour
 
     [SerializeField] private GameObject scanModeCanvas;
 
+    [SerializeField] private PlayerMovement playerMovement;
+
     [SerializeField] private bool isScanModeOn = false;
     public bool IsScanModeOn { get { return isScanModeOn; } set { isScanModeOn = value; } }
 
@@ -26,6 +28,7 @@ public class ScanMode : MonoBehaviour
     [SerializeField] private int zoomingAmount = 1;
 
     [SerializeField] private int zoomingSpeed = 25;
+
 
 
     private float targetZoomSize;
@@ -62,12 +65,14 @@ public class ScanMode : MonoBehaviour
 
             scanModeCanvas.SetActive(true);
 
+            playerMovement.IsUnmovable = true;
+
         }
         else
         {
             scanModeCanvas.SetActive(false);
 
-
+            playerMovement.IsUnmovable = false;
         }
         
         StartCoroutine("ZoomMode");
