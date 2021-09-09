@@ -43,9 +43,11 @@ public class TouchDetection : MonoBehaviour
     {
         if(!playerMovement.IsUnmovable)
         {
+
+#if UNITY_EDITOR
             // For Debug
             MouseDrag();
-
+#endif
             // Control Options
             Swipe();
 
