@@ -10242,9 +10242,8 @@ MonoBehaviour:
   scanModeCanvas: {fileID: 846840387}
   playerMovement: {fileID: 1718991622}
   isScanModeOn: 0
-  zoomInSize: 0
   zoomingAmount: 1
-  zoomingSpeed: 25
+  zoomingSpeed: 10
 --- !u!4 &1677127102
 Transform:
   m_ObjectHideFlags: 0

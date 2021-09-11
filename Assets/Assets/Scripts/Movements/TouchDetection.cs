@@ -26,9 +26,12 @@ public class TouchDetection : MonoBehaviour
     [SerializeField]
     private Button[] controlButtonArray;
 
+    private Color[] buttonOriginColors;
+
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
+
 
     }
 
@@ -129,7 +132,9 @@ public class TouchDetection : MonoBehaviour
     {
         for (int i = 0; i < controlButtonArray.Length; ++i)
         {
-            controlButtonArray[i].interactable = false;
+            //controlButtonArray[i].interactable = false;
+            controlButtonArray[i].enabled = false;
+            controlButtonArray[i].image.color = Color.clear;
 
         }
     }
@@ -138,7 +143,10 @@ public class TouchDetection : MonoBehaviour
     {
         for (int i = 0; i < controlButtonArray.Length; ++i)
         {
-            controlButtonArray[i].interactable = true;
+            //controlButtonArray[i].interactable = true;
+            controlButtonArray[i].enabled = true;
+            controlButtonArray[i].image.color = Color.white;
+
         }
     }
 

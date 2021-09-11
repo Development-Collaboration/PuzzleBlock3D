@@ -46,7 +46,6 @@ public class InGameMenu : MonoBehaviour
         Time.timeScale = 1f;
         IsGamePaused = false;
 
-        
 
     }
 
