@@ -11,21 +11,25 @@ public class ScanMode : MonoBehaviour
 
     [SerializeField] private GameObject scanModeCanvas;
 
+    [SerializeField] private PlayerMovement playerMovement;
+
     [SerializeField] private bool isScanModeOn = false;
     public bool IsScanModeOn { get { return isScanModeOn; } set { isScanModeOn = value; } }
 
+    private TouchDetection touchDetection;
 
     private float startOrthgraphicSize;
     private float currentOrthgraphicSize;
     private float zoomOutSize;
-    [SerializeField] private float zoomInSize;
+    private float zoomInSize;
 
     private float zoomOutSizeMax;
     private float zoomInSizeMin = 5f;
 
     [SerializeField] private int zoomingAmount = 1;
 
-    [SerializeField] private int zoomingSpeed = 25;
+    [SerializeField] private int zoomingSpeed = 10;
+
 
 
     private float targetZoomSize;
@@ -49,6 +53,7 @@ public class ScanMode : MonoBehaviour
 
         scanModeCanvas.SetActive(false);
 
+        touchDetection = FindObjectOfType<TouchDetection>();
 
     }
 
@@ -62,14 +67,19 @@ public class ScanMode : MonoBehaviour
 
             scanModeCanvas.SetActive(true);
 
+            playerMovement.IsUnmovable = true;
+
+            touchDetection.OnDisableControlButton();
+
         }
         else
         {
             scanModeCanvas.SetActive(false);
 
 
+
         }
-        
+
         StartCoroutine("ZoomMode");
 
     }
@@ -170,6 +180,10 @@ public class ScanMode : MonoBehaviour
             currentOrthgraphicSize = cinemachineVirtualCamera.m_Lens.OrthographicSize;
 
             isScanModeOn = false;
+
+            playerMovement.IsUnmovable = false;
+
+            touchDetection.OnEnableControlButton();
 
         }
 
