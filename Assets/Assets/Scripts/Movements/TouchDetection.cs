@@ -26,16 +26,22 @@ public class TouchDetection : MonoBehaviour
     [SerializeField]
     private Button[] controlButtonArray;
 
+    private Color[] buttonOriginColors;
+
     private void Awake()
     {
+
+        basicMovementArray = FindObjectsOfType<BasicMovement>();
+
         playerMovement = GetComponent<PlayerMovement>();
+
 
     }
 
     private void Start()
     {
         //basicMovementArray = FindObjectsOfType(typeof(BasicMovement)) as BasicMovement[];
-        basicMovementArray = FindObjectsOfType<BasicMovement>();
+        //basicMovementArray = FindObjectsOfType<BasicMovement>();
 
     }
 
@@ -43,9 +49,11 @@ public class TouchDetection : MonoBehaviour
     {
         if(!playerMovement.IsUnmovable)
         {
+
+#if UNITY_EDITOR
             // For Debug
             MouseDrag();
-
+#endif
             // Control Options
             Swipe();
 
@@ -127,7 +135,9 @@ public class TouchDetection : MonoBehaviour
     {
         for (int i = 0; i < controlButtonArray.Length; ++i)
         {
-            controlButtonArray[i].interactable = false;
+            //controlButtonArray[i].interactable = false;
+            controlButtonArray[i].enabled = false;
+            controlButtonArray[i].image.color = Color.clear;
 
         }
     }
@@ -136,7 +146,10 @@ public class TouchDetection : MonoBehaviour
     {
         for (int i = 0; i < controlButtonArray.Length; ++i)
         {
-            controlButtonArray[i].interactable = true;
+            //controlButtonArray[i].interactable = true;
+            controlButtonArray[i].enabled = true;
+            controlButtonArray[i].image.color = Color.white;
+
         }
     }
 
