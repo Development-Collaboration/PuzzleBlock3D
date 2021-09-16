@@ -43,11 +43,12 @@ public class AllGameObjectsTransform : MonoBehaviour
         touchDetection = FindObjectOfType<TouchDetection>();
 
 
+        /*
         print("Rot check");
         print("Quaternion.Euler(new Vector3(0, 360, 180) " +  Quaternion.Euler(new Vector3(0, 360, -360)));
         print("Quaternion.Euler(new Vector3(90,-90, 270) " + Quaternion.Euler(new Vector3(90, -90, 270)));
         print("Quaternion.Euler(new Vector3(180,-180, -270) " + Quaternion.Euler(new Vector3(180,-180, -270)));
-
+        */
 
     }
 

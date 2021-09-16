@@ -30,6 +30,9 @@ public class TouchDetection : MonoBehaviour
 
     private void Awake()
     {
+
+        basicMovementArray = FindObjectsOfType<BasicMovement>();
+
         playerMovement = GetComponent<PlayerMovement>();
 
 
@@ -38,7 +41,7 @@ public class TouchDetection : MonoBehaviour
     private void Start()
     {
         //basicMovementArray = FindObjectsOfType(typeof(BasicMovement)) as BasicMovement[];
-        basicMovementArray = FindObjectsOfType<BasicMovement>();
+        //basicMovementArray = FindObjectsOfType<BasicMovement>();
 
     }
 

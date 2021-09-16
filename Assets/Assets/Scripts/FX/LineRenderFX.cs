@@ -40,7 +40,46 @@ public class LineRenderFX : MonoBehaviour
 
     private void LineRenderWithTouch()
     {
+        if (Input.touchCount > 0)
+        {
+            touchPos = Input.GetTouch(0).position;
 
+
+            if (Input.GetTouch(0).phase == TouchPhase.Began)
+            {
+                lineRenderer.enabled = true;
+
+                startPos = Input.GetTouch(0).position;
+                startPos.z = 0;
+
+                //print("startPos: " + startPos);
+
+            }
+
+            /////
+
+            if (Input.GetTouch(0).phase == TouchPhase.Moved)
+            {
+                lineRenderer.SetPosition(0, startPos);
+
+                endPos = touchPos;
+                endPos.z = 0;
+
+                lineRenderer.SetPosition(1, endPos);
+
+                //print("endPos: " + endPos);
+
+
+            }
+
+            if ((Input.GetTouch(0).phase == TouchPhase.Ended))
+            {
+                lineRenderer.enabled = false;
+
+            }
+
+            ////
+        }
     }
 
 
@@ -49,6 +88,47 @@ public class LineRenderFX : MonoBehaviour
         camPos = camera.transform.position;
         camRot = camera.transform.rotation;
 
+        touchPos = camera.ScreenToWorldPoint(Input.mousePosition);
+
+       
+
+
+
+        if (Input.GetMouseButtonDown(0))
+        {
+  
+            lineRenderer.enabled = true;
+
+            startPos = camera.ScreenToWorldPoint(Input.mousePosition);
+            startPos.z = 0;
+
+
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            lineRenderer.SetPosition(0, startPos);
+
+            print("startPos: " + startPos);
+
+
+            endPos = touchPos;
+            endPos.z = 0;
+
+            lineRenderer.SetPosition(1, endPos);
+
+            print("endPos: " + endPos);
+
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            lineRenderer.enabled = false;
+        }
+
+
+        //
+        /*
         touchPos = camera.ScreenToWorldPoint(Input.mousePosition);
 
         touchPos = new Vector3(touchPos.x - camPos.x,
@@ -83,7 +163,7 @@ public class LineRenderFX : MonoBehaviour
         {
             lineRenderer.enabled = false;
         }
-        
+        */
     }
 
 
