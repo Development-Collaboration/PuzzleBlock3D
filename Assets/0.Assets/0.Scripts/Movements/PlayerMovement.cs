@@ -271,6 +271,7 @@ public class PlayerMovement : BasicMovement
         blockArrays[(int)direction] = hit.collider.GetComponent<BlockMovement>();
         blockArrays[(int)direction].OnBlockMovementDirection(direction);
         blockArrays[(int)direction] = null;
+
     }
 
     protected override void CollideWithGoal(RaycastHit hit)
@@ -312,16 +313,6 @@ public class PlayerMovement : BasicMovement
     }
 
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Return))
-        {
-
-            print("from p, GT pos: " + gravityControl.GetGravityPos);
-
-        }
-              
-    }
 
     public void RecordGravityPos()
     {
