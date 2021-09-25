@@ -67,7 +67,7 @@ public class ScanMode : MonoBehaviour
 
             scanModeCanvas.SetActive(true);
 
-            playerMovement.IsUnmovable = true;
+            playerMovement.IsUncontrolable = true;
 
             touchDetection.OnDisableControlButton();
 
@@ -181,7 +181,7 @@ public class ScanMode : MonoBehaviour
 
             isScanModeOn = false;
 
-            playerMovement.IsUnmovable = false;
+            playerMovement.IsUncontrolable = false;
 
             touchDetection.OnEnableControlButton();
 

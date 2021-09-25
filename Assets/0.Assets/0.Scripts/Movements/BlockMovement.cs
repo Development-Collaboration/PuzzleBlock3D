@@ -74,7 +74,9 @@ public class BlockMovement : BasicMovement
 
             durationLimit -= Time.deltaTime;
 
-            rb.MovePosition(Vector3.Lerp(rb.position, targetPos, movementSpeed * Time.deltaTime));
+            //rb.MovePosition(Vector3.Lerp(rb.position, targetPos, movementSpeed * Time.deltaTime));
+            rb.MovePosition(Vector3.MoveTowards(rb.position, targetPos, movementSpeed * Time.deltaTime));
+
 
             yield return null;
         }

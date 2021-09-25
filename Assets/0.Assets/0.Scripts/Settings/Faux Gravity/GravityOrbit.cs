@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum GravityPosition { UP, UL, DOWN, DR, UR, DL }
+public enum GRAVITYPOSITION { UP, UL, DOWN, DR, UR, DL }
 
 public class GravityOrbit : MonoBehaviour
 {
@@ -11,7 +11,7 @@ public class GravityOrbit : MonoBehaviour
 
     public bool FixedDirection { get; set; }
 
-    public GravityPosition gravityPos;
+    public GRAVITYPOSITION gravityPos;
 
 
     private void Awake()

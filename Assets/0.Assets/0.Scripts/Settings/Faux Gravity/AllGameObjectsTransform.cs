@@ -5,8 +5,6 @@ using UnityEngine;
 public class AllGameObjectsTransform : MonoBehaviour
 {
 
-    //public enum DIRECTION { UR, DR, DL, UL, DOWN, UP }
-
     private PlayerMovement playerMovement;
 
     private Vector3[] allGameObjectsEdgeArrays = new Vector3[6];
@@ -51,34 +49,34 @@ public class AllGameObjectsTransform : MonoBehaviour
 
     }
 
-    public void InstanteRotation(GravityPosition gravityPosition)
+    public void InstanteRotation(GRAVITYPOSITION gravityPosition)
     {
         print("InstanteRotation");
 
 
         switch (gravityPosition)
         {
-            case GravityPosition.UP:
+            case GRAVITYPOSITION.UP:
                 targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[0]);
                 break;
 
-            case GravityPosition.UL:
+            case GRAVITYPOSITION.UL:
                 targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[1]);
                 break;
 
-            case GravityPosition.DOWN:
+            case GRAVITYPOSITION.DOWN:
                 targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[2]);
                 break;
 
-            case GravityPosition.DR:
+            case GRAVITYPOSITION.DR:
                 targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[3]);
                 break;
 
-            case GravityPosition.UR:
+            case GRAVITYPOSITION.UR:
                 targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[4]);
                 break;
 
-            case GravityPosition.DL:
+            case GRAVITYPOSITION.DL:
                 targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[5]);
                 break;
         }
@@ -87,32 +85,32 @@ public class AllGameObjectsTransform : MonoBehaviour
 
     }
 
-    public void CurrentGravityPosition(GravityPosition gravityPosition)
+    public void CurrentGravityPosition(GRAVITYPOSITION gravityPosition)
     {
 
         switch (gravityPosition)
         {
-            case GravityPosition.UP:
+            case GRAVITYPOSITION.UP:
                 targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[0]);
                 break;
 
-            case GravityPosition.UL:
+            case GRAVITYPOSITION.UL:
                 targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[1]);
                 break;
 
-            case GravityPosition.DOWN:
+            case GRAVITYPOSITION.DOWN:
                 targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[2]);
                 break;
 
-            case GravityPosition.DR:
+            case GRAVITYPOSITION.DR:
                 targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[3]);
                 break;
 
-            case GravityPosition.UR:
+            case GRAVITYPOSITION.UR:
                 targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[4]);
                 break;
 
-            case GravityPosition.DL:
+            case GRAVITYPOSITION.DL:
                 targetRotation = Quaternion.Euler(allGameObjectsEdgeArrays[5]);
                 break;
         }
@@ -124,7 +122,7 @@ public class AllGameObjectsTransform : MonoBehaviour
 
     #region DecideTargetRotation_
 
-    private void DecideTargetRotation_UP(GravityTransferPosition gravityTransferPosition, GravityPosition gravityPosition)
+    private void DecideTargetRotation_UP(GravityTransferPosition gravityTransferPosition, GRAVITYPOSITION gravityPosition)
     {
 
         if (Quaternion.Euler(new Vector3(0, 0, 0)) == transform.rotation)
@@ -289,7 +287,7 @@ public class AllGameObjectsTransform : MonoBehaviour
 
     }
 
-    private void DecideTargetRotation_UR(GravityTransferPosition gravityTransferPosition, GravityPosition gravityPosition)
+    private void DecideTargetRotation_UR(GravityTransferPosition gravityTransferPosition, GRAVITYPOSITION gravityPosition)
     {
         if (Quaternion.Euler(new Vector3(0, 0, 90)) == transform.rotation)
         {
@@ -444,7 +442,7 @@ public class AllGameObjectsTransform : MonoBehaviour
 
     }
 
-    private void DecideTargetRotation_DR(GravityTransferPosition gravityTransferPosition, GravityPosition gravityPosition)
+    private void DecideTargetRotation_DR(GravityTransferPosition gravityTransferPosition, GRAVITYPOSITION gravityPosition)
     {
         if (Quaternion.Euler(new Vector3(90, 0, 0)) == transform.rotation)
         {
@@ -618,7 +616,7 @@ public class AllGameObjectsTransform : MonoBehaviour
         }
     }
 
-    private void DecideTargetRotation_DL(GravityTransferPosition gravityTransferPosition, GravityPosition gravityPosition)
+    private void DecideTargetRotation_DL(GravityTransferPosition gravityTransferPosition, GRAVITYPOSITION gravityPosition)
     {
         if (Quaternion.Euler(new Vector3(0, 0, 270)) == transform.rotation)
         {
@@ -772,7 +770,7 @@ public class AllGameObjectsTransform : MonoBehaviour
         }
     }
 
-    private void DecideTargetRotation_UL(GravityTransferPosition gravityTransferPosition, GravityPosition gravityPosition)
+    private void DecideTargetRotation_UL(GravityTransferPosition gravityTransferPosition, GRAVITYPOSITION gravityPosition)
     {
         if (Quaternion.Euler(new Vector3(-90, 0, 0)) == transform.rotation)
         {
@@ -927,7 +925,7 @@ public class AllGameObjectsTransform : MonoBehaviour
 
     }
 
-    private void DecideTargetRotation_DOWN(GravityTransferPosition gravityTransferPosition, GravityPosition gravityPosition)
+    private void DecideTargetRotation_DOWN(GravityTransferPosition gravityTransferPosition, GRAVITYPOSITION gravityPosition)
     {
         if (Quaternion.Euler(new Vector3(0, 0, 180)) == transform.rotation)
         {
@@ -1594,7 +1592,7 @@ public class AllGameObjectsTransform : MonoBehaviour
 
 
 
-    public void RotateTransform(GravityPosition gravityPosition, GravityPosition lastGravityPosition, GravityTransferPosition gravityTransferPosition)
+    public void RotateTransform(GRAVITYPOSITION gravityPosition, GRAVITYPOSITION lastGravityPosition, GravityTransferPosition gravityTransferPosition)
     {
         print("!!!!!rotate");
 
@@ -1606,13 +1604,13 @@ public class AllGameObjectsTransform : MonoBehaviour
 
         switch (lastGravityPosition)
         {           
-            case GravityPosition.UP:
+            case GRAVITYPOSITION.UP:
                 {
                     DecideTargetRotation_UP(gravityTransferPosition, gravityPosition);
                     break;
                 }
 
-            case GravityPosition.UR:
+            case GRAVITYPOSITION.UR:
                 {
 
                     DecideTargetRotation_UR(gravityTransferPosition, gravityPosition);
@@ -1620,27 +1618,27 @@ public class AllGameObjectsTransform : MonoBehaviour
                     break;
                 }
 
-            case GravityPosition.DR:
+            case GRAVITYPOSITION.DR:
                 {
                     DecideTargetRotation_DR(gravityTransferPosition, gravityPosition);
                     break;
                 }
 
 
-            case GravityPosition.DL:
+            case GRAVITYPOSITION.DL:
                 {
                     DecideTargetRotation_DL(gravityTransferPosition, gravityPosition);
                     break;
                 }
 
 
-            case GravityPosition.UL:
+            case GRAVITYPOSITION.UL:
                 {
                     DecideTargetRotation_UL(gravityTransferPosition, gravityPosition);
                     break;
                 }
 
-            case GravityPosition.DOWN:
+            case GRAVITYPOSITION.DOWN:
                 { 
                     DecideTargetRotation_DOWN(gravityTransferPosition, gravityPosition);
                     break;
@@ -2031,7 +2029,7 @@ public class AllGameObjectsTransform : MonoBehaviour
         isRotating = true;
 
 
-        playerMovement.IsUnmovable = true;
+        playerMovement.IsUncontrolable = true;
         touchDetection.OnDisableControlButton();
 
 
@@ -2053,7 +2051,7 @@ public class AllGameObjectsTransform : MonoBehaviour
         isRotating = false;
 
 
-        playerMovement.IsUnmovable = false;
+        playerMovement.IsUncontrolable = false;
         touchDetection.OnEnableControlButton();
 
 

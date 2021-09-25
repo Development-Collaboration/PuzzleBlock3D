@@ -44,7 +44,7 @@ public class TouchDetection : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(!playerMovement.IsUnmovable)
+        if(!playerMovement.IsUncontrolable)
         {
 
 #if UNITY_EDITOR
@@ -55,6 +55,7 @@ public class TouchDetection : MonoBehaviour
             Swipe();
 
         }
+ 
 
 
     }

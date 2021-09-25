@@ -9,7 +9,7 @@ public class GravityControl : MonoBehaviour
 
     public float rotationSpeed = 20f;
 
-    public GravityPosition GetGravityPos { get; set; }
+    public GRAVITYPOSITION GravityPos { get; set; }
 
 
 
@@ -52,7 +52,7 @@ public class GravityControl : MonoBehaviour
             rb.AddForce((gravityUP * -gravityOrbit.OrbitGravity) * rb.mass);
 
 
-            GetGravityPos = gravityOrbit.gravityPos;
+            GravityPos = gravityOrbit.gravityPos;
 
         }
         /*

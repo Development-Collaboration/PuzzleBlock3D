@@ -6,7 +6,7 @@ public class PlayerMovement : BasicMovement
 {
     private GravityControl gravityControl;
 
-    private GravityPosition lastGravityPosition;
+    private GRAVITYPOSITION lastGravityPosition;
 
     private AllGameObjectsTransform allGameObjectsTransform;
     private bool rotateAllGameObjectsTransform = false;
@@ -148,23 +148,40 @@ public class PlayerMovement : BasicMovement
 
     private List<GravityPosInTime> gravityPosInTimes;
 
-    public bool IsUnmovable { get; set; }
-   
+    public bool IsUncontrolable { get; set; }
+
+    //
+    private Player player;
+
+    //private PlayerAnimationControl playerAnimationControl;
+    private PlayerState playerState;
 
     protected override void Awake()
     {
         base.Awake();
 
         allGameObjectsTransform = FindObjectOfType<AllGameObjectsTransform>();
-
-
-        //
         gravityControl = GetComponent<GravityControl>();
-
         gravityPosInTimes = new List<GravityPosInTime>();
 
-        IsUnmovable = false;
+        IsUncontrolable = false;
 
+        //
+
+        player = GetComponent<Player>();
+
+        playerState = GetComponent<PlayerState>();
+
+    }
+
+    private void FixedUpdate()
+    {
+        if(!isMoving)
+        {
+            // IsRestricted
+            playerState.PState = PLAYERSTATE.IDLE;
+
+        }
     }
 
     public void OnPLayerMovementDirection(DIRECTION direction)
@@ -172,11 +189,12 @@ public class PlayerMovement : BasicMovement
 
         //base.MovementsControl(direction);
 
-        if ((!isMoving))
+        if (!isMoving)
         {
             currentPos = rb.position;
 
             IsRestricted = false;
+
             DirectionDecision(direction); // raycheck
 
             RaycastCheck(transform.forward, direction);
@@ -193,12 +211,13 @@ public class PlayerMovement : BasicMovement
 
             else
             {
+                playerState.PState = PLAYERSTATE.RUNNING;
+                player.OnRunning();
+
                 ++movementCounts;
                 // execute player move
                 StartCoroutine("ExecutePlayerMovements");
             }
-
-
 
         }
 
@@ -210,12 +229,8 @@ public class PlayerMovement : BasicMovement
 
     IEnumerator ExecutePlayerMovements()
     {
-
         isMoving = true;
-
-        //print(this.name);
         print("Co start");
-
 
 
         float durationLimit = 0.5f;
@@ -225,17 +240,21 @@ public class PlayerMovement : BasicMovement
 
             durationLimit -= Time.deltaTime;
 
-            rb.MovePosition(Vector3.Lerp(rb.position, targetPos, movementSpeed * Time.deltaTime));
+            //rb.MovePosition(Vector3.Lerp(rb.position, targetPos, movementSpeed * Time.deltaTime));
+            rb.MovePosition(Vector3.MoveTowards(rb.position, targetPos, movementSpeed * Time.deltaTime));
+
 
             yield return null;
         }
 
         if(rotateAllGameObjectsTransform)
         {
+
+
             //allGameObjectsTransform.RotateTransform(gravityControl.GetGravityPos, gravityTransfer.gravityTransferPosition);
             //allGameObjectsTransform.RotateTransform(gravityControl.GetGravityPos);
 
-            allGameObjectsTransform.RotateTransform(gravityControl.GetGravityPos, lastGravityPosition, gravityTransfer.gravityTransferPosition);
+            allGameObjectsTransform.RotateTransform(gravityControl.GravityPos, lastGravityPosition, gravityTransfer.gravityTransferPosition);
 
 
 
@@ -247,6 +266,8 @@ public class PlayerMovement : BasicMovement
 
         rb.MovePosition(targetPos);
         isMoving = false;
+
+        player.OffAllAnimations();
 
         //print("Rotate");
         // rotate object
@@ -261,6 +282,8 @@ public class PlayerMovement : BasicMovement
     {
         IsRestricted = true;
 
+        //playerState.PState = PLAYERSTATE.WALL_BLOCKED;
+        //player.OnWallBlocked();
     }
 
     protected override void CollideWithBlock(RaycastHit hit, DIRECTION direction)
@@ -287,7 +310,7 @@ public class PlayerMovement : BasicMovement
         // raycheck from GT
         base.CollideWithGravityTransfer(hit, direction);
 
-        lastGravityPosition = gravityControl.GetGravityPos;
+        lastGravityPosition = gravityControl.GravityPos;
 
         if (gravityTransfer.IsGoodToGo)
         {
@@ -316,7 +339,7 @@ public class PlayerMovement : BasicMovement
 
     public void RecordGravityPos()
     {
-        gravityPosInTimes.Insert(0, new GravityPosInTime((int)gravityControl.GetGravityPos));
+        gravityPosInTimes.Insert(0, new GravityPosInTime((int)gravityControl.GravityPos));
 
     }
 
@@ -326,7 +349,7 @@ public class PlayerMovement : BasicMovement
         {
             GravityPosInTime points = gravityPosInTimes[0];
 
-            allGameObjectsTransform.InstanteRotation((GravityPosition)points.gravityPos);
+            allGameObjectsTransform.InstanteRotation((GRAVITYPOSITION)points.gravityPos);
 
             gravityPosInTimes.RemoveAt(0);
         }
