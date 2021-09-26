@@ -65,7 +65,6 @@ public class BlockMovement : BasicMovement
         isMoving = true;
 
         //print(this.name);
-        print("Co start");
 
         float durationLimit = 0.5f;
 
@@ -82,13 +81,8 @@ public class BlockMovement : BasicMovement
         }
 
 
-        print("End Co");
 
         rb.MovePosition(targetPos);
-
-        print("End Position: " + rb.position);
-
-        print("transform.TransformDirection: " + transform.TransformDirection(rb.position));
 
         isMoving = false;
 

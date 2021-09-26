@@ -31,8 +31,6 @@ public class TouchDetection : MonoBehaviour
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
-
-
     }
 
     private void Start()

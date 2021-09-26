@@ -36,42 +36,6 @@ public class GravityTransfer : MonoBehaviour
     }
 
 
-    /*
-    private void OnTriggerEnter(Collider other)
-    {
-        
-        print("hit GravityTransfer");
-
-        Vector3 otherPos = other.transform.position;
-
-        //other.transform.position = new Vector3(pos.x, -2f, 6f);
-
-        checkPositionCompareWithCenterObject();
-
-
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("from GT, P hit this");
-
-            other.transform.position = new Vector3
-                (otherPos.x, this.transform.position.y - 1, transform.position.z);
-                
-
-        }
-        
-    }
-
-
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Return))
-        {
-            checkPositionCompareWithCenterObject();
-
-        }
-    }
-    */
 
     public void RayCheck(Vector3 rayStartPos, string tag)
     {

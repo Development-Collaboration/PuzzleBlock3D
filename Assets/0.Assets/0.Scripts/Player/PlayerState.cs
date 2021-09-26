@@ -18,6 +18,7 @@ public enum PLAYERSTATE
 public class PlayerState : MonoBehaviour
 {
     public PLAYERSTATE PState { get; set; }
+    public PLAYERSTATE PLastState { get; set; }
 
     private void Awake()
     {

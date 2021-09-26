@@ -41,12 +41,6 @@ public class AllGameObjectsTransform : MonoBehaviour
         touchDetection = FindObjectOfType<TouchDetection>();
 
 
-        print("Rot check");
-        print("Quaternion.Euler(new Vector3(0, 360, 180) " +  Quaternion.Euler(new Vector3(0, 360, -360)));
-        print("Quaternion.Euler(new Vector3(90,-90, 270) " + Quaternion.Euler(new Vector3(90, -90, 270)));
-        print("Quaternion.Euler(new Vector3(180,-180, -270) " + Quaternion.Euler(new Vector3(180,-180, -270)));
-
-
     }
 
     public void InstanteRotation(GRAVITYPOSITION gravityPosition)
@@ -117,7 +111,6 @@ public class AllGameObjectsTransform : MonoBehaviour
 
 
     }
-
 
 
     #region DecideTargetRotation_
@@ -2018,12 +2011,6 @@ public class AllGameObjectsTransform : MonoBehaviour
 
     IEnumerator Rotate()
     {
-        print("co rotate start");
-
-        /*
-        print("transform.rotation: " + transform.rotation);
-        print("targetRotation: " + targetRotation);
-        */
         float durationLimit = 1f;
 
         isRotating = true;

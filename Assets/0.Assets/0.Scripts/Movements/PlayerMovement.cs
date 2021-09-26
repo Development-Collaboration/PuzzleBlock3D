@@ -186,9 +186,6 @@ public class PlayerMovement : BasicMovement
 
     public void OnPLayerMovementDirection(DIRECTION direction)
     {
-
-        //base.MovementsControl(direction);
-
         if (!isMoving)
         {
             currentPos = rb.position;
@@ -200,12 +197,14 @@ public class PlayerMovement : BasicMovement
             RaycastCheck(transform.forward, direction);
 
             // if another block or wall then return;
+
+            Debug.Log("From PlayerMovements Stringcurrent: " + stringCurrent);
+
             if (IsRestricted)
             {
-                print("Restricted");
+                // Define why is Restricted
 
-                // I dont think it's neccessary
-                //targetPos = currentPos;
+                print("Restricted");
                 return;
             }
 
@@ -216,6 +215,7 @@ public class PlayerMovement : BasicMovement
 
                 ++movementCounts;
                 // execute player move
+
                 StartCoroutine("ExecutePlayerMovements");
             }
 
@@ -230,11 +230,10 @@ public class PlayerMovement : BasicMovement
     IEnumerator ExecutePlayerMovements()
     {
         isMoving = true;
-        print("Co start");
-
-
         float durationLimit = 0.5f;
 
+
+        
         while (durationLimit >= 0f && Vector3.Distance(rb.position, targetPos) >= 0.05f)
         {
 
@@ -247,7 +246,19 @@ public class PlayerMovement : BasicMovement
             yield return null;
         }
 
-        if(rotateAllGameObjectsTransform)
+        rb.MovePosition(targetPos);
+        
+
+        /*
+        while (rb.position != targetPos)
+        {
+            rb.MovePosition(targetPos);
+            yield return null;
+
+        }
+        */
+
+        if (rotateAllGameObjectsTransform)
         {
 
 
@@ -262,12 +273,12 @@ public class PlayerMovement : BasicMovement
         }
 
 
-        print("End Co");
-
-        rb.MovePosition(targetPos);
         isMoving = false;
 
         player.OffAllAnimations();
+
+        //yield return null;//
+
 
         //print("Rotate");
         // rotate object
@@ -276,14 +287,6 @@ public class PlayerMovement : BasicMovement
 
         // 만약 플레이어가 GT 에서 이동한거면
         // 
-    }
-
-    protected override void CollideWithWall(RaycastHit hit)
-    {
-        IsRestricted = true;
-
-        //playerState.PState = PLAYERSTATE.WALL_BLOCKED;
-        //player.OnWallBlocked();
     }
 
     protected override void CollideWithBlock(RaycastHit hit, DIRECTION direction)
@@ -297,13 +300,14 @@ public class PlayerMovement : BasicMovement
 
     }
 
-    protected override void CollideWithGoal(RaycastHit hit)
+    protected override void CollideWithWall(RaycastHit hit)
     {
-        //base.CollideWithGoal(hit);
-
         IsRestricted = true;
 
+        //playerState.PState = PLAYERSTATE.WALL_BLOCKED;
+        //player.OnWallBlocked();
     }
+
 
     protected override void CollideWithGravityTransfer(RaycastHit hit, DIRECTION direction)
     {
@@ -335,6 +339,15 @@ public class PlayerMovement : BasicMovement
 
     }
 
+
+
+    protected override void CollideWithGoal(RaycastHit hit)
+    {
+        //base.CollideWithGoal(hit);
+
+        IsRestricted = true;
+
+    }
 
 
     public void RecordGravityPos()

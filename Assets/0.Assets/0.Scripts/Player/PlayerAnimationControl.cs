@@ -108,6 +108,8 @@ public class PlayerAnimationControl : MonoBehaviour
        
     }
 
+
+
     public void OffIdleAnimations()
     {
         animator.SetBool(Idle0, false);
@@ -115,4 +117,6 @@ public class PlayerAnimationControl : MonoBehaviour
         animator.SetBool(Idle2, false);
 
     }
+
+     
 }
