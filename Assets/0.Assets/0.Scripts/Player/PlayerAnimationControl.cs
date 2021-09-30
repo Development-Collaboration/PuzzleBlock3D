@@ -96,6 +96,11 @@ public class PlayerAnimationControl : MonoBehaviour
     }
 
 
+    public void OnGravityTransfer()
+    {
+
+    }
+
     public void OffAllAnimations()
     {
         //animator.gameObject.SetActive(false);

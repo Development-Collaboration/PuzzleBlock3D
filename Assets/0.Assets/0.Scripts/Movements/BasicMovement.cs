@@ -9,7 +9,7 @@ public abstract class BasicMovement : MonoBehaviour
 
     //
     protected const string stringBlock = "Block";
-    protected const string stingWall = "Wall";
+    protected const string stringWall = "Wall";
     protected const string stringGoal = "Goal";
     protected const string stringGravityTransfer = "GravityTransfer";
     protected const string stringNothing = "Nothing";
@@ -98,7 +98,7 @@ public abstract class BasicMovement : MonoBehaviour
 
         float rayMaxDistance = (movementDistance * rayDistance);
 
-        Debug.DrawRay(transform.position, rayTransformDirection * rayMaxDistance, Color.red, 2f);
+        //Debug.DrawRay(transform.position, rayTransformDirection * rayMaxDistance, Color.red, 2f);
         //Debug.DrawRay(transform.position, rayTransformDirection * 10f, Color.red, 2f);
 
         //if (Physics.Raycast(this.transform.position, transform.TransformDirection(rayTransformDirection),out hit, (movementDistance * rayDistance)))
@@ -120,11 +120,10 @@ public abstract class BasicMovement : MonoBehaviour
 
                 CollideWithGravityTransfer(hit, direction);
             }
-            else if (hit.transform.CompareTag(stingWall))
+            else if (hit.transform.CompareTag(stringWall))
             {
                 CollideWithWall(hit);
             }
-
 
             else if (hit.transform.CompareTag(stringGoal))
             {

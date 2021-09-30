@@ -6,6 +6,7 @@ public class AllGameObjectsTransform : MonoBehaviour
 {
 
     private PlayerMovement playerMovement;
+    private Player player;
 
     private Vector3[] allGameObjectsEdgeArrays = new Vector3[6];
 
@@ -24,7 +25,6 @@ public class AllGameObjectsTransform : MonoBehaviour
     private float y = 0;
     private float z = 0;
 
-
     private void Awake()
     {
         allGameObjectsEdgeArrays[0] = new Vector3(0, 0, 0);  // UP
@@ -40,6 +40,7 @@ public class AllGameObjectsTransform : MonoBehaviour
 
         touchDetection = FindObjectOfType<TouchDetection>();
 
+        player = FindObjectOfType<Player>();
 
     }
 
@@ -1587,13 +1588,13 @@ public class AllGameObjectsTransform : MonoBehaviour
 
     public void RotateTransform(GRAVITYPOSITION gravityPosition, GRAVITYPOSITION lastGravityPosition, GravityTransferPosition gravityTransferPosition)
     {
-        print("!!!!!rotate");
-
         /*
+        print(" new !!!!!rotate");
         print("gravityPosition: " + gravityPosition);
-        print("gravityTransferPosition: " + gravityTransferPosition);
         print("lastGravityPosition: " + lastGravityPosition);
+        print("gravityTransferPosition: " + gravityTransferPosition);
         */
+
 
         switch (lastGravityPosition)
         {           
@@ -1638,23 +1639,23 @@ public class AllGameObjectsTransform : MonoBehaviour
                 }
         }
 
+
         StartCoroutine("Rotate");
+
+
 
     }
 
-    /*
-    public void RotateTransform(GravityPosition gravityPosition, GravityPosition lastGravityPosition, GravityTransferPosition gravityTransferPosition)
+    // Old
+    public void RotateTransform(GRAVITYPOSITION lastGravityPosition, GravityTransferPosition gravityTransferPosition)
     {
 
         print("rotate");
-        print("gravityPosition: " + gravityPosition);
-        print("gravityTransferPosition: " + gravityTransferPosition);
-        print("lastGravityPosition: " + lastGravityPosition);
 
         
         switch (lastGravityPosition)
         {
-            case GravityPosition.UP:
+            case GRAVITYPOSITION.UP:
                 {
                     switch(gravityTransferPosition)
                     {
@@ -1683,7 +1684,7 @@ public class AllGameObjectsTransform : MonoBehaviour
 
                 }
 
-            case GravityPosition.UL:
+            case GRAVITYPOSITION.UL:
                 {
                     switch (gravityTransferPosition)
                     {
@@ -1711,7 +1712,7 @@ public class AllGameObjectsTransform : MonoBehaviour
                     break;
                 }
 
-            case GravityPosition.DOWN:
+            case GRAVITYPOSITION.DOWN:
                 {
                     switch (gravityTransferPosition)
                     {
@@ -1739,7 +1740,7 @@ public class AllGameObjectsTransform : MonoBehaviour
                     break;
                 }
 
-            case GravityPosition.DR:
+            case GRAVITYPOSITION.DR:
                 {
                     switch (gravityTransferPosition)
                     {
@@ -1767,7 +1768,7 @@ public class AllGameObjectsTransform : MonoBehaviour
                     break;
                 }
 
-            case GravityPosition.UR:
+            case GRAVITYPOSITION.UR:
                 {
                     switch (gravityTransferPosition)
                     {
@@ -1795,7 +1796,7 @@ public class AllGameObjectsTransform : MonoBehaviour
                     break;
                 }
 
-            case GravityPosition.DL:
+            case GRAVITYPOSITION.DL:
                 {
                     switch (gravityTransferPosition)
                     {
@@ -1829,7 +1830,7 @@ public class AllGameObjectsTransform : MonoBehaviour
         StartCoroutine("Rotate");
         
     }
-    */
+    
 
     /*
     public void RotateTransform(GravityPosition gravityPosition)
@@ -2007,7 +2008,10 @@ public class AllGameObjectsTransform : MonoBehaviour
 
     }
 
-  
+    public void DoubleCheckRotation(GRAVITYPOSITION gravityPosition)
+    {
+        
+    }
 
     IEnumerator Rotate()
     {
@@ -2041,6 +2045,8 @@ public class AllGameObjectsTransform : MonoBehaviour
         playerMovement.IsUncontrolable = false;
         touchDetection.OnEnableControlButton();
 
+
+        player.OnEndGravityTransfer();
 
         /*
         float durationLimit = 1f;
