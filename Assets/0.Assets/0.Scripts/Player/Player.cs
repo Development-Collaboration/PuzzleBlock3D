@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Cinemachine;
+
 //
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
@@ -20,14 +22,20 @@ public class Player : MonoBehaviour
 {
     private PlayerAnimationControl playerAnimationControl;
     private PlayerState playerState;
-    private PlayerMovement playerMovement;
+    //private PlayerMovement playerMovement;
+
+    //[SerializeField] CameraControl cameraControl;
+
+    private CameraControl cameraControl;
 
     private void Awake()
     {
         playerAnimationControl = GetComponent<PlayerAnimationControl>();
         playerState = GetComponent<PlayerState>();
 
-        playerMovement = GetComponent<PlayerMovement>();
+        //playerMovement = GetComponent<PlayerMovement>();
+
+        cameraControl = FindObjectOfType<CameraControl>();
 
 
     }
@@ -52,7 +60,7 @@ public class Player : MonoBehaviour
                 */
         }
 
-        print("PLAYERSTATE: " + playerState.PState);
+       // print("PLAYERSTATE: " + playerState.PState);
 
 
 
@@ -76,6 +84,22 @@ public class Player : MonoBehaviour
     public void OnWallBlocked()
     {
         
+    }
+
+    public void OnGravityTransfer()
+    {
+        //playerState.PState = PLAYERSTATE.RUNNING;
+        //playerAnimationControl.OnGravityTransfer();
+
+        cameraControl.InstantFollowPlayer();
+    }
+
+
+    public void OnEndGravityTransfer()
+    {
+
+
+        cameraControl.StartCamSetting();
     }
 
 

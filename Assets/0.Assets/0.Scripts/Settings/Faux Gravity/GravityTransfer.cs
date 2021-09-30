@@ -45,7 +45,7 @@ public class GravityTransfer : MonoBehaviour
         float rayMaxDistance = 1.25f;
 
 
-        Debug.DrawRay(rayStartPos, Vector3.down * rayMaxDistance, Color.green, 3f);
+        //Debug.DrawRay(rayStartPos, Vector3.down * rayMaxDistance, Color.green, 3f);
 
 
         if (stingPlayer == tag)
@@ -53,7 +53,7 @@ public class GravityTransfer : MonoBehaviour
 
             if (Physics.Raycast(rayStartPos, Vector3.down, out hit, rayMaxDistance))
             {
-                print("Raycheck GT: " + hit.transform.tag);
+                //print("Raycheck GT: " + hit.transform.tag);
 
                 if (hit.transform.CompareTag(stringBlock))
                 {
@@ -65,8 +65,8 @@ public class GravityTransfer : MonoBehaviour
                     {
                         IsGoodToGo = true;
 
-                        print("1 Block P go");
-                        print("Is Good To Go: " + IsGoodToGo);
+                        //print("1 Block P go");
+                        //print("Is Good To Go: " + IsGoodToGo);
                         
                     }
 
@@ -74,12 +74,17 @@ public class GravityTransfer : MonoBehaviour
 
                 else if(hit.transform.CompareTag(stingWall) || hit.transform.CompareTag(stringGoal))
                 {
+                    print("wall or goal");
+
+                    IsGoodToGo = false;
+
+
                     return;
                 }
                 // nothing
                 else
                 {
-                    print("GT NO tag");
+                    //print("GT NO tag");
 
                     IsGoodToGo = true;
                 }
@@ -88,7 +93,7 @@ public class GravityTransfer : MonoBehaviour
             // nothing
             else
             {
-                print("GT NOthing");
+                //print("GT NOthing");
 
                 IsGoodToGo = true;
             }
@@ -101,12 +106,16 @@ public class GravityTransfer : MonoBehaviour
         else if (stringBlock == tag)
         {
 
-            if (Physics.Raycast(rayStartPos, Vector3.down, out hit, 1.25f))
+            if (Physics.Raycast(rayStartPos, Vector3.down, out hit, rayMaxDistance))
             {
                 
                 if (hit.transform.CompareTag(stringBlock) || hit.transform.CompareTag(stingWall))
                 {
-                    return;
+                    //return;
+
+                    print("hit.transform.CompareTag: " + hit.transform.tag);
+
+                    IsGoodToGo = false;
                 }
                 // nothing
                 else
@@ -116,6 +125,13 @@ public class GravityTransfer : MonoBehaviour
 
                 }
 
+            }
+            // nothing
+            else
+            {
+                //print("GT NOthing");
+
+                IsGoodToGo = true;
             }
 
 

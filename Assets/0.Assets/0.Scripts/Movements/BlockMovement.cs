@@ -37,6 +37,8 @@ public class BlockMovement : BasicMovement
             // if another block or wall then return;
             if (IsRestricted)
             {
+
+
                 print("Restricted");
 
                 // I dont think it's neccessary
@@ -124,6 +126,9 @@ public class BlockMovement : BasicMovement
 
     protected override void CollideWithGravityTransfer(RaycastHit hit, DIRECTION direction)
     {
+        print("Block Reached CollideWithGravityTransfer");
+
+
 
         // raycheck from GT
         base.CollideWithGravityTransfer(hit, direction);
