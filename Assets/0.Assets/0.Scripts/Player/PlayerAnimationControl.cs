@@ -6,38 +6,31 @@ using UnityEngine;
 
 public class PlayerAnimationControl : MonoBehaviour
 {
-    /*
-    private enum PLAYERANIMATION
-    {
-        Stand,
-        Idle0, Idle1, Idle2,
-        Run0, Run1,
-        StandPushIdle0
-    }
-
-    private PLAYERANIMATION playerAnimation;
-    */
+    private float time;
+    private bool setTime = false;
+    private bool timeDone = false;
 
     //
     //string Stand = "Stand";
 
-    string Idle0 = "Idle0";
-    string Idle1 = "Idle1";
-    string Idle2 = "Idle2";
+    private const string Idle0 = "Idle0";
+    private const string Idle2 = "Idle2";
+    private const string Idle1 = "Idle1";
 
-    string Run0 = "Run0";
+    private const string Run0 = "Run0";
 
-    /*
-    string Run1 = "Run1";
 
-    string StandPushHold = "StandPushHold";
+    private const string Run1 = "Run1";
 
-    string StandPushIdle0 = "StandPushIdle0";
-    string StandPushIdle1 = "StandPushIdle1";
+    private const string StandPushHold = "StandPushHold";
 
-    string StandPushWalk = "StandPushWalk";
-    string StandPushDenied = "StandPushDenied";
-    */
+    private const string StandPushIdle0 = "StandPushIdle0";
+    private const string StandPushIdle1 = "StandPushIdle1";
+
+    private const string StandPushWalk = "StandPushWalk";
+
+    private const string StandPushDeniedBlock = "StandPushDeniedBlock";
+    private const string StandPushDeniedUp = "StandPushDeniedUp";
 
 
     //
@@ -84,17 +77,50 @@ public class PlayerAnimationControl : MonoBehaviour
        
     }
 
+    public void PlayAnimation(PLAYERSTATE ps)
+    {
+
+    }
+
     public void OnRunning()
     {
         OffAllAnimations();
 
-        animator.SetBool(Run0, true);
-        //animator.SetBool(Idle0, false);
+        //animator.SetBool(Run0, true);
+        animator.SetTrigger(Run0);
+
     }
 
-    public void OnWallBlocked()
+    public void OnBlock()
     {
+        OffAllAnimations();
 
+        animator.SetTrigger(StandPushWalk);
+
+        //StartCoroutine("Timer", )
+
+
+    }
+
+    public void OnBlockRestricted()
+    {
+        OffAllAnimations();
+        animator.SetTrigger(StandPushDeniedBlock);
+    }
+
+
+    // fix it later
+    public void OnWallRestriected()
+    {
+        OffAllAnimations();
+        animator.SetTrigger(StandPushDeniedBlock);
+
+    }
+
+    public void OnStandUp()
+    {
+        OffAllAnimations();
+        animator.SetBool(StandPushDeniedUp, true);
     }
 
 
@@ -110,9 +136,9 @@ public class PlayerAnimationControl : MonoBehaviour
 
         
         OffIdleAnimations();
-        animator.SetBool(Run0, false);
-        
-       
+
+        animator.SetBool(StandPushDeniedUp, false);
+
     }
 
 
@@ -122,8 +148,27 @@ public class PlayerAnimationControl : MonoBehaviour
         animator.SetBool(Idle0, false);
         animator.SetBool(Idle1, false);
         animator.SetBool(Idle2, false);
-
     }
 
-     
+
+
+    IEnumerator Timer(float endTime)
+    {
+        setTime = true;
+        timeDone = false;
+
+        while (setTime)
+        {
+            yield return new WaitForSeconds(1f);
+
+            ++time;
+
+            if(time >= endTime)
+            {
+                setTime = false;
+                timeDone = true;
+            }
+
+        }
+    }
 }

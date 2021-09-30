@@ -24,7 +24,7 @@ public class BlockMovement : BasicMovement
 
         //MovementsControl (direction);
 
-        if ((!isMoving))
+        if ((!IsMoving))
         {
             currentPos = rb.position;
 
@@ -68,7 +68,7 @@ public class BlockMovement : BasicMovement
     IEnumerator ExecuteBlockMovements()
     {
 
-        isMoving = true;
+        IsMoving = true;
 
         //print(this.name);
 
@@ -90,7 +90,7 @@ public class BlockMovement : BasicMovement
 
         rb.MovePosition(targetPos);
 
-        isMoving = false;
+        IsMoving = false;
 
 
 
@@ -110,6 +110,8 @@ public class BlockMovement : BasicMovement
 
         print("from Block : another block on that direction Dectected");
 
+        stringCurrent = stringRestriectedBlock;
+        
         IsRestricted = true;
 
         playerMovement.IsRestricted = true;

@@ -166,25 +166,30 @@ public class PlayerMovement : BasicMovement
         gravityControl = GetComponent<GravityControl>();
         gravityPosInTimes = new List<GravityPosInTime>();
 
+        player = GetComponent<Player>();
+        playerState = GetComponent<PlayerState>();
+
         IsUncontrolable = false;
 
         //
 
-        player = GetComponent<Player>();
 
-        playerState = GetComponent<PlayerState>();
+
+        IsRestricted = false;
+
 
     }
 
     private void FixedUpdate()
     {
-        if(!isMoving)
+        /*
+        if(!IsMoving)
         {
             // IsRestricted
             playerState.PState = PLAYERSTATE.IDLE;
 
         }
-
+        */
         /*
         // Rotation Fix + test
         if(Input.GetKeyDown(KeyCode.B))
@@ -198,14 +203,24 @@ public class PlayerMovement : BasicMovement
 
     public void OnPLayerMovementDirection(DIRECTION direction)
     {
-        if (!isMoving)
+        if (!IsMoving)
         {
             currentPos = rb.position;
 
-            IsRestricted = false;
+            //IsRestricted = false;
+
+            //
+            if(IsRestricted)
+            {
+                player.OnStandUp();
+
+                IsRestricted = false;
+                return;
+            }
+
+            //
 
             DirectionDecision(direction); // raycheck
-
             RaycastCheck(transform.forward, direction);
 
             // if another block or wall then return;
@@ -215,6 +230,24 @@ public class PlayerMovement : BasicMovement
             {
                 // Define why is Restricted
                 print("Restricted");
+
+                switch(stringCurrent)
+                {
+                    case stringBlock:
+                        {
+                            print("P: Restricted Block");
+                            player.OnBlockRestricted();
+                        }
+                        break;
+                    case stringWall:
+                        {
+                            print("P: Restricted Wall");
+                            // change animation later;
+                            player.OnWall();
+                        }
+                        break;
+                }
+                
 
 
                 return;
@@ -228,26 +261,21 @@ public class PlayerMovement : BasicMovement
                     case stringNothing:
                         {
                             player.OnRunning();
-
                             StartCoroutine("ExecutePlayerMovements", movementSpeedExtra);
 
                         }
                         break;
                     case stringBlock:
                         {
+                            player.OnPushingBlock();
                             StartCoroutine("ExecutePlayerMovements",0);
 
                         }
                         break;
                     case stringGravityTransfer:
                         {
-
-                            player.OnGravityTransfer();
-
-                            print("StartCoroutine(ExecutePlayerMovements_GT)");
+                            player.OnGravityTransfer();                           
                             StartCoroutine("ExecutePlayerMovements_GT");
-
-
 
                         }
                         break;
@@ -255,10 +283,8 @@ public class PlayerMovement : BasicMovement
                         //////////////
                     default:
                         {
-                            playerState.PState = PLAYERSTATE.RUNNING;
                             player.OnRunning();
-
-                            StartCoroutine("ExecutePlayerMovements");
+                            StartCoroutine("ExecutePlayerMovements", movementSpeedExtra);
 
                         }
                         break;
@@ -277,7 +303,7 @@ public class PlayerMovement : BasicMovement
 
     IEnumerator ExecutePlayerMovements_GT()
     {
-        isMoving = true;
+        IsMoving = true;
         float durationLimit = 0.5f;
 
 
@@ -305,7 +331,7 @@ public class PlayerMovement : BasicMovement
         yield return null;
 
 
-        isMoving = false;
+        IsMoving = false;
 
         player.OffAllAnimations();
 
@@ -317,13 +343,20 @@ public class PlayerMovement : BasicMovement
             // at RotateTransform() ->         player.OnEndGravityTransfer();
 
             rotateAllGameObjectsTransform = false;
+            yield return null;
+
         }
+
+        //playerState.PState = PLAYERSTATE.GRAVITY_TURN;
+
+
+
     }
 
     IEnumerator ExecutePlayerMovements(float extraSpeed)
     {
 
-        isMoving = true;
+        IsMoving = true;
         float durationLimit = 0.5f;
 
 
@@ -343,9 +376,20 @@ public class PlayerMovement : BasicMovement
         yield return null;
 
 
-        isMoving = false;
+        IsMoving = false;
 
         player.OffAllAnimations();
+
+        if(extraSpeed > 0)
+        {
+            playerState.PState = PLAYERSTATE.IDLE;
+
+        }
+        else if(extraSpeed == 0)
+        {
+            playerState.PState = PLAYERSTATE.IDLE_PUSHING_BLOCK;
+
+        }
 
         /*
         if (rotateAllGameObjectsTransform)

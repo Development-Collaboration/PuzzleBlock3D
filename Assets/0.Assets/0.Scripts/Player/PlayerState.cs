@@ -4,10 +4,13 @@ using UnityEngine;
 public enum PLAYERSTATE
 {
     IDLE,
+    IDLE_PUSHING_BLOCK,
     RUNNING,
     PUSHING_BLOCK,
     GRAVITY_TURN,
-    WALL_BLOCKED,
+    WALL_RESTRICTED,
+    BLOCK_RESTRICTED,
+    STAND_UP,
     GOAL,
     BEGIN
 

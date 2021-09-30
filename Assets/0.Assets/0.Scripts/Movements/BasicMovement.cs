@@ -33,7 +33,8 @@ public abstract class BasicMovement : MonoBehaviour
 
     protected Vector3 currentPos;
     protected Vector3 targetPos;
-    protected bool isMoving = false;
+
+    public bool IsMoving { get; set; }
 
     public bool IsRestricted { get; set; }
 
@@ -52,7 +53,7 @@ public abstract class BasicMovement : MonoBehaviour
         gameStatus = FindObjectOfType<GameStatus>();
 
         rb.freezeRotation = true;
-        isMoving = false;
+        IsMoving = false;
         IsRestricted = false;
 
         pointsInTimes = new List<PointsInTime>();

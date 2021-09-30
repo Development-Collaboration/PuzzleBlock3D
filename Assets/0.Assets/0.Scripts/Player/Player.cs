@@ -21,20 +21,22 @@ using Cinemachine;
 public class Player : MonoBehaviour
 {
     private PlayerAnimationControl playerAnimationControl;
+
     private PlayerState playerState;
-    //private PlayerMovement playerMovement;
+    private PlayerMovement playerMovement;
 
     //[SerializeField] CameraControl cameraControl;
 
     private CameraControl cameraControl;
+
+    
 
     private void Awake()
     {
         //playerAnimationControl = GetComponent<PlayerAnimationControl>();
         //playerState = GetComponent<PlayerState>();
 
-        //playerMovement = GetComponent<PlayerMovement>();
-
+        playerMovement = GetComponent<PlayerMovement>();
 
         playerAnimationControl = FindObjectOfType<PlayerAnimationControl>();
         playerState = FindObjectOfType<PlayerState>();
@@ -47,7 +49,29 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        print("Playerstate: " + playerState.PState);
 
+        if(!(playerMovement.IsMoving))
+        {
+            switch (playerState.PState)
+            {
+                case PLAYERSTATE.IDLE:
+                    {
+                        OnIdle();
+                    }
+                    break;
+
+                    /*
+                case PLAYERSTATE.RUNNING:
+                    {
+                        OnRunning();
+                    }
+                    break;
+                    */
+            }
+        }
+        
+        /*
         switch(playerState.PState)
         {
             case PLAYERSTATE.IDLE:
@@ -56,17 +80,25 @@ public class Player : MonoBehaviour
                 }
                 break;
 
-                /*
+                
             case PLAYERSTATE.RUNNING:
                 {
                     OnRunning();
                 }
                 break;
-                */
+                
         }
+        */
 
        // print("PLAYERSTATE: " + playerState.PState);
 
+
+
+    }
+
+    private void Setting(PLAYERSTATE ps)
+    {
+        playerState.PState = ps;
 
 
     }
@@ -77,20 +109,38 @@ public class Player : MonoBehaviour
 
     }
 
-
-
     public void OnRunning()
     {
-        playerState.PState = PLAYERSTATE.RUNNING;
-
+        Setting(PLAYERSTATE.RUNNING);
         playerAnimationControl.OnRunning();
 
     }
 
-
-    public void OnWallBlocked()
+    public void OnPushingBlock()
     {
+        Setting(PLAYERSTATE.PUSHING_BLOCK);
+        playerAnimationControl.OnBlock();
+
+
+    }
+    public void OnBlockRestricted()
+    {
+        Setting(PLAYERSTATE.BLOCK_RESTRICTED);
+        playerAnimationControl.OnBlockRestricted();
+
+    }
+
+    public void OnWall()
+    {
+        Setting(PLAYERSTATE.WALL_RESTRICTED);
+        playerAnimationControl.OnWallRestriected();
         
+    }
+
+    public void OnStandUp()
+    {
+        Setting(PLAYERSTATE.STAND_UP);
+        playerAnimationControl.OnStandUp();
     }
 
     public void OnGravityTransfer()
