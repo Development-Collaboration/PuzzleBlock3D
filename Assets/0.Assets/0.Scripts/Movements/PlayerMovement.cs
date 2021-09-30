@@ -5,9 +5,7 @@ using UnityEngine;
 public class PlayerMovement : BasicMovement
 {
     private GravityControl gravityControl;
-
     private GRAVITYPOSITION lastGravityPosition;
-
     private AllGameObjectsTransform allGameObjectsTransform;
     private bool rotateAllGameObjectsTransform = false;
     //
@@ -156,6 +154,10 @@ public class PlayerMovement : BasicMovement
     //private PlayerAnimationControl playerAnimationControl;
     private PlayerState playerState;
 
+    // add to movementSpeed
+    [SerializeField] [Tooltip("Add from movementSpeed")]
+    private float movementSpeedExtra = 2f;
+
     protected override void Awake()
     {
         base.Awake();
@@ -183,12 +185,15 @@ public class PlayerMovement : BasicMovement
 
         }
 
+        /*
+        // Rotation Fix + test
         if(Input.GetKeyDown(KeyCode.B))
         {
             print(gravityControl.GravityPos);
             allGameObjectsTransform.RotateTransform(gravityControl.GravityPos, lastGravityPosition, gravityTransfer.gravityTransferPosition);
 
         }
+        */
     }
 
     public void OnPLayerMovementDirection(DIRECTION direction)
@@ -204,7 +209,6 @@ public class PlayerMovement : BasicMovement
             RaycastCheck(transform.forward, direction);
 
             // if another block or wall then return;
-
             Debug.Log("From PlayerMovements Stringcurrent: " + stringCurrent);
 
             if (IsRestricted)
@@ -223,16 +227,15 @@ public class PlayerMovement : BasicMovement
                 {
                     case stringNothing:
                         {
-                            playerState.PState = PLAYERSTATE.RUNNING;
                             player.OnRunning();
 
-                            StartCoroutine("ExecutePlayerMovements");
+                            StartCoroutine("ExecutePlayerMovements", movementSpeedExtra);
 
                         }
                         break;
                     case stringBlock:
                         {
-                            StartCoroutine("ExecutePlayerMovements");
+                            StartCoroutine("ExecutePlayerMovements",0);
 
                         }
                         break;
@@ -287,6 +290,16 @@ public class PlayerMovement : BasicMovement
             yield return null;
         }
 
+
+        /*
+        while (rb.position != targetPos)
+        {
+            rb.MovePosition(targetPos);
+            yield return null;
+
+        }
+        */
+
         gameObject.transform.position = targetPos;
 
         yield return null;
@@ -299,28 +312,15 @@ public class PlayerMovement : BasicMovement
 
         if (rotateAllGameObjectsTransform)
         {
-            //print("from co ro start");
 
-            // old
-            //allGameObjectsTransform.RotateTransform(lastGravityPosition, gravityTransfer.gravityTransferPosition);
-            //allGameObjectsTransform.RotateTransform(gravityControl.GetGravityPos);
-
-
-            // new
             allGameObjectsTransform.RotateTransform(gravityControl.GravityPos, lastGravityPosition, gravityTransfer.gravityTransferPosition);
             // at RotateTransform() ->         player.OnEndGravityTransfer();
 
             rotateAllGameObjectsTransform = false;
         }
-
-        
-
-
-        stringCurrent = stringNothing;
     }
 
-
-    IEnumerator ExecutePlayerMovements()
+    IEnumerator ExecutePlayerMovements(float extraSpeed)
     {
 
         isMoving = true;
@@ -333,7 +333,7 @@ public class PlayerMovement : BasicMovement
             durationLimit -= Time.deltaTime;
 
             //rb.MovePosition(Vector3.Lerp(rb.position, targetPos, movementSpeed * Time.deltaTime));
-            rb.MovePosition(Vector3.MoveTowards(rb.position, targetPos, movementSpeed * Time.deltaTime));
+            rb.MovePosition(Vector3.MoveTowards(rb.position, targetPos, (movementSpeed + extraSpeed) * Time.deltaTime));
 
             yield return null;
         }
@@ -342,14 +342,6 @@ public class PlayerMovement : BasicMovement
 
         yield return null;
 
-        /*
-        while (rb.position != targetPos)
-        {
-            rb.MovePosition(targetPos);
-            yield return null;
-
-        }
-        */
 
         isMoving = false;
 
@@ -372,28 +364,27 @@ public class PlayerMovement : BasicMovement
         }
         */
 
-        stringCurrent = stringNothing;
 
     }
 
+
+    #region Collide~
+
     protected override void CollideWithBlock(RaycastHit hit, DIRECTION direction)
     {
-        print(this.name + " Hit: " + hit.transform.name);
+        //Debug.Log(this.name + " Hit: " + hit.transform.name);
 
 
         blockArrays[(int)direction] = hit.collider.GetComponent<BlockMovement>();
         blockArrays[(int)direction].OnBlockMovementDirection(direction);
         blockArrays[(int)direction] = null;
 
-        stringCurrent = stringBlock;
 
     }
 
     protected override void CollideWithWall(RaycastHit hit)
     {
         IsRestricted = true;
-
-        stringCurrent = stringWall;
 
         //playerState.PState = PLAYERSTATE.WALL_BLOCKED;
         //player.OnWallBlocked();
@@ -421,7 +412,7 @@ public class PlayerMovement : BasicMovement
 
             rotateAllGameObjectsTransform = true;
 
-            stringCurrent = stringGravityTransfer;
+            //stringCurrent = stringGravityTransfer;
 
         }
         else
@@ -432,18 +423,16 @@ public class PlayerMovement : BasicMovement
 
     }
 
-
-
     protected override void CollideWithGoal(RaycastHit hit)
     {
         //base.CollideWithGoal(hit);
 
         IsRestricted = true;
 
-        stringCurrent = stringGoal;
 
     }
 
+    #endregion
 
     public void RecordGravityPos()
     {

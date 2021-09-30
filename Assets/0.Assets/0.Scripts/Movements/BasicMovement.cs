@@ -7,6 +7,7 @@ public abstract class BasicMovement : MonoBehaviour
     protected Rigidbody rb;
     protected GameStatus gameStatus;
 
+
     //
     protected const string stringBlock = "Block";
     protected const string stringWall = "Wall";
@@ -14,11 +15,16 @@ public abstract class BasicMovement : MonoBehaviour
     protected const string stringGravityTransfer = "GravityTransfer";
     protected const string stringNothing = "Nothing";
 
+    protected const string stringRestriectedBlock = "RestriectedBlock";
+
+    //
     protected string stringCurrent = "";
-    
+
+
+
     //
     [SerializeField] //[Range( , )]
-    protected float movementSpeed = 4f;
+    protected float movementSpeed = 2f;
 
     //[SerializeField] //[Range( , )]
     protected int movementDistance = 1;
@@ -59,10 +65,8 @@ public abstract class BasicMovement : MonoBehaviour
 
         switch (direction)
         {
-            case DIRECTION.UR:
-               
-                    transform.forward = Vector3.right;
-                
+            case DIRECTION.UR:               
+                    transform.forward = Vector3.right;                
                 break;
 
             case DIRECTION.DR:
@@ -130,8 +134,6 @@ public abstract class BasicMovement : MonoBehaviour
 
                 CollideWithGoal(hit);
             }
-
-
             
         }
         else

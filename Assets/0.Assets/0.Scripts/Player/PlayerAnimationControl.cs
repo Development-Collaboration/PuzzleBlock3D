@@ -19,13 +19,15 @@ public class PlayerAnimationControl : MonoBehaviour
     */
 
     //
-    string Stand = "Stand";
+    //string Stand = "Stand";
 
     string Idle0 = "Idle0";
     string Idle1 = "Idle1";
     string Idle2 = "Idle2";
 
     string Run0 = "Run0";
+
+    /*
     string Run1 = "Run1";
 
     string StandPushHold = "StandPushHold";
@@ -35,7 +37,7 @@ public class PlayerAnimationControl : MonoBehaviour
 
     string StandPushWalk = "StandPushWalk";
     string StandPushDenied = "StandPushDenied";
-
+    */
 
 
     //

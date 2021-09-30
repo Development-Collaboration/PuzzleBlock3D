@@ -1,8 +1,18 @@
 
 using UnityEngine;
 
+//
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(BoxCollider))]
+
+
+[RequireComponent(typeof(BlockMovement))]
+
+
 public class Block : MonoBehaviour
 {
+
+
     private BlockMovement blockMovement;
     private Level level;
 

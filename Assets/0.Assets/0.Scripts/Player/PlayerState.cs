@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public enum PLAYERSTATE
@@ -14,17 +13,17 @@ public enum PLAYERSTATE
 
 }
 
-
 public class PlayerState : MonoBehaviour
 {
     public PLAYERSTATE PState { get; set; }
     public PLAYERSTATE PLastState { get; set; }
 
+    /*
     private void Awake()
     {
         PState = PLAYERSTATE.BEGIN;
     }
-
+    */
     /*
     private void Update()
     {

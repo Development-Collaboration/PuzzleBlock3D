@@ -5,7 +5,6 @@ using UnityEngine;
 public class BlockMovement : BasicMovement
 {
     private PlayerMovement playerMovement;
-
     private Block block;
 
     protected override void Awake()
@@ -34,6 +33,10 @@ public class BlockMovement : BasicMovement
 
             RaycastCheck(transform.forward, direction);
 
+
+            Debug.Log("From BlockMovement Stringcurrent: " + stringCurrent);
+
+
             // if another block or wall then return;
             if (IsRestricted)
             {
@@ -49,7 +52,8 @@ public class BlockMovement : BasicMovement
             else
             {
                 ++movementCounts;
-                // execute player move
+
+
                 StartCoroutine("ExecuteBlockMovements");
             }
 
@@ -127,7 +131,6 @@ public class BlockMovement : BasicMovement
     protected override void CollideWithGravityTransfer(RaycastHit hit, DIRECTION direction)
     {
         print("Block Reached CollideWithGravityTransfer");
-
 
 
         // raycheck from GT
