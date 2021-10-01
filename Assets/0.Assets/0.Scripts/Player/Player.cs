@@ -96,10 +96,10 @@ public class Player : MonoBehaviour
 
     }
 
-    private void Setting(PLAYERSTATE ps)
+    public void SetPlayer(PLAYERSTATE ps)
     {
         playerState.PState = ps;
-
+        playerAnimationControl.PlayAnimation(ps);
 
     }
 
@@ -108,41 +108,46 @@ public class Player : MonoBehaviour
         playerAnimationControl.OnIdle();
 
     }
-
+    /*
     public void OnRunning()
     {
-        Setting(PLAYERSTATE.RUNNING);
+        SetPlayer(PLAYERSTATE.RUNNING);
         playerAnimationControl.OnRunning();
 
     }
 
     public void OnPushingBlock()
     {
-        Setting(PLAYERSTATE.PUSHING_BLOCK);
+        SetPlayer(PLAYERSTATE.PUSHING_BLOCK);
         playerAnimationControl.OnBlock();
 
 
     }
     public void OnBlockRestricted()
     {
-        Setting(PLAYERSTATE.BLOCK_RESTRICTED);
+        SetPlayer(PLAYERSTATE.BLOCK_RESTRICTED);
         playerAnimationControl.OnBlockRestricted();
 
     }
 
     public void OnWall()
     {
-        Setting(PLAYERSTATE.WALL_RESTRICTED);
+        SetPlayer(PLAYERSTATE.WALL_RESTRICTED);
         playerAnimationControl.OnWallRestriected();
         
     }
 
     public void OnStandUp()
     {
-        Setting(PLAYERSTATE.STAND_UP);
+        SetPlayer(PLAYERSTATE.STAND_UP);
         playerAnimationControl.OnStandUp();
     }
+    */
 
+    public void OffAllAnimations()
+    {
+        playerAnimationControl.OffAllAnimations();
+    }
     public void OnGravityTransfer()
     {
         //playerState.PState = PLAYERSTATE.RUNNING;
@@ -160,9 +165,5 @@ public class Player : MonoBehaviour
     }
 
 
-    public void OffAllAnimations()
-    {
-        playerAnimationControl.OffAllAnimations();
-    }
 
 }

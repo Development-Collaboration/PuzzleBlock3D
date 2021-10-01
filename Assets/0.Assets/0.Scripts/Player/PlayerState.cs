@@ -12,6 +12,7 @@ public enum PLAYERSTATE
     BLOCK_RESTRICTED,
     STAND_UP,
     GOAL,
+    GOAL_RESTRICTED,
     BEGIN
 
 }

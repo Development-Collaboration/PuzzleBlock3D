@@ -18,8 +18,6 @@ public class PlayerAnimationControl : MonoBehaviour
     private const string Idle1 = "Idle1";
 
     private const string Run0 = "Run0";
-
-
     private const string Run1 = "Run1";
 
     private const string StandPushHold = "StandPushHold";
@@ -54,9 +52,25 @@ public class PlayerAnimationControl : MonoBehaviour
         {
             OffAllAnimations();
 
-            // Random,Range (mininclude, maxexclude!!!)
 
+            switch (RandomNumberGenerate(2))
+            {
+                case 0:
+                    animator.SetBool(Idle0, true);
+                    break;
+                case 1:
+                    animator.SetBool(Idle1, true);
+                    break;
+                case 2:
+                    animator.SetBool(Idle2, true);
+                    break;
+
+            }
+
+            /*
+             * 
             int min = 0, max = 2;
+         // Random,Range (mininclude, maxexclude!!!)
 
             int randNum = Random.Range(min, max +1); 
 
@@ -73,27 +87,79 @@ public class PlayerAnimationControl : MonoBehaviour
                     break;
 
             }
+            */
         }
-       
+
     }
 
     public void PlayAnimation(PLAYERSTATE ps)
     {
+        OffAllAnimations();
 
+        switch (ps)
+        {
+            case PLAYERSTATE.RUNNING:
+                OnRunning();
+                break;
+            case PLAYERSTATE.PUSHING_BLOCK:
+                OnBlock();
+                break;
+            case PLAYERSTATE.BLOCK_RESTRICTED:
+                OnBlockRestricted();
+                break;
+            case PLAYERSTATE.WALL_RESTRICTED:
+                OnWallRestriected();
+                break;
+            case PLAYERSTATE.STAND_UP:
+                OnStandUp();
+                break;
+
+        }
     }
 
-    public void OnRunning()
+    private void OnRunning()
     {
-        OffAllAnimations();
+        //OffAllAnimations();
 
         //animator.SetBool(Run0, true);
-        animator.SetTrigger(Run0);
+        //animator.SetTrigger(Run0);
+
+        switch(RandomNumberGenerate(1))
+        {
+            case 0:
+                animator.SetTrigger(Run0);
+
+                break;
+            case 1:
+                animator.SetTrigger(Run1);
+                break;
+
+        }
+
+        /*
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        {
+
+            switch (RandomNumberGenerate(1))
+            {
+                case 0:
+                    animator.SetTrigger(Run0);
+
+                    break;
+                case 1:
+                    animator.SetTrigger(Run1);
+                    break;
+
+            }
+
+        }
+        */
 
     }
 
-    public void OnBlock()
+    private void OnBlock()
     {
-        OffAllAnimations();
+        //OffAllAnimations();
 
         animator.SetTrigger(StandPushWalk);
 
@@ -102,24 +168,24 @@ public class PlayerAnimationControl : MonoBehaviour
 
     }
 
-    public void OnBlockRestricted()
+    private void OnBlockRestricted()
     {
-        OffAllAnimations();
+        //OffAllAnimations();
         animator.SetTrigger(StandPushDeniedBlock);
     }
 
 
     // fix it later
-    public void OnWallRestriected()
+    private void OnWallRestriected()
     {
-        OffAllAnimations();
+        //OffAllAnimations();
         animator.SetTrigger(StandPushDeniedBlock);
 
     }
 
-    public void OnStandUp()
+    private void OnStandUp()
     {
-        OffAllAnimations();
+        //OffAllAnimations();
         animator.SetBool(StandPushDeniedUp, true);
     }
 
@@ -143,11 +209,22 @@ public class PlayerAnimationControl : MonoBehaviour
 
 
 
-    public void OffIdleAnimations()
+    private void OffIdleAnimations()
     {
         animator.SetBool(Idle0, false);
         animator.SetBool(Idle1, false);
         animator.SetBool(Idle2, false);
+    }
+
+    private int RandomNumberGenerate(int maxNum)
+    {
+        int min = 0;
+        // Random,Range (mininclude, maxexclude!!!)
+
+        int randNum = Random.Range(min, maxNum + 1);
+
+        return randNum;
+
     }
 
 
