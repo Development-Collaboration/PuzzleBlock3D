@@ -2,22 +2,20 @@ using UnityEngine;
 
 public class Goal : MonoBehaviour
 {
-    //private string player = "Player";
-    //private string block = "Block";
+    private Level level;
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
-    }
+        level = FindObjectOfType<Level>();
 
-    // Update is called once per frame
-    void Update()
+    }
+    public void OnBlockReachedGoal()
     {
-        
-    }
+        print("from goal HI");
 
+        level.GoalInBlock();
+
+    }
 
     private void OnTriggerEnter(Collider other)
     {

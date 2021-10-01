@@ -10,6 +10,8 @@ public class Level : MonoBehaviour
 
     // Params 
     private int blockCounts;
+
+    [SerializeField]
     private int minGoalReach = 0;
 
     public int BlockCounts { get { return blockCounts; } }

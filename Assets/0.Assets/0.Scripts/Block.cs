@@ -11,8 +11,6 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-
-
     private BlockMovement blockMovement;
     private Level level;
 
@@ -20,16 +18,13 @@ public class Block : MonoBehaviour
     private void Awake()
     {
         blockMovement = GetComponent<BlockMovement>();
-
         level = FindObjectOfType<Level>();
-
-        CountBlocks();
 
     }
 
     private void Start()
     {
-        //CountBlocks();
+        CountBlocks();
     }
 
     private void CountBlocks()
@@ -37,9 +32,11 @@ public class Block : MonoBehaviour
         level.CountBlocks();
     }
 
-    public void GoalInBlock()
+    public void BlockReachedGoal(Goal goal)
     {
-        level.GoalInBlock();
+        goal.OnBlockReachedGoal();
+
+        //level.GoalInBlock();
 
         Destroy(this.gameObject);
     }

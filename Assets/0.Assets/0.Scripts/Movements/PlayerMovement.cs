@@ -119,6 +119,15 @@ public class PlayerMovement : BasicMovement
                         }
                         break;
 
+                    case stringGoal:
+                        {
+                            print("P: Restricted Goal");
+                            // change animation later;
+                            //player.OnWall();
+                            player.SetPlayer(PLAYERSTATE.GOAL_RESTRICTED);
+
+                        }
+                        break;
 
                 }
                 
@@ -154,6 +163,12 @@ public class PlayerMovement : BasicMovement
                             player.OnGravityTransfer();                           
                             StartCoroutine("ExecutePlayerMovements_GT");
 
+                        }
+                        break;
+
+                    case stringGoal:
+                        {
+                            
                         }
                         break;
 

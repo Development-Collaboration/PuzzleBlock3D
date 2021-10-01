@@ -122,10 +122,9 @@ public class BlockMovement : BasicMovement
     {
         //base.CollideWithGoal(hit);
 
-        print("Block Reached Goal");
+        print("Block Reached Goal");        
 
-        
-        block.GoalInBlock();
+        block.BlockReachedGoal(hit.collider.GetComponent<Goal>());
     }
 
 

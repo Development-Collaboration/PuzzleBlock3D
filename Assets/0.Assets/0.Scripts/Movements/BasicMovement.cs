@@ -16,6 +16,7 @@ public abstract class BasicMovement : MonoBehaviour
     protected const string stringNothing = "Nothing";
 
     protected const string stringRestriectedBlock = "RestriectedBlock";
+    protected const string stringRestriectedGoal = "RestriectedGoal";
 
     //
     protected string stringCurrent = "";
