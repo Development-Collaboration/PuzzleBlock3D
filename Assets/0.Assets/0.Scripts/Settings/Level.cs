@@ -47,6 +47,7 @@ public class Level : MonoBehaviour
 
         if (blockCounts <= minGoalReach)
         {
+            //
             sceneLoader.LoadNextScene();
         }
     }

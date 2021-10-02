@@ -259,12 +259,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0828e1aa4de424053bad42c271ce1697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  behavior: 0
-  transformPoition: 1
-  speed: -0.25
-  easeType: 21
-  loopType: 1
-  delay: 0
+  ITweenAttributes:
+  - behavior: 0
+    transformPoition: 1
+    speed: 0.25
+    easeType: 21
+    loopType: 1
+    delay: 0
+  - behavior: 1
+    transformPoition: 1
+    speed: 0.25
+    easeType: 21
+    loopType: 2
+    delay: 0.5
 --- !u!1 &1569894377 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3256408612316840266, guid: e8e1bf03959804136b84ae31b3f5f717, type: 3}
@@ -524,7 +531,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7146521406498821007, guid: 5ec0455a7072c49278cbfaedf3dd64dc, type: 3}
       propertyPath: m_Name
-      value: Goal_Dia
+      value: Goal_Main
       objectReference: {fileID: 0}
     - target: {fileID: -1255605710908113952, guid: 5ec0455a7072c49278cbfaedf3dd64dc, type: 3}
       propertyPath: m_LocalPosition.z

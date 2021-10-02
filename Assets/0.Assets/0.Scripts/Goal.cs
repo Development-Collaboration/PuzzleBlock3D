@@ -19,6 +19,7 @@ public class Goal : MonoBehaviour
        // iTweenUtility = GetComponent<ITweenUitility>();
 
     }
+
     public void OnBlockReachedGoal()
     {
         print("from goal HI");
@@ -26,6 +27,8 @@ public class Goal : MonoBehaviour
         level.GoalInBlock();
 
     }
+
+
 
     private void OnTriggerEnter(Collider other)
     {

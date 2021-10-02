@@ -32,7 +32,7 @@ public class GameStatus : MonoBehaviour
         playerMoved.text = "Player Moved: 0";
         blockMoved.text = "Block Moved: 0";
         gameTime.text = "Game Playing Time: 0:0";
-        blockLeft.text = "Block: " + blockLeftCounts;
+        blockLeft.text = "Block Left: " + blockLeftCounts;
 
         rewind.text = "Rewind: 0";
         

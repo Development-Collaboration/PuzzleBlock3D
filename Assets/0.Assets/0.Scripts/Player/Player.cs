@@ -101,6 +101,9 @@ public class Player : MonoBehaviour
         playerState.PState = ps;
         playerAnimationControl.PlayAnimation(ps);
 
+        // Audio
+
+
     }
 
     public void OnIdle()

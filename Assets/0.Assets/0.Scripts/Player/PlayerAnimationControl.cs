@@ -109,9 +109,14 @@ public class PlayerAnimationControl : MonoBehaviour
             case PLAYERSTATE.BLOCK_RESTRICTED:
                 OnBlockRestricted();
                 break;
+
             case PLAYERSTATE.WALL_RESTRICTED:
                 OnWallRestriected();
                 break;
+            case PLAYERSTATE.GOAL_RESTRICTED:
+                OnGoalRestricted();
+                break;
+
             case PLAYERSTATE.STAND_UP:
                 OnStandUp();
                 break;
@@ -159,15 +164,19 @@ public class PlayerAnimationControl : MonoBehaviour
 
     }
 
+    private void OnStandUp()
+    {
+        //OffAllAnimations();
+        animator.SetBool(StandPushDeniedUp, true);
+    }
+
+
     private void OnBlock()
     {
         //OffAllAnimations();
-
         animator.SetTrigger(StandPushWalk);
 
         //StartCoroutine("Timer", )
-
-
     }
 
     private void OnBlockRestricted()
@@ -182,14 +191,15 @@ public class PlayerAnimationControl : MonoBehaviour
     {
         //OffAllAnimations();
         animator.SetTrigger(StandPushDeniedBlock);
-
     }
 
-    private void OnStandUp()
+    private void OnGoalRestricted()
     {
-        //OffAllAnimations();
-        animator.SetBool(StandPushDeniedUp, true);
+        animator.SetTrigger(StandPushDeniedBlock);
+
     }
+    //
+
 
 
     public void OnGravityTransfer()
