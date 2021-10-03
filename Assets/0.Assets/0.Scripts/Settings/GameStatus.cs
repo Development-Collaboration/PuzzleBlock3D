@@ -5,18 +5,18 @@ using TMPro;
 public class GameStatus : MonoBehaviour
 {
     //
+    [SerializeField] private TextMeshProUGUI blockLeft;
+    [SerializeField] private TextMeshProUGUI rewind;
     [SerializeField] private TextMeshProUGUI playerMoved;
     [SerializeField] private TextMeshProUGUI blockMoved;
     [SerializeField] private TextMeshProUGUI gameTime;
-    [SerializeField] private TextMeshProUGUI blockLeft;
-
-    [SerializeField] private TextMeshProUGUI rewind;
-
 
     //
     private int playerMovementCounts;
     private int blockMovementCounts;
+    
     private int blockLeftCounts;
+    //private int totalBlockAmounts;
 
     private int timeMin;
     private float timeSec;
@@ -40,8 +40,6 @@ public class GameStatus : MonoBehaviour
         StartCoroutine(CountdownTimer());
 
         basicMovementArray = FindObjectsOfType<BasicMovement>();
-
-
         playerMovement = FindObjectOfType<PlayerMovement>();
     }
 
@@ -85,7 +83,7 @@ public class GameStatus : MonoBehaviour
     {
         blockLeftCounts = blockCounts;
 
-        blockLeft.text = "Block: " + blockCounts;
+        blockLeft.text = "Block Lefts: " + blockCounts;
 
     }
 

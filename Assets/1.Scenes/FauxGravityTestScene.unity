@@ -368,6 +368,22 @@ PrefabInstance:
       propertyPath: movementSpeed
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 354966219, guid: ae9ef56ea4bce4362a9aa89b072573c8, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1502608861, guid: ae9ef56ea4bce4362a9aa89b072573c8, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 1715482660672304353, guid: ae9ef56ea4bce4362a9aa89b072573c8, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1715482660672304353, guid: ae9ef56ea4bce4362a9aa89b072573c8, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: c11ea4f0eeb71490f8ef3d344be1c343, type: 2}
     - target: {fileID: 2122568738793095281, guid: ae9ef56ea4bce4362a9aa89b072573c8, type: 3}
       propertyPath: m_Name
       value: AllGameObject
@@ -420,6 +436,14 @@ PrefabInstance:
       propertyPath: cameraControl
       value: 
       objectReference: {fileID: 2100115424}
+    - target: {fileID: 4869759254309711868, guid: ae9ef56ea4bce4362a9aa89b072573c8, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4869759254309711868, guid: ae9ef56ea4bce4362a9aa89b072573c8, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: c11ea4f0eeb71490f8ef3d344be1c343, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae9ef56ea4bce4362a9aa89b072573c8, type: 3}
 --- !u!114 &2013742137 stripped
@@ -694,6 +718,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1718991623}
+    - target: {fileID: 3256408612316840266, guid: e8e1bf03959804136b84ae31b3f5f717, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3256408612316840270, guid: e8e1bf03959804136b84ae31b3f5f717, type: 3}
       propertyPath: m_Controller
       value: 
@@ -797,6 +825,10 @@ PrefabInstance:
     - target: {fileID: 3256408613077316222, guid: e8e1bf03959804136b84ae31b3f5f717, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3256408613351693754, guid: e8e1bf03959804136b84ae31b3f5f717, type: 3}
+      propertyPath: m_text
+      value: 'Block Left: '
       objectReference: {fileID: 0}
     - target: {fileID: 3256408613353918568, guid: e8e1bf03959804136b84ae31b3f5f717, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
