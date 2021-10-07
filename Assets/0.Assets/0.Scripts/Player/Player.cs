@@ -33,15 +33,12 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        //playerAnimationControl = GetComponent<PlayerAnimationControl>();
-        //playerState = GetComponent<PlayerState>();
-
         playerMovement = GetComponent<PlayerMovement>();
-
-        playerAnimationControl = FindObjectOfType<PlayerAnimationControl>();
-        playerState = FindObjectOfType<PlayerState>();
+        playerAnimationControl = GetComponent<PlayerAnimationControl>();
+        playerState = GetComponent<PlayerState>();
 
         cameraControl = FindObjectOfType<CameraControl>();
+
 
         playerState.PState = PLAYERSTATE.BEGIN;
 
