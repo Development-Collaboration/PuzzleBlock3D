@@ -28,5 +28,6 @@ public class GravityOrbit : MonoBehaviour
 
             other.GetComponent<GravityControl>().gravityOrbit = this.GetComponent<GravityOrbit>();
         }
+
     }
 }

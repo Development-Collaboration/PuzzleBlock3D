@@ -19,4 +19,6 @@ public class AnimationName
     public readonly string StandPushDeniedBlock = "StandPushDeniedBlock";
     public readonly string StandPushDeniedUp = "StandPushDeniedUp";
 
+    public readonly string GravityTransfer = "";
+
 }

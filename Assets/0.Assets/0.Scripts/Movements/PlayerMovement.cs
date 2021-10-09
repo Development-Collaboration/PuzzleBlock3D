@@ -58,7 +58,7 @@ public class PlayerMovement : BasicMovement
 
         }
         */
-        /*
+        
         // Rotation Fix + test
         if(Input.GetKeyDown(KeyCode.B))
         {
@@ -66,7 +66,7 @@ public class PlayerMovement : BasicMovement
             allGameObjectsTransform.RotateTransform(gravityControl.GravityPos, lastGravityPosition, gravityTransfer.gravityTransferPosition);
 
         }
-        */
+        
     }
 
     public void OnPLayerMovementDirection(DIRECTION direction)

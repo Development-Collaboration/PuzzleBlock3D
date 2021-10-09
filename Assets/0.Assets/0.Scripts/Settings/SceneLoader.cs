@@ -84,11 +84,7 @@ public class SceneLoader : MonoBehaviour
     {
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-
-        if(loadingBar != null)
-        loadingBar.loadingBarObject.SetActive(false);
-
-
+        /*
 
         switch (loadingTransitionType)
         {
@@ -103,14 +99,15 @@ public class SceneLoader : MonoBehaviour
                 }
                 break;
 
-                /*
+                
             case LOADING_TRANSITION_TYPE.LOGO_TRANSITION:
                 {
 
                 }
                 break;
-                */
+                
         }
+        */
 
     }
 
@@ -170,7 +167,7 @@ public class SceneLoader : MonoBehaviour
 
         while(!operation.isDone)
         {
-
+            // operation.progress 는 0~ 0.9 까지만 임 그래서 0~1로 하려면 아래 공식 필요.
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
 
             loadingBar.slider.value = progress;
