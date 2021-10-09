@@ -4,10 +4,10 @@ using TMPro;
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 
-
-public enum LOADING_TRANSITION
+public enum LOADING_TRANSITION_TYPE
 {
     CROSS_FADE, CIRCLE_WIPE, LOGO_TRANSITION
 }
@@ -16,7 +16,7 @@ public class SceneLoader : MonoBehaviour
 {
     //
     [System.Serializable]
-    private class LoadingBarScreen
+    private class LoadingBar
     {
         public bool isLoadingBarOn;
         public GameObject loadingBarObject;
@@ -25,66 +25,91 @@ public class SceneLoader : MonoBehaviour
     }
 
     [SerializeField]
-    private LoadingBarScreen loadingBarScreen = new LoadingBarScreen();
-
+    private LoadingBar loadingBar = new LoadingBar();
+   
 
     //
     [System.Serializable]
-    private class LoadingTransitionType
+    private class LoadingTransition
     {
         public GameObject crossFade;
         public GameObject circleWipe;
-        public GameObject logoTransition;
+        //public GameObject logoTransition;
     }
 
     [SerializeField]
-    private LoadingTransitionType loadingTransitionType = new LoadingTransitionType();
+    private LoadingTransition loadingTransition = new LoadingTransition();
     //
 
     //[SerializeField] GameObject crossFade; 
-    Animator animator;
+    private Animator animator;
 
 
-    public LOADING_TRANSITION loading_Transition { get; set; }
+    // enum
+    public LOADING_TRANSITION_TYPE loadingTransitionType;
     [SerializeField] private float transitionTime = 1f;
 
 
     [System.NonSerialized]
     private int currentSceneIndex;
 
-    public SceneNames sceneNames = new SceneNames();
+
+    //
+    public SceneName sceneName = new SceneName();
+
+    private int mainLevel = 0;
+    private int subLevel = 0;
+
+    public bool testOn = false;
+
+    public void DisableAllLoadingScreen()
+    {
+        loadingBar.loadingBarObject.SetActive(false);
+
+        loadingTransition.crossFade.SetActive(false);
+        loadingTransition.circleWipe.SetActive(false);
+
+    }
+
+    public void SetLoadingScreen(bool turnOnLoadingBar = false)
+    {
+        if(turnOnLoadingBar)
+        {
+
+        }
+
+    }
 
     private void Start()
     {
-        
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
 
-        if(loadingBarScreen != null)
-        loadingBarScreen.loadingBarObject.SetActive(false);
+        if(loadingBar != null)
+        loadingBar.loadingBarObject.SetActive(false);
 
-        if(loadingTransitionType.crossFade != null)
+
+
+        switch (loadingTransitionType)
         {
-            animator = loadingTransitionType.crossFade.GetComponent<Animator>();
-        }
+            case LOADING_TRANSITION_TYPE.CROSS_FADE:
+                {
+                    animator = loadingTransition.crossFade.GetComponent<Animator>();
+                }
+                break;
+            case LOADING_TRANSITION_TYPE.CIRCLE_WIPE:
+                {
+                    animator = loadingTransition.circleWipe.GetComponent<Animator>();
+                }
+                break;
 
-        switch(loading_Transition)
-        {
-            case LOADING_TRANSITION.CIRCLE_WIPE:
+                /*
+            case LOADING_TRANSITION_TYPE.LOGO_TRANSITION:
                 {
 
                 }
                 break;
-            case LOADING_TRANSITION.CROSS_FADE:
-                {
-
-                }
-                break;
-            case LOADING_TRANSITION.LOGO_TRANSITION:
-                {
-
-                }
-                break;
+                */
         }
 
     }
@@ -139,16 +164,35 @@ public class SceneLoader : MonoBehaviour
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
 
-        loadingBarScreen.loadingBarObject.SetActive(true);
+        operation.allowSceneActivation = false;
+
+        loadingBar.loadingBarObject.SetActive(true);
 
         while(!operation.isDone)
         {
+
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
 
-            loadingBarScreen.slider.value = progress;
-            loadingBarScreen.progressText.text = progress * 100f + "%";
+            loadingBar.slider.value = progress;
+            loadingBar.progressText.text = "Loading... " + progress * 100f + "%";
+            
 
             yield return null;
+
+            if(operation.progress == 1)
+            {
+                print("Loading Done press Return");
+            }
+
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                print("Enter Pressed");
+                operation.allowSceneActivation = true;
+
+            }
         }
+
+       
     }
+
 }

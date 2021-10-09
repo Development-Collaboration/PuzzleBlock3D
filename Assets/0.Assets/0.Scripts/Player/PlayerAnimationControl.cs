@@ -10,9 +10,10 @@ public class PlayerAnimationControl : MonoBehaviour
     private bool setTime = false;
     private bool timeDone = false;
 
-    //
-    //string Stand = "Stand";
+    public AnimationName animationName = new AnimationName();
 
+
+    /*
     private const string Idle0 = "Idle0";
     private const string Idle2 = "Idle2";
     private const string Idle1 = "Idle1";
@@ -30,9 +31,7 @@ public class PlayerAnimationControl : MonoBehaviour
     private const string StandPushDeniedBlock = "StandPushDeniedBlock";
     private const string StandPushDeniedUp = "StandPushDeniedUp";
 
-
-
-
+    */
     //
 
     [SerializeField] private Animator animator;
@@ -43,7 +42,7 @@ public class PlayerAnimationControl : MonoBehaviour
         //playerAnimation = PLAYERANIMATION.Stand;
         //animator.SetBool(PLAYERANIMATION.Stand, true);
 
-
+        
 
     }
 
@@ -58,13 +57,13 @@ public class PlayerAnimationControl : MonoBehaviour
             switch (RandomNumberGenerate(2))
             {
                 case 0:
-                    animator.SetBool(Idle0, true);
+                    animator.SetBool(animationName.Idle0, true);
                     break;
                 case 1:
-                    animator.SetBool(Idle1, true);
+                    animator.SetBool(animationName.Idle1, true);
                     break;
                 case 2:
-                    animator.SetBool(Idle2, true);
+                    animator.SetBool(animationName.Idle2, true);
                     break;
 
             }
@@ -134,11 +133,11 @@ public class PlayerAnimationControl : MonoBehaviour
         switch(RandomNumberGenerate(1))
         {
             case 0:
-                animator.SetTrigger(Run0);
+                animator.SetTrigger(animationName.Run0);
 
                 break;
             case 1:
-                animator.SetTrigger(Run1);
+                animator.SetTrigger(animationName.Run1);
                 break;
 
         }
@@ -167,14 +166,14 @@ public class PlayerAnimationControl : MonoBehaviour
     private void OnStandUp()
     {
         //OffAllAnimations();
-        animator.SetBool(StandPushDeniedUp, true);
+        animator.SetBool(animationName.StandPushDeniedUp, true);
     }
 
 
     private void OnBlock()
     {
         //OffAllAnimations();
-        animator.SetTrigger(StandPushWalk);
+        animator.SetTrigger(animationName.StandPushWalk);
 
         //StartCoroutine("Timer", )
     }
@@ -182,7 +181,7 @@ public class PlayerAnimationControl : MonoBehaviour
     private void OnBlockRestricted()
     {
         //OffAllAnimations();
-        animator.SetTrigger(StandPushDeniedBlock);
+        animator.SetTrigger(animationName.StandPushDeniedBlock);
     }
 
 
@@ -190,12 +189,12 @@ public class PlayerAnimationControl : MonoBehaviour
     private void OnWallRestriected()
     {
         //OffAllAnimations();
-        animator.SetTrigger(StandPushDeniedBlock);
+        animator.SetTrigger(animationName.StandPushDeniedBlock);
     }
 
     private void OnGoalRestricted()
     {
-        animator.SetTrigger(StandPushDeniedBlock);
+        animator.SetTrigger(animationName.StandPushDeniedBlock);
 
     }
     //
@@ -215,7 +214,7 @@ public class PlayerAnimationControl : MonoBehaviour
         
         OffIdleAnimations();
 
-        animator.SetBool(StandPushDeniedUp, false);
+        animator.SetBool(animationName.StandPushDeniedUp, false);
 
     }
 
@@ -223,9 +222,9 @@ public class PlayerAnimationControl : MonoBehaviour
 
     private void OffIdleAnimations()
     {
-        animator.SetBool(Idle0, false);
-        animator.SetBool(Idle1, false);
-        animator.SetBool(Idle2, false);
+        animator.SetBool(animationName.Idle0, false);
+        animator.SetBool(animationName.Idle1, false);
+        animator.SetBool(animationName.Idle2, false);
     }
 
     private int RandomNumberGenerate(int maxNum)
