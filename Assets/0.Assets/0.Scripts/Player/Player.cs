@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        print("Playerstate: " + playerState.PState);
+        //print("Playerstate: " + playerState.PState);
 
         if(!(playerMovement.IsMoving))
         {

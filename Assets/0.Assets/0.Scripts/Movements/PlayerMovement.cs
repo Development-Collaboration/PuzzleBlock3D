@@ -66,7 +66,8 @@ public class PlayerMovement : BasicMovement
             allGameObjectsTransform.RotateTransform(gravityControl.GravityPos, lastGravityPosition, gravityTransfer.gravityTransferPosition);
 
         }
-        
+
+
     }
 
     public void OnPLayerMovementDirection(DIRECTION direction)
@@ -163,6 +164,8 @@ public class PlayerMovement : BasicMovement
                             player.OnGravityTransfer();                           
                             StartCoroutine("ExecutePlayerMovements_GT");
 
+
+
                         }
                         break;
 
@@ -211,27 +214,20 @@ public class PlayerMovement : BasicMovement
         }
 
 
-        /*
-        while (rb.position != targetPos)
-        {
-            rb.MovePosition(targetPos);
-            yield return null;
-
-        }
-        */
-
         gameObject.transform.position = targetPos;
 
         yield return null;
 
 
-        IsMoving = false;
+        //IsMoving = false;
 
         player.OffAllAnimations();
 
 
         if (rotateAllGameObjectsTransform)
         {
+
+
 
             allGameObjectsTransform.RotateTransform(gravityControl.GravityPos, lastGravityPosition, gravityTransfer.gravityTransferPosition);
             // at RotateTransform() ->         player.OnEndGravityTransfer();
@@ -240,6 +236,9 @@ public class PlayerMovement : BasicMovement
             yield return null;
 
         }
+
+        IsMoving = false;
+
 
         //playerState.PState = PLAYERSTATE.GRAVITY_TURN;
 
