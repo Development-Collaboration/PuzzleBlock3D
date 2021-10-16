@@ -6,7 +6,7 @@ using Cinemachine;
 
 public class CameraControl : MonoBehaviour
 {
-    [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
+    [SerializeField] private CinemachineVirtualCamera playerCinemachineVirtualCamera;
     private CinemachineFramingTransposer cinemachineFramingTransposer;
 
     //[SerializeField] private PlayerMovement playerMovement;
@@ -28,7 +28,11 @@ public class CameraControl : MonoBehaviour
 
     private void StartSetup()
     {
-        cinemachineFramingTransposer = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        playerCinemachineVirtualCamera.m_Follow = FindObjectOfType<Player>().transform;
+
+        cinemachineFramingTransposer = playerCinemachineVirtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        
+
 
         deadZoneWidth = cinemachineFramingTransposer.m_DeadZoneWidth;
         deadZoneHeight = cinemachineFramingTransposer.m_DeadZoneHeight;

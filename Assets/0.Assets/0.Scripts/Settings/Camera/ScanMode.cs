@@ -6,12 +6,13 @@ using Cinemachine;
 
 public class ScanMode : MonoBehaviour
 {
-    [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
+    [SerializeField] private CinemachineVirtualCamera PlayerCinemachineVirtualCamera;
     //CinemachineFramingTransposer
 
     [SerializeField] private GameObject scanModeCanvas;
 
-    [SerializeField] private PlayerMovement playerMovement;
+    //[SerializeField]
+    private PlayerMovement playerMovement;
 
     [SerializeField] private bool isScanModeOn = false;
     public bool IsScanModeOn { get { return isScanModeOn; } set { isScanModeOn = value; } }
@@ -36,10 +37,13 @@ public class ScanMode : MonoBehaviour
 
     private void Awake()
     {
+        playerMovement = FindObjectOfType<PlayerMovement>();
+        touchDetection = FindObjectOfType<TouchDetection>();
+
         //cinemachineVirtualCamera = GetComponent<CinemachineVirtualCamera>();
 
-        //
-        startOrthgraphicSize = cinemachineVirtualCamera.m_Lens.OrthographicSize;
+
+        startOrthgraphicSize = PlayerCinemachineVirtualCamera.m_Lens.OrthographicSize;
 
         currentOrthgraphicSize = startOrthgraphicSize;
 
@@ -53,7 +57,8 @@ public class ScanMode : MonoBehaviour
 
         scanModeCanvas.SetActive(false);
 
-        touchDetection = FindObjectOfType<TouchDetection>();
+
+
 
     }
 
@@ -86,9 +91,9 @@ public class ScanMode : MonoBehaviour
 
     public void OnZoomingIn()
     {
-        if(cinemachineVirtualCamera.m_Lens.OrthographicSize > zoomInSizeMin)
+        if(PlayerCinemachineVirtualCamera.m_Lens.OrthographicSize > zoomInSizeMin)
         {
-            targetZoomSize = cinemachineVirtualCamera.m_Lens.OrthographicSize - zoomingAmount;
+            targetZoomSize = PlayerCinemachineVirtualCamera.m_Lens.OrthographicSize - zoomingAmount;
 
             StartCoroutine("ZoomIn");
         }
@@ -97,9 +102,9 @@ public class ScanMode : MonoBehaviour
 
     public void OnZoomingOut()
     {
-        if (cinemachineVirtualCamera.m_Lens.OrthographicSize < zoomOutSizeMax)
+        if (PlayerCinemachineVirtualCamera.m_Lens.OrthographicSize < zoomOutSizeMax)
         {
-            targetZoomSize = cinemachineVirtualCamera.m_Lens.OrthographicSize + zoomingAmount;
+            targetZoomSize = PlayerCinemachineVirtualCamera.m_Lens.OrthographicSize + zoomingAmount;
 
             StartCoroutine("ZoomOut");
 
@@ -111,9 +116,9 @@ public class ScanMode : MonoBehaviour
     IEnumerator ZoomIn()
     {
         // Zoom In
-        while (cinemachineVirtualCamera.m_Lens.OrthographicSize > targetZoomSize)
+        while (PlayerCinemachineVirtualCamera.m_Lens.OrthographicSize > targetZoomSize)
         {
-            cinemachineVirtualCamera.m_Lens.OrthographicSize -= zoomingSpeed * Time.deltaTime;
+            PlayerCinemachineVirtualCamera.m_Lens.OrthographicSize -= zoomingSpeed * Time.deltaTime;
 
             yield return null;
         }
@@ -122,9 +127,9 @@ public class ScanMode : MonoBehaviour
     IEnumerator ZoomOut()
     {
         // Zoom out
-        while (cinemachineVirtualCamera.m_Lens.OrthographicSize < targetZoomSize)
+        while (PlayerCinemachineVirtualCamera.m_Lens.OrthographicSize < targetZoomSize)
         {
-            cinemachineVirtualCamera.m_Lens.OrthographicSize += zoomingSpeed * Time.deltaTime;
+            PlayerCinemachineVirtualCamera.m_Lens.OrthographicSize += zoomingSpeed * Time.deltaTime;
 
             yield return null;
         }
@@ -138,15 +143,15 @@ public class ScanMode : MonoBehaviour
         if (!isScanModeOn)
         {
             // Zoom out
-            while (cinemachineVirtualCamera.m_Lens.OrthographicSize <= zoomOutSize)
+            while (PlayerCinemachineVirtualCamera.m_Lens.OrthographicSize <= zoomOutSize)
             {
-                cinemachineVirtualCamera.m_Lens.OrthographicSize += zoomingSpeed * Time.deltaTime;
+                PlayerCinemachineVirtualCamera.m_Lens.OrthographicSize += zoomingSpeed * Time.deltaTime;
 
                 yield return null;
 
             }
 
-            currentOrthgraphicSize = cinemachineVirtualCamera.m_Lens.OrthographicSize;
+            currentOrthgraphicSize = PlayerCinemachineVirtualCamera.m_Lens.OrthographicSize;
 
             isScanModeOn = true;
 
@@ -154,12 +159,12 @@ public class ScanMode : MonoBehaviour
         else
         {
             // return to OriginalSize
-            if (cinemachineVirtualCamera.m_Lens.OrthographicSize < startOrthgraphicSize)
+            if (PlayerCinemachineVirtualCamera.m_Lens.OrthographicSize < startOrthgraphicSize)
             {
                 // Zoom out
-                while (cinemachineVirtualCamera.m_Lens.OrthographicSize <= startOrthgraphicSize)
+                while (PlayerCinemachineVirtualCamera.m_Lens.OrthographicSize <= startOrthgraphicSize)
                 {
-                    cinemachineVirtualCamera.m_Lens.OrthographicSize += zoomingSpeed * Time.deltaTime;
+                    PlayerCinemachineVirtualCamera.m_Lens.OrthographicSize += zoomingSpeed * Time.deltaTime;
 
                     yield return null;
                 }
@@ -168,16 +173,16 @@ public class ScanMode : MonoBehaviour
             {
 
                 // Zoom In
-                while (cinemachineVirtualCamera.m_Lens.OrthographicSize >= startOrthgraphicSize)
+                while (PlayerCinemachineVirtualCamera.m_Lens.OrthographicSize >= startOrthgraphicSize)
                 {
-                    cinemachineVirtualCamera.m_Lens.OrthographicSize -= zoomingSpeed * Time.deltaTime;
+                    PlayerCinemachineVirtualCamera.m_Lens.OrthographicSize -= zoomingSpeed * Time.deltaTime;
 
                     yield return null;
                 }
             }
 
 
-            currentOrthgraphicSize = cinemachineVirtualCamera.m_Lens.OrthographicSize;
+            currentOrthgraphicSize = PlayerCinemachineVirtualCamera.m_Lens.OrthographicSize;
 
             isScanModeOn = false;
 
