@@ -60,7 +60,6 @@ public class SceneLoader : MonoBehaviour
     private int mainLevel = 0;
     private int subLevel = 0;
 
-    public bool testOn = false;
 
     public void DisableAllLoadingScreen()
     {
@@ -73,10 +72,7 @@ public class SceneLoader : MonoBehaviour
 
     public void SetLoadingScreen(bool turnOnLoadingBar = false)
     {
-        if(turnOnLoadingBar)
-        {
-
-        }
+       
 
     }
 

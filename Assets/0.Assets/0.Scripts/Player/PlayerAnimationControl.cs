@@ -12,90 +12,35 @@ public class PlayerAnimationControl : MonoBehaviour
 
     public AnimationName animationName = new AnimationName();
 
-
-    /*
-    private const string Idle0 = "Idle0";
-    private const string Idle2 = "Idle2";
-    private const string Idle1 = "Idle1";
-
-    private const string Run0 = "Run0";
-    private const string Run1 = "Run1";
-
-    private const string StandPushHold = "StandPushHold";
-
-    private const string StandPushIdle0 = "StandPushIdle0";
-    private const string StandPushIdle1 = "StandPushIdle1";
-
-    private const string StandPushWalk = "StandPushWalk";
-
-    private const string StandPushDeniedBlock = "StandPushDeniedBlock";
-    private const string StandPushDeniedUp = "StandPushDeniedUp";
-
-    */
-    //
-
     [SerializeField] private Animator animator;
 
 
-    private void Awake()
-    {
-        //playerAnimation = PLAYERANIMATION.Stand;
-        //animator.SetBool(PLAYERANIMATION.Stand, true);
+    [SerializeField]
+    private EmojiAnimationCtrl emojiAnimationCtrl;
 
-        
-
-    }
-
-    public void OnIdle()
+    // Animation 중 Bool 로 컨트롤 되는 것들 직접 꺼줘야함
+    public void OffAllAnimations()
     {
 
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
-        {
-            OffAllAnimations();
+        OffIdleAnimations();
 
-
-            switch (RandomNumberGenerate(2))
-            {
-                case 0:
-                    animator.SetBool(animationName.Idle0, true);
-                    break;
-                case 1:
-                    animator.SetBool(animationName.Idle1, true);
-                    break;
-                case 2:
-                    animator.SetBool(animationName.Idle2, true);
-                    break;
-
-            }
-
-            /*
-             * 
-            int min = 0, max = 2;
-         // Random,Range (mininclude, maxexclude!!!)
-
-            int randNum = Random.Range(min, max +1); 
-
-            switch (randNum)
-            {
-                case 0:
-                    animator.SetBool(Idle0, true);
-                    break;
-                case 1:
-                    animator.SetBool(Idle1, true);
-                    break;
-                case 2:
-                    animator.SetBool(Idle2, true);
-                    break;
-
-            }
-            */
-        }
+        animator.SetBool(animationName.StandPushDeniedUp, false);
 
     }
 
     public void PlayAnimation(PLAYERSTATE ps)
     {
+
+        // Idle 은 OffAllAnimation  타이밍이 다르기 때문ㅇ
+        if(ps == PLAYERSTATE.IDLE)
+        {
+            OnIdle();
+            return;
+        }
+
         OffAllAnimations();
+
+
 
         switch (ps)
         {
@@ -123,13 +68,35 @@ public class PlayerAnimationControl : MonoBehaviour
         }
     }
 
+
+    private void OnIdle()
+    {
+
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        {
+            OffAllAnimations();
+
+            switch (RandomNumberGenerate(2))
+            {
+                case 0:
+                    animator.SetBool(animationName.Idle0, true);
+                    break;
+                case 1:
+                    animator.SetBool(animationName.Idle1, true);
+                    break;
+                case 2:
+                    animator.SetBool(animationName.Idle2, true);
+                    break;
+
+            }
+
+
+        }
+
+    }
+
     private void OnRunning()
     {
-        //OffAllAnimations();
-
-        //animator.SetBool(Run0, true);
-        //animator.SetTrigger(Run0);
-
         switch(RandomNumberGenerate(1))
         {
             case 0:
@@ -142,53 +109,36 @@ public class PlayerAnimationControl : MonoBehaviour
 
         }
 
-        /*
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
-        {
-
-            switch (RandomNumberGenerate(1))
-            {
-                case 0:
-                    animator.SetTrigger(Run0);
-
-                    break;
-                case 1:
-                    animator.SetTrigger(Run1);
-                    break;
-
-            }
-
-        }
-        */
-
     }
 
     private void OnStandUp()
     {
-        //OffAllAnimations();
         animator.SetBool(animationName.StandPushDeniedUp, true);
+
+
     }
 
 
     private void OnBlock()
     {
-        //OffAllAnimations();
+
         animator.SetTrigger(animationName.StandPushWalk);
 
-        //StartCoroutine("Timer", )
+
     }
 
     private void OnBlockRestricted()
     {
-        //OffAllAnimations();
         animator.SetTrigger(animationName.StandPushDeniedBlock);
+
+
+
     }
 
 
     // fix it later
     private void OnWallRestriected()
     {
-        //OffAllAnimations();
         animator.SetTrigger(animationName.StandPushDeniedBlock);
     }
 
@@ -200,23 +150,11 @@ public class PlayerAnimationControl : MonoBehaviour
     //
 
 
-
-    public void OnGravityTransfer()
+    private void OnGravityTransfer()
     {
 
     }
 
-    public void OffAllAnimations()
-    {
-        //animator.gameObject.SetActive(false);
-        //animator.gameObject.SetActive(true);
-
-        
-        OffIdleAnimations();
-
-        animator.SetBool(animationName.StandPushDeniedUp, false);
-
-    }
 
 
 
@@ -227,18 +165,19 @@ public class PlayerAnimationControl : MonoBehaviour
         animator.SetBool(animationName.Idle2, false);
     }
 
+    //
+
+    // 나중에 Util 로 빼자.
     private int RandomNumberGenerate(int maxNum)
     {
         int min = 0;
-        // Random,Range (mininclude, maxexclude!!!)
 
+        // Random,Range (mininclude, max Exclude!!!)
         int randNum = Random.Range(min, maxNum + 1);
 
         return randNum;
 
     }
-
-
 
     IEnumerator Timer(float endTime)
     {

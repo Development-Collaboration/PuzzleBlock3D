@@ -15,6 +15,7 @@ using Cinemachine;
 [RequireComponent(typeof(PlayerAnimationControl))]
 [RequireComponent(typeof(PlayerState))]
 
+//
 
 
 
@@ -25,10 +26,10 @@ public class Player : MonoBehaviour
     private PlayerState playerState;
     private PlayerMovement playerMovement;
 
-    //[SerializeField] CameraControl cameraControl;
-
     private CameraControl cameraControl;
 
+    //
+ 
     
 
     private void Awake()
@@ -39,6 +40,7 @@ public class Player : MonoBehaviour
 
         cameraControl = FindObjectOfType<CameraControl>();
 
+        
 
         playerState.PState = PLAYERSTATE.BEGIN;
 
@@ -46,50 +48,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //print("Playerstate: " + playerState.PState);
-
-        if(!(playerMovement.IsMoving))
-        {
-            switch (playerState.PState)
-            {
-                case PLAYERSTATE.IDLE:
-                    {
-                        OnIdle();
-                    }
-                    break;
-
-                    /*
-                case PLAYERSTATE.RUNNING:
-                    {
-                        OnRunning();
-                    }
-                    break;
-                    */
-            }
-        }
-        
-        /*
-        switch(playerState.PState)
-        {
-            case PLAYERSTATE.IDLE:
-                {
-                    OnIdle();
-                }
-                break;
-
-                
-            case PLAYERSTATE.RUNNING:
-                {
-                    OnRunning();
-                }
-                break;
-                
-        }
-        */
-
-       // print("PLAYERSTATE: " + playerState.PState);
-
-
+        print("Playerstate: " + playerState.PState);
 
     }
 
@@ -103,55 +62,15 @@ public class Player : MonoBehaviour
 
     }
 
-    public void OnIdle()
-    {
-        playerAnimationControl.OnIdle();
-
-    }
-    /*
-    public void OnRunning()
-    {
-        SetPlayer(PLAYERSTATE.RUNNING);
-        playerAnimationControl.OnRunning();
-
-    }
-
-    public void OnPushingBlock()
-    {
-        SetPlayer(PLAYERSTATE.PUSHING_BLOCK);
-        playerAnimationControl.OnBlock();
-
-
-    }
-    public void OnBlockRestricted()
-    {
-        SetPlayer(PLAYERSTATE.BLOCK_RESTRICTED);
-        playerAnimationControl.OnBlockRestricted();
-
-    }
-
-    public void OnWall()
-    {
-        SetPlayer(PLAYERSTATE.WALL_RESTRICTED);
-        playerAnimationControl.OnWallRestriected();
-        
-    }
-
-    public void OnStandUp()
-    {
-        SetPlayer(PLAYERSTATE.STAND_UP);
-        playerAnimationControl.OnStandUp();
-    }
-    */
-
     public void OffAllAnimations()
     {
         playerAnimationControl.OffAllAnimations();
     }
+
+
+
     public void OnGravityTransfer()
     {
-        //playerState.PState = PLAYERSTATE.RUNNING;
-        //playerAnimationControl.OnGravityTransfer();
 
         cameraControl.InstantFollowPlayer();
     }
@@ -159,8 +78,6 @@ public class Player : MonoBehaviour
 
     public void OnEndGravityTransfer()
     {
-
-
         cameraControl.StartCamSetting();
     }
 

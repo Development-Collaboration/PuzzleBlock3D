@@ -65,7 +65,7 @@ public enum LoopType { none, loop, pingPong }
 
 //System.Serializable
 [Serializable]
-public struct Attributes
+public struct iTween_Attributes
 {
 	public BEHAVIOR behavior;
 	public TRANSFORM transformPoition;
@@ -73,12 +73,20 @@ public struct Attributes
 	public EaseType easeType;
 	public LoopType loopType;
 	public float delay;
+
+	[Header("For Scale")]
+
+	[Tooltip("For Scale")]
+	public Vector3 scale;
+	[Tooltip("For Scale Time")]
+	public float time;
+
 }
 
 
 public class ITweenUitility : MonoBehaviour
 {
-	public List<Attributes> ITweenAttributes = new List<Attributes>();
+	public List<iTween_Attributes> ITweenAttributes = new List<iTween_Attributes>();
     /*
 	[SerializeField] private BEHAVIOR behavior;
 	[SerializeField] private TRANSFORM transformPoition;
@@ -93,9 +101,16 @@ public class ITweenUitility : MonoBehaviour
 		//ITweenAttributes = new List<Attributes>();
 	}
 
+	private void Start()
+	{
+		StartSetting();
+	}
 
-    public void OnPauseiTween()
+
+
+	public void OnPauseiTween()
     {
+		
         iTween.Pause(gameObject);
     }
 
@@ -111,6 +126,61 @@ public class ITweenUitility : MonoBehaviour
 		StartSetting();
 	}
 
+
+	private void StartSetting()
+	{
+		foreach (iTween_Attributes attributes in ITweenAttributes)
+		{
+			switch (attributes.behavior)
+			{
+
+				case BEHAVIOR.ROTATE_By:
+					{
+						iTween.RotateBy(gameObject, iTween.Hash
+							(attributes.transformPoition.ToString(), attributes.speed,
+							"easeType", attributes.easeType.ToString(),
+							"loopType", attributes.loopType.ToString(),
+							"delay", attributes.delay));
+					}
+					break;
+
+				case BEHAVIOR.MOVE_By:
+					{
+						iTween.MoveBy(gameObject, iTween.Hash
+							(attributes.transformPoition.ToString(),
+							attributes.speed,
+							"easeType", attributes.easeType.ToString(),
+							"loopType", attributes.loopType.ToString(),
+							"delay", attributes.delay));
+					}
+					break;
+
+				case BEHAVIOR.SCALE_To:
+                    {
+						iTween.ScaleTo(gameObject, iTween.Hash
+							(
+							//attributes.transformPoition.ToString(), attributes.speed,
+							"scale", attributes.scale,
+							"time",attributes.time,
+							"easeType", attributes.easeType.ToString(),
+							"loopType", attributes.loopType.ToString(),
+							"delay", attributes.delay));
+
+						/*
+						iTween.ScaleTo(gameObject, iTween.Hash
+							("y", 5, "easeType", "easeInOutExpo",
+								"loopType", "pingPong", "time", 1));
+						*/
+					}
+					break;
+			}
+
+
+		}
+
+	}
+
+	/*
 	public void SetITween(BEHAVIOR bEHAVIOR, TRANSFORM tRANSFORM, float sPEED, EaseType eASETYPE, LoopType lOOPTYPE, float dELAY)
     {
 
@@ -133,44 +203,7 @@ public class ITweenUitility : MonoBehaviour
 
 		}
 	}
+	*/
 
-	private void StartSetting()
-    {
-		foreach (Attributes attributes in ITweenAttributes)
-		{
-			switch (attributes.behavior)
-			{
-
-				case BEHAVIOR.ROTATE_By:
-					{
-						iTween.RotateBy(gameObject, iTween.Hash
-							(attributes.transformPoition.ToString(), attributes.speed,
-							"easeType", attributes.easeType.ToString(),
-							"loopType", attributes.loopType.ToString(),
-							"delay", attributes.delay));
-					}
-					break;
-
-				case BEHAVIOR.MOVE_By:
-					{
-						iTween.MoveBy(gameObject, iTween.Hash
-							(attributes.transformPoition.ToString(), attributes.speed,
-							"easeType", attributes.easeType.ToString(),
-							"loopType", attributes.loopType.ToString(),
-							"delay", attributes.delay));
-					}
-					break;
-			}
-
-
-		}
-
-	}
-
-	private void Start()
-    {
-		StartSetting();
-	}
-	
 
 }

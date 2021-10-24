@@ -11,6 +11,9 @@ public class PlayerMovement : BasicMovement
     //
     private BlockMovement[] blockArrays = new BlockMovement[4];
 
+    private float defaultMovementSpeed = 0f;
+    private float newMovementSpeed = 0f;
+    private float blockMovementSpeed = 0f;
 
     private List<GravityPosInTime> gravityPosInTimes;
 
@@ -22,9 +25,10 @@ public class PlayerMovement : BasicMovement
     //private PlayerAnimationControl playerAnimationControl;
     private PlayerState playerState;
 
-    // add to movementSpeed
+    /*
     [SerializeField] [Tooltip("Add from movementSpeed")]
     private float movementSpeedExtra = 2f;
+    */
 
     protected override void Awake()
     {
@@ -44,23 +48,26 @@ public class PlayerMovement : BasicMovement
 
 
         IsRestricted = false;
+    }
 
+    private void Start()
+    {
+        defaultMovementSpeed = movementSpeed;
 
     }
 
     private void FixedUpdate()
     {
-        /*
+        
         if(!IsMoving)
         {
-            // IsRestricted
-            playerState.PState = PLAYERSTATE.IDLE;
+            player.SetPlayer(PLAYERSTATE.IDLE);           
 
         }
-        */
-        
+
+
         // Rotation Fix + test
-        if(Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B))
         {
             print(gravityControl.GravityPos);
             allGameObjectsTransform.RotateTransform(gravityControl.GravityPos, lastGravityPosition, gravityTransfer.gravityTransferPosition);
@@ -78,7 +85,7 @@ public class PlayerMovement : BasicMovement
 
             //IsRestricted = false;
 
-            //
+            // When last move was denied
             if(IsRestricted)
             {
                 player.SetPlayer(PLAYERSTATE.STAND_UP);
@@ -88,6 +95,7 @@ public class PlayerMovement : BasicMovement
             }
 
             //
+
 
             DirectionDecision(direction); // raycheck
             RaycastCheck(transform.forward, direction);
@@ -144,24 +152,30 @@ public class PlayerMovement : BasicMovement
                 {
                     case stringNothing:
                         {
-                            //player.OnRunning();
                             player.SetPlayer(PLAYERSTATE.RUNNING);
-                            StartCoroutine("ExecutePlayerMovements", movementSpeedExtra);
+                            StartCoroutine("ExecutePlayerMovements");
 
                         }
                         break;
                     case stringBlock:
                         {
-                            //player.OnPushingBlock();
                             player.SetPlayer(PLAYERSTATE.PUSHING_BLOCK);
 
-                            StartCoroutine("ExecutePlayerMovements",0);
+                            print("block move s: " + blockMovementSpeed);
 
+                            StartCoroutine("ExecutePlayerMovements_Block");
+
+                            //movementSpeed = defaultMovementSpeed;
+
+                            //print("movementSpeed s: " + movementSpeed);
                         }
                         break;
                     case stringGravityTransfer:
                         {
-                            player.OnGravityTransfer();                           
+
+                            //cam ctrl
+                            player.OnGravityTransfer();
+
                             StartCoroutine("ExecutePlayerMovements_GT");
 
 
@@ -181,7 +195,7 @@ public class PlayerMovement : BasicMovement
                             //player.OnRunning();
                             player.SetPlayer(PLAYERSTATE.RUNNING);
 
-                            StartCoroutine("ExecutePlayerMovements", movementSpeedExtra);
+                            StartCoroutine("ExecutePlayerMovements");
 
                         }
                         break;
@@ -226,9 +240,6 @@ public class PlayerMovement : BasicMovement
 
         if (rotateAllGameObjectsTransform)
         {
-
-
-
             allGameObjectsTransform.RotateTransform(gravityControl.GravityPos, lastGravityPosition, gravityTransfer.gravityTransferPosition);
             // at RotateTransform() ->         player.OnEndGravityTransfer();
 
@@ -239,14 +250,43 @@ public class PlayerMovement : BasicMovement
 
         IsMoving = false;
 
-
-        //playerState.PState = PLAYERSTATE.GRAVITY_TURN;
-
-
-
     }
 
-    IEnumerator ExecutePlayerMovements(float extraSpeed)
+    IEnumerator ExecutePlayerMovements_Block()
+    {
+        IsMoving = true;
+        float durationLimit = 2f;
+
+
+        while (durationLimit >= 0f && Vector3.Distance(rb.position, targetPos) >= 0.05f)
+        {
+            print("PLAYERSTATE.PUSHING_BLOCK");
+
+
+            durationLimit -= Time.deltaTime;
+
+            //rb.MovePosition(Vector3.Lerp(rb.position, targetPos, movementSpeed * Time.deltaTime));
+            rb.MovePosition(Vector3.MoveTowards(rb.position, targetPos, (blockMovementSpeed) * Time.deltaTime));
+
+            //print("Dis: " + Vector3.Distance(rb.position, targetPos));
+            //print(durationLimit);
+            yield return null;
+        }
+
+        //gameObject.transform.position = targetPos;
+
+        rb.MovePosition(targetPos);
+
+        yield return null;
+
+        print("OFF");
+
+        IsMoving = false;
+
+        player.OffAllAnimations();
+    }
+
+    IEnumerator ExecutePlayerMovements()
     {
 
         IsMoving = true;
@@ -259,7 +299,7 @@ public class PlayerMovement : BasicMovement
             durationLimit -= Time.deltaTime;
 
             //rb.MovePosition(Vector3.Lerp(rb.position, targetPos, movementSpeed * Time.deltaTime));
-            rb.MovePosition(Vector3.MoveTowards(rb.position, targetPos, (movementSpeed + extraSpeed) * Time.deltaTime));
+            rb.MovePosition(Vector3.MoveTowards(rb.position, targetPos, (movementSpeed) * Time.deltaTime));
 
             yield return null;
         }
@@ -273,6 +313,7 @@ public class PlayerMovement : BasicMovement
 
         player.OffAllAnimations();
 
+        /*
         if(extraSpeed > 0)
         {
             playerState.PState = PLAYERSTATE.IDLE;
@@ -283,6 +324,7 @@ public class PlayerMovement : BasicMovement
             playerState.PState = PLAYERSTATE.IDLE_PUSHING_BLOCK;
 
         }
+        */
 
         /*
         if (rotateAllGameObjectsTransform)
@@ -314,6 +356,9 @@ public class PlayerMovement : BasicMovement
 
         blockArrays[(int)direction] = hit.collider.GetComponent<BlockMovement>();
         blockArrays[(int)direction].OnBlockMovementDirection(direction);
+        //
+        blockMovementSpeed = blockArrays[(int)direction].GetMovementSpeed;
+        //
         blockArrays[(int)direction] = null;
 
 

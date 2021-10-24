@@ -2,8 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum LEVEL_TYPE
+{
+    NO_ELIM_BLOCK,
+    LIMIT_MOVEMENT,
+    TIME_ATTACK,
+    ELIM_BLOCK_NORMAL,
+
+}
+
+
 public class Level : MonoBehaviour
 {
+
+    [SerializeField]
+    private LEVEL_TYPE level_Type;
+    
     // Cached Reference
     SceneLoader sceneLoader;
     private GameStatus gameStatus;
@@ -21,6 +35,11 @@ public class Level : MonoBehaviour
     {
         sceneLoader = FindObjectOfType<SceneLoader>();
         gameStatus = FindObjectOfType<GameStatus>();
+    }
+
+    private void Start()
+    {
+        
     }
 
     public void CountBlocks()

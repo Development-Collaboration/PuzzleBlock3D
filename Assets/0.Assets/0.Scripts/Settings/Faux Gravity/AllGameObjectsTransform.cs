@@ -12,7 +12,7 @@ public class AllGameObjectsTransform : MonoBehaviour
 
     private TouchDetection touchDetection;
 
-    [SerializeField] private float rotationSpeed = 1.5f;
+    [SerializeField] private float rotationSpeed;
 
     private Quaternion targetRotation;
     private Quaternion lastRotation;

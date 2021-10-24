@@ -26,6 +26,9 @@ public abstract class BasicMovement : MonoBehaviour
     //
     [SerializeField] //[Range( , )]
     protected float movementSpeed = 2f;
+    public float GetMovementSpeed { get { return movementSpeed; } }
+
+       
 
     //[SerializeField] //[Range( , )]
     protected int movementDistance = 1;
@@ -42,7 +45,8 @@ public abstract class BasicMovement : MonoBehaviour
 
     protected GravityTransfer gravityTransfer;
 
-    [SerializeField] protected int movementCounts = 0;
+    //[SerializeField]
+    protected int movementCounts = 0;
     //
     protected List<PointsInTime> pointsInTimes;
 
@@ -58,6 +62,7 @@ public abstract class BasicMovement : MonoBehaviour
         IsRestricted = false;
 
         pointsInTimes = new List<PointsInTime>();
+        
     }
 
 

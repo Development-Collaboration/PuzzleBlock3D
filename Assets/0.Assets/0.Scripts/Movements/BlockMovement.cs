@@ -7,6 +7,7 @@ public class BlockMovement : BasicMovement
     private PlayerMovement playerMovement;
     private Block block;
 
+
     protected override void Awake()
     {
         base.Awake();
@@ -72,7 +73,9 @@ public class BlockMovement : BasicMovement
 
         //print(this.name);
 
-        float durationLimit = 0.5f;
+        //float durationLimit = 0.5f;
+        float durationLimit = 2f;
+
 
         while (durationLimit >= 0f && Vector3.Distance(rb.position, targetPos) >= 0.05f)
         {

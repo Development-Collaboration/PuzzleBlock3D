@@ -28,7 +28,9 @@ public class CameraControl : MonoBehaviour
 
     private void StartSetup()
     {
-        playerCinemachineVirtualCamera.m_Follow = FindObjectOfType<Player>().transform;
+
+        if(playerCinemachineVirtualCamera != null)
+            playerCinemachineVirtualCamera.m_Follow = FindObjectOfType<Player>().transform;
 
         cinemachineFramingTransposer = playerCinemachineVirtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         
