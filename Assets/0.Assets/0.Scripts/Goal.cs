@@ -9,6 +9,7 @@ public class Goal : MonoBehaviour
     private BoxCollider boxCollider;
     // private ITweenUitility iTweenUtility;
 
+
     private void Awake()
     {
         level = FindObjectOfType<Level>();
@@ -16,7 +17,8 @@ public class Goal : MonoBehaviour
 
         boxCollider.isTrigger = true;
 
-       // iTweenUtility = GetComponent<ITweenUitility>();
+        // iTweenUtility = GetComponent<ITweenUitility>();
+
 
     }
 

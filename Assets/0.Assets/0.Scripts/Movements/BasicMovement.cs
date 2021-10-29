@@ -20,6 +20,9 @@ public abstract class BasicMovement : MonoBehaviour
 
     //
     protected string stringCurrent = "";
+    //
+    protected const string stringGoalTransparent = "GoalTransparent";
+
 
 
 
@@ -141,7 +144,14 @@ public abstract class BasicMovement : MonoBehaviour
 
                 CollideWithGoal(hit);
             }
-            
+            else if (hit.transform.CompareTag(stringGoalTransparent))
+            {
+
+                CollideWithGoalTransparent(hit);
+            }
+
+            // stringGoalTransparent
+
         }
         else
         {
@@ -149,9 +159,12 @@ public abstract class BasicMovement : MonoBehaviour
         }
         
     }
+    //
+    protected virtual void CollideWithGoalTransparent(RaycastHit hit) { }
 
 
 
+    //
     protected virtual void MovementsControl(DIRECTION direction)  {  }
     protected virtual void CollideWithWall(RaycastHit hit) {  }
     protected virtual void CollideWithBlock(RaycastHit hit, DIRECTION direction) { }

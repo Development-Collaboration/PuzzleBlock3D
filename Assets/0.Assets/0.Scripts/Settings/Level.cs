@@ -1,19 +1,38 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
+using System;
+
 using UnityEngine;
 
+
+[Flags]
 public enum LEVEL_TYPE
 {
+
+    /*
+    None = 0,
+    Human = 1 << 0,
+    Flyer = 1 << 1,
+    Machine = 1 << 2,
+    Fish = 1 << 3,
+    TEST = 1 << 4,
+    All = int.MaxValue,    // ~0 으로 해도 같음
+    */
+
+
+    /*
     NO_ELIM_BLOCK,
     LIMIT_MOVEMENT,
     TIME_ATTACK,
     ELIM_BLOCK_NORMAL,
-
+    */
 }
+
 
 
 public class Level : MonoBehaviour
 {
+    
 
     [SerializeField]
     private LEVEL_TYPE level_Type;
@@ -78,4 +97,8 @@ public class Level : MonoBehaviour
     {
         sceneLoader.RestartScene();
     }
+
+
+
+
 }

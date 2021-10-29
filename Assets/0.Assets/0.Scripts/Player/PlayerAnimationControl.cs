@@ -13,10 +13,13 @@ public class PlayerAnimationControl : MonoBehaviour
     public AnimationName animationName = new AnimationName();
 
     [SerializeField] private Animator animator;
-
-
-    [SerializeField]
+   
     private EmojiAnimationCtrl emojiAnimationCtrl;
+
+    private void Awake()
+    {
+        emojiAnimationCtrl = FindObjectOfType<EmojiAnimationCtrl>();
+    }
 
     // Animation 중 Bool 로 컨트롤 되는 것들 직접 꺼줘야함
     public void OffAllAnimations()
@@ -115,7 +118,7 @@ public class PlayerAnimationControl : MonoBehaviour
     {
         animator.SetBool(animationName.StandPushDeniedUp, true);
 
-
+        emojiAnimationCtrl.OffAllAnim();
     }
 
 
@@ -140,6 +143,9 @@ public class PlayerAnimationControl : MonoBehaviour
     private void OnWallRestriected()
     {
         animator.SetTrigger(animationName.StandPushDeniedBlock);
+
+        emojiAnimationCtrl.OnPlayerAnim();
+
     }
 
     private void OnGoalRestricted()

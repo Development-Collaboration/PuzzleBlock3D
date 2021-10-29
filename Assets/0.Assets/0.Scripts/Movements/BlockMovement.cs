@@ -121,17 +121,6 @@ public class BlockMovement : BasicMovement
     }
 
 
-    protected override void CollideWithGoal(RaycastHit hit)
-    {
-        //base.CollideWithGoal(hit);
-
-        print("Block Reached Goal");        
-
-        block.BlockReachedGoal(hit.collider.GetComponent<Goal>());
-    }
-
-
-
     protected override void CollideWithGravityTransfer(RaycastHit hit, DIRECTION direction)
     {
         print("Block Reached CollideWithGravityTransfer");
@@ -158,6 +147,24 @@ public class BlockMovement : BasicMovement
             playerMovement.IsRestricted = true;
 
         }
+
+    }
+
+    protected override void CollideWithGoal(RaycastHit hit)
+    {
+        //base.CollideWithGoal(hit);
+
+        print("Block Reached Goal");
+
+        block.BlockReachedGoal(hit.collider.GetComponent<Goal>());
+    }
+
+    protected override void CollideWithGoalTransparent(RaycastHit hit)
+    {
+        //base.CollideWithGoalTransparent(hit);
+
+        print("Block Reached GoalTransparent");
+
 
     }
 

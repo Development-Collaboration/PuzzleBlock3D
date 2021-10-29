@@ -3,6 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+using UnityEngine.UI;
+
+
+[RequireComponent(typeof(Animator))]
+
+
 public class EmojiName
 {
     public readonly string EmojiSpiral = "Spiral";
@@ -18,46 +25,75 @@ public class EmojiName
 
 public class EmojiAnimationCtrl : MonoBehaviour
 {
-    public EmojiName emojiName = new EmojiName();
+    private EmojiName emojiName = new EmojiName();
 
-    [SerializeField] private Animator animator;
+    // Componenets
+    private Emoji emoji;
+    private Animator animator;
+    //private Image emojiImage;
 
     //
-    //private Emoji emoji;
-
-
+    private string currentEmojiName = "";
 
     private void Awake()
     {
-        //emoji = FindObjectOfType<Emoji>();
+        emoji = FindObjectOfType<Emoji>();
 
-        //animator.enabled = false;
-        //animator.
+        //emojiImage = emoji.GetComponent<Image>();
+        animator = GetComponent<Animator>();
+
+        animator.enabled = true;
 
     }
+
+
+
+
+    public void AnimationPosition(Vector3 pos)
+    {      
+        animator.transform.position = pos;
+    }
+
+    
 
     public void OnPlayerAnim()
     {
 
-
-        //animator.SetBool(emojiName.EmoSpiral, true);
-        //animator.SetBool(emojiName.EmoQuestionMark, true);
+        //animator.SetBool(emojiName.EmojiSpiral, true);
+        //animator.SetBool(emojiName.EmojiQuestionMark, true);
         //animator.SetBool(emojiName.EmojiHeartBroken, true);
         //animator.SetBool(emojiName.EmojiDollar, true);
         //animator.SetBool(emojiName.EmojiDot, true);
-        //animator.SetBool(emojiName.EmojiMusicNote, true);
+        //animator.SetBool(emojiName.EmojiMusicNote, true);      
         //animator.SetBool(emojiName.EmojiOkay, true);
+
+        //animator.enabled = false;
 
         StartCoroutine(PlayAnim());
 
     }
 
+
+
+
     IEnumerator PlayAnim()
     {
 
+
+        //yield return new WaitForSeconds(1f);
+
+        animator.enabled = true;
+
+        //yield return new WaitForSeconds(.1f);
+
+        animator.SetBool(emojiName.EmojiSpiral, true);
+
+        yield return new WaitForSeconds(.1f);
+
+        /*
+
         animator.enabled = false;
 
-        //yield return new WaitForEndOfFrame();
         yield return new WaitForSeconds(.1f);
 
 
@@ -70,6 +106,12 @@ public class EmojiAnimationCtrl : MonoBehaviour
 
 
         yield return new WaitForSeconds(.1f);
+
+        */
+
+
+        yield return null;
+
     }
 
     public void OffAllAnim()
@@ -83,7 +125,6 @@ public class EmojiAnimationCtrl : MonoBehaviour
         animator.SetBool(emojiName.EmojiDot, false);
         animator.SetBool(emojiName.EmojiMusicNote, false);
         animator.SetBool(emojiName.EmojiOkay, false);
-
 
 
     }
