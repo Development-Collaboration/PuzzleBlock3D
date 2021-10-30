@@ -43,8 +43,6 @@ public class PlayerAnimationControl : MonoBehaviour
 
         OffAllAnimations();
 
-
-
         switch (ps)
         {
             case PLAYERSTATE.RUNNING:
@@ -118,7 +116,7 @@ public class PlayerAnimationControl : MonoBehaviour
     {
         animator.SetBool(animationName.StandPushDeniedUp, true);
 
-        emojiAnimationCtrl.OffAllAnim();
+        emojiAnimationCtrl.OffAllEmojiAnimation();
     }
 
 
@@ -135,6 +133,7 @@ public class PlayerAnimationControl : MonoBehaviour
         animator.SetTrigger(animationName.StandPushDeniedBlock);
 
 
+        emojiAnimationCtrl.PlayEmojiAnimation(emojiAnimationCtrl.emojiName.EmojiHeartBroken);
 
     }
 
@@ -144,8 +143,7 @@ public class PlayerAnimationControl : MonoBehaviour
     {
         animator.SetTrigger(animationName.StandPushDeniedBlock);
 
-        emojiAnimationCtrl.OnPlayerAnim();
-
+        emojiAnimationCtrl.PlayEmojiAnimation(emojiAnimationCtrl.emojiName.EmojiSpiral);
     }
 
     private void OnGoalRestricted()

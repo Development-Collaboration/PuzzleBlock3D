@@ -22,6 +22,8 @@ using Cinemachine;
 public class Player : MonoBehaviour
 {
     private PlayerAnimationControl playerAnimationControl;
+    //private EmojiAnimationCtrl emojiAnimationCtrl;
+
 
     private PlayerState playerState;
     private PlayerMovement playerMovement;
@@ -29,8 +31,8 @@ public class Player : MonoBehaviour
     private CameraControl cameraControl;
 
     //
- 
-    
+
+
 
     private void Awake()
     {
@@ -40,7 +42,8 @@ public class Player : MonoBehaviour
 
         cameraControl = FindObjectOfType<CameraControl>();
 
-        
+        //emojiAnimationCtrl = FindObjectOfType<EmojiAnimationCtrl>();
+
 
         playerState.PState = PLAYERSTATE.BEGIN;
 
@@ -56,8 +59,8 @@ public class Player : MonoBehaviour
     {
         playerState.PState = ps;
         playerAnimationControl.PlayAnimation(ps);
-
         // Audio
+
 
 
     }
@@ -80,6 +83,8 @@ public class Player : MonoBehaviour
     {
         cameraControl.StartCamSetting();
     }
+
+
 
 
 

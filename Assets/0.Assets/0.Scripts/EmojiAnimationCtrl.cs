@@ -25,15 +25,12 @@ public class EmojiName
 
 public class EmojiAnimationCtrl : MonoBehaviour
 {
-    private EmojiName emojiName = new EmojiName();
+    public EmojiName emojiName = new EmojiName();
 
     // Componenets
     private Emoji emoji;
     private Animator animator;
     //private Image emojiImage;
-
-    //
-    private string currentEmojiName = "";
 
     private void Awake()
     {
@@ -46,9 +43,6 @@ public class EmojiAnimationCtrl : MonoBehaviour
 
     }
 
-
-
-
     public void AnimationPosition(Vector3 pos)
     {      
         animator.transform.position = pos;
@@ -56,8 +50,37 @@ public class EmojiAnimationCtrl : MonoBehaviour
 
     
 
-    public void OnPlayerAnim()
+    public void PlayEmojiAnimation(string name)
     {
+
+        switch(name)
+        {
+            case "Spiral":
+                animator.SetBool(emojiName.EmojiSpiral, true);
+                break;
+
+            case "QuestionMark":
+                animator.SetBool(emojiName.EmojiQuestionMark, true);
+                break;
+
+            case "HeartBroken":
+                animator.SetBool(emojiName.EmojiHeartBroken, true);
+                break;
+
+            case "Dollar":
+                animator.SetBool(emojiName.EmojiDollar, true);
+                break;
+
+            case "Dot":
+                animator.SetBool(emojiName.EmojiDot, true);
+                break;
+            case "MusicNote":
+                animator.SetBool(emojiName.EmojiMusicNote, true);
+                break;
+            case "Okay":
+                animator.SetBool(emojiName.EmojiOkay, true);
+                break;
+        }
 
         //animator.SetBool(emojiName.EmojiSpiral, true);
         //animator.SetBool(emojiName.EmojiQuestionMark, true);
@@ -67,54 +90,10 @@ public class EmojiAnimationCtrl : MonoBehaviour
         //animator.SetBool(emojiName.EmojiMusicNote, true);      
         //animator.SetBool(emojiName.EmojiOkay, true);
 
-        //animator.enabled = false;
-
-        StartCoroutine(PlayAnim());
 
     }
 
-
-
-
-    IEnumerator PlayAnim()
-    {
-
-
-        //yield return new WaitForSeconds(1f);
-
-        animator.enabled = true;
-
-        //yield return new WaitForSeconds(.1f);
-
-        animator.SetBool(emojiName.EmojiSpiral, true);
-
-        yield return new WaitForSeconds(.1f);
-
-        /*
-
-        animator.enabled = false;
-
-        yield return new WaitForSeconds(.1f);
-
-
-        animator.enabled = true;
-
-
-        yield return new WaitForSeconds(.1f);
-
-        animator.SetBool(emojiName.EmojiOkay, true);
-
-
-        yield return new WaitForSeconds(.1f);
-
-        */
-
-
-        yield return null;
-
-    }
-
-    public void OffAllAnim()
+    public void OffAllEmojiAnimation()
     {
 
 

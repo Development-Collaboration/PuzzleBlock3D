@@ -38,22 +38,15 @@ public class Emoji : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-
+        // for animator must be !!!! LateUpdate()
         PositionSetting();
       
-    }
-
-
-    public void OffEmoji()
-    {
-        print("OffEmoji");
-        emojiImage.enabled = false;
     }
 
     private void PositionSetting()
     {
         emojiImage.transform.position = Camera.main.WorldToScreenPoint(tr_Head.position + offset);
-        
+
         emojiAnimationCtrl.AnimationPosition(Camera.main.WorldToScreenPoint(tr_Head.position + offset));
 
     }
