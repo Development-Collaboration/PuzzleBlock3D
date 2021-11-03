@@ -16,7 +16,11 @@ public class GameStatus : MonoBehaviour
     private int blockMovementCounts;
     
     private int blockLeftCounts;
-    //private int totalBlockAmounts;
+
+    private int totalBlockAmounts;
+    private int breakableBlockCounts;
+    private int unBreakableBlockCounts;
+    private int breakOnMoveBlockCounts;
 
     private int timeMin;
     private float timeSec;
@@ -32,7 +36,7 @@ public class GameStatus : MonoBehaviour
         playerMoved.text = "Player Moved: 0";
         blockMoved.text = "Block Moved: 0";
         gameTime.text = "Game Playing Time: 0:0";
-        blockLeft.text = "Block Left: " + blockLeftCounts;
+        blockLeft.text = "Block Left: " + blockLeftCounts + " / " ;
 
         rewind.text = "Rewind: 0";
         
@@ -72,12 +76,16 @@ public class GameStatus : MonoBehaviour
     }
 
 
-    public void BlockMovementCounts()
+    public void BlockMovementCount()
     {
         ++blockMovementCounts;
         blockMoved.text = "Block Moved: " + blockMovementCounts.ToString();
     }
-    
+
+
+    public void BlockAmountCount()
+    {
+    }
 
     public void AmountBlockLeft(int blockCounts)
     {
@@ -103,9 +111,6 @@ public class GameStatus : MonoBehaviour
 
             
         }
-
-
-
 
         ++rewindCount;
 

@@ -62,7 +62,7 @@ public class BlockMovement : BasicMovement
 
         }
 
-        gameStatus.BlockMovementCounts();
+        gameStatus.BlockMovementCount();
     }
 
 
@@ -88,8 +88,6 @@ public class BlockMovement : BasicMovement
 
             yield return null;
         }
-
-
 
         rb.MovePosition(targetPos);
 

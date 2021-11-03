@@ -9,10 +9,9 @@ using UnityEngine.UI;
 
 
 public class Emoji : MonoBehaviour
-{ 
+{
 
-    [SerializeField]
-    private Transform tr_Head;
+    [SerializeField] private Transform tr_Head;
 
     //[SerializeField]
     private Vector3 offset = new Vector3(0, 4f, 0);
@@ -31,6 +30,8 @@ public class Emoji : MonoBehaviour
         emojiAnimationCtrl = FindObjectOfType<EmojiAnimationCtrl>();
 
         emojiImage = GetComponent<Image>();
+
+        emojiImage.enabled = true;
     }
 
 
