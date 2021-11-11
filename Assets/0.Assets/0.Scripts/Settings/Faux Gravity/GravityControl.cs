@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class GravityControl : MonoBehaviour
 {
+    [HideInInspector]
     public GravityOrbit gravityOrbit;
     private Rigidbody rb;
 
-    public float rotationSpeed = 20f;
+    //public float rotationSpeed = 20f;
 
     public GRAVITYPOSITION GravityPos { get; set; }
 

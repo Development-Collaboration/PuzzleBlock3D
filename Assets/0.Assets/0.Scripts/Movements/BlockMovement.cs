@@ -5,8 +5,8 @@ using UnityEngine;
 public class BlockMovement : BasicMovement
 {
     private PlayerMovement playerMovement;
-
     private Block block;
+
 
     protected override void Awake()
     {
@@ -25,7 +25,7 @@ public class BlockMovement : BasicMovement
 
         //MovementsControl (direction);
 
-        if ((!isMoving))
+        if ((!IsMoving))
         {
             currentPos = rb.position;
 
@@ -33,6 +33,10 @@ public class BlockMovement : BasicMovement
             DirectionDecision(direction); // raycheck
 
             RaycastCheck(transform.forward, direction);
+
+
+            Debug.Log("From BlockMovement Stringcurrent: " + stringCurrent);
+
 
             // if another block or wall then return;
             if (IsRestricted)
@@ -49,7 +53,8 @@ public class BlockMovement : BasicMovement
             else
             {
                 ++movementCounts;
-                // execute player move
+
+
                 StartCoroutine("ExecuteBlockMovements");
             }
 
@@ -57,18 +62,20 @@ public class BlockMovement : BasicMovement
 
         }
 
-        gameStatus.BlockMovementCounts();
+        gameStatus.BlockMovementCount();
     }
 
 
     IEnumerator ExecuteBlockMovements()
     {
 
-        isMoving = true;
+        IsMoving = true;
 
         //print(this.name);
 
-        float durationLimit = 0.5f;
+        //float durationLimit = 0.5f;
+        float durationLimit = 2f;
+
 
         while (durationLimit >= 0f && Vector3.Distance(rb.position, targetPos) >= 0.05f)
         {
@@ -82,11 +89,9 @@ public class BlockMovement : BasicMovement
             yield return null;
         }
 
-
-
         rb.MovePosition(targetPos);
 
-        isMoving = false;
+        IsMoving = false;
 
 
 
@@ -106,28 +111,17 @@ public class BlockMovement : BasicMovement
 
         print("from Block : another block on that direction Dectected");
 
+        stringCurrent = stringRestriectedBlock;
+        
         IsRestricted = true;
 
         playerMovement.IsRestricted = true;
     }
 
 
-    protected override void CollideWithGoal(RaycastHit hit)
-    {
-        //base.CollideWithGoal(hit);
-
-        print("Block Reached Goal");
-
-        
-        block.GoalInBlock();
-    }
-
-
-
     protected override void CollideWithGravityTransfer(RaycastHit hit, DIRECTION direction)
     {
         print("Block Reached CollideWithGravityTransfer");
-
 
 
         // raycheck from GT
@@ -151,6 +145,24 @@ public class BlockMovement : BasicMovement
             playerMovement.IsRestricted = true;
 
         }
+
+    }
+
+    protected override void CollideWithGoal(RaycastHit hit)
+    {
+        //base.CollideWithGoal(hit);
+
+        print("Block Reached Goal");
+
+        block.BlockReachedGoal(hit.collider.GetComponent<Goal>());
+    }
+
+    protected override void CollideWithGoalTransparent(RaycastHit hit)
+    {
+        //base.CollideWithGoalTransparent(hit);
+
+        print("Block Reached GoalTransparent");
+
 
     }
 

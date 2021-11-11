@@ -7,6 +7,7 @@ public abstract class BasicMovement : MonoBehaviour
     protected Rigidbody rb;
     protected GameStatus gameStatus;
 
+
     //
     protected const string stringBlock = "Block";
     protected const string stringWall = "Wall";
@@ -14,11 +15,23 @@ public abstract class BasicMovement : MonoBehaviour
     protected const string stringGravityTransfer = "GravityTransfer";
     protected const string stringNothing = "Nothing";
 
+    protected const string stringRestriectedBlock = "RestriectedBlock";
+    protected const string stringRestriectedGoal = "RestriectedGoal";
+
+    //
     protected string stringCurrent = "";
-    
+    //
+    protected const string stringGoalTransparent = "GoalTransparent";
+
+
+
+
     //
     [SerializeField] //[Range( , )]
-    protected float movementSpeed = 4f;
+    protected float movementSpeed = 2f;
+    public float GetMovementSpeed { get { return movementSpeed; } }
+
+       
 
     //[SerializeField] //[Range( , )]
     protected int movementDistance = 1;
@@ -27,14 +40,16 @@ public abstract class BasicMovement : MonoBehaviour
 
     protected Vector3 currentPos;
     protected Vector3 targetPos;
-    protected bool isMoving = false;
+
+    public bool IsMoving { get; set; }
 
     public bool IsRestricted { get; set; }
 
 
     protected GravityTransfer gravityTransfer;
 
-    [SerializeField] protected int movementCounts = 0;
+    //[SerializeField]
+    protected int movementCounts = 0;
     //
     protected List<PointsInTime> pointsInTimes;
 
@@ -46,10 +61,11 @@ public abstract class BasicMovement : MonoBehaviour
         gameStatus = FindObjectOfType<GameStatus>();
 
         rb.freezeRotation = true;
-        isMoving = false;
+        IsMoving = false;
         IsRestricted = false;
 
         pointsInTimes = new List<PointsInTime>();
+        
     }
 
 
@@ -59,10 +75,8 @@ public abstract class BasicMovement : MonoBehaviour
 
         switch (direction)
         {
-            case DIRECTION.UR:
-               
-                    transform.forward = Vector3.right;
-                
+            case DIRECTION.UR:               
+                    transform.forward = Vector3.right;                
                 break;
 
             case DIRECTION.DR:
@@ -130,9 +144,14 @@ public abstract class BasicMovement : MonoBehaviour
 
                 CollideWithGoal(hit);
             }
+            else if (hit.transform.CompareTag(stringGoalTransparent))
+            {
 
+                CollideWithGoalTransparent(hit);
+            }
 
-            
+            // stringGoalTransparent
+
         }
         else
         {
@@ -140,9 +159,12 @@ public abstract class BasicMovement : MonoBehaviour
         }
         
     }
+    //
+    protected virtual void CollideWithGoalTransparent(RaycastHit hit) { }
 
 
 
+    //
     protected virtual void MovementsControl(DIRECTION direction)  {  }
     protected virtual void CollideWithWall(RaycastHit hit) {  }
     protected virtual void CollideWithBlock(RaycastHit hit, DIRECTION direction) { }

@@ -5,18 +5,22 @@ using TMPro;
 public class GameStatus : MonoBehaviour
 {
     //
+    [SerializeField] private TextMeshProUGUI blockLeft;
+    [SerializeField] private TextMeshProUGUI rewind;
     [SerializeField] private TextMeshProUGUI playerMoved;
     [SerializeField] private TextMeshProUGUI blockMoved;
     [SerializeField] private TextMeshProUGUI gameTime;
-    [SerializeField] private TextMeshProUGUI blockLeft;
-
-    [SerializeField] private TextMeshProUGUI rewind;
-
 
     //
     private int playerMovementCounts;
     private int blockMovementCounts;
+    
     private int blockLeftCounts;
+
+    private int totalBlockAmounts;
+    private int breakableBlockCounts;
+    private int unBreakableBlockCounts;
+    private int breakOnMoveBlockCounts;
 
     private int timeMin;
     private float timeSec;
@@ -32,7 +36,7 @@ public class GameStatus : MonoBehaviour
         playerMoved.text = "Player Moved: 0";
         blockMoved.text = "Block Moved: 0";
         gameTime.text = "Game Playing Time: 0:0";
-        blockLeft.text = "Block: " + blockLeftCounts;
+        blockLeft.text = "Block Left: " + blockLeftCounts + " / " ;
 
         rewind.text = "Rewind: 0";
         
@@ -40,8 +44,6 @@ public class GameStatus : MonoBehaviour
         StartCoroutine(CountdownTimer());
 
         basicMovementArray = FindObjectsOfType<BasicMovement>();
-
-
         playerMovement = FindObjectOfType<PlayerMovement>();
     }
 
@@ -74,18 +76,22 @@ public class GameStatus : MonoBehaviour
     }
 
 
-    public void BlockMovementCounts()
+    public void BlockMovementCount()
     {
         ++blockMovementCounts;
         blockMoved.text = "Block Moved: " + blockMovementCounts.ToString();
     }
-    
+
+
+    public void BlockAmountCount()
+    {
+    }
 
     public void AmountBlockLeft(int blockCounts)
     {
         blockLeftCounts = blockCounts;
 
-        blockLeft.text = "Block: " + blockCounts;
+        blockLeft.text = "Block Lefts: " + blockCounts;
 
     }
 
@@ -105,9 +111,6 @@ public class GameStatus : MonoBehaviour
 
             
         }
-
-
-
 
         ++rewindCount;
 

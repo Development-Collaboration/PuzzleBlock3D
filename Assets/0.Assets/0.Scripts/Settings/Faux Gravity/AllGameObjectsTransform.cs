@@ -12,7 +12,7 @@ public class AllGameObjectsTransform : MonoBehaviour
 
     private TouchDetection touchDetection;
 
-    [SerializeField] private float rotationSpeed = 1.5f;
+    [SerializeField] private float rotationSpeed;
 
     private Quaternion targetRotation;
     private Quaternion lastRotation;
@@ -2008,10 +2008,21 @@ public class AllGameObjectsTransform : MonoBehaviour
 
     }
 
-    public void DoubleCheckRotation(GRAVITYPOSITION gravityPosition)
+    public void DoubleCheckRotation()
     {
-        
+        transform.rotation = targetRotation;
+        ResetTransform();
     }
+
+    /*
+    IEnumerator DoubleCheckRotation()
+    {
+        transform.rotation = targetRotation;
+        ResetTransform();
+
+        yield return null;
+    }
+    */
 
     IEnumerator Rotate()
     {
@@ -2024,7 +2035,7 @@ public class AllGameObjectsTransform : MonoBehaviour
         touchDetection.OnDisableControlButton();
 
 
-
+        
         while (transform.rotation != targetRotation && durationLimit >= 0f)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation,
@@ -2032,21 +2043,33 @@ public class AllGameObjectsTransform : MonoBehaviour
 
             durationLimit -= Time.deltaTime;
 
+            yield return new WaitForEndOfFrame();
 
-            yield return null;
         }
 
-        ResetTransform();
 
-        transform.rotation = targetRotation;
-        isRotating = false;
+        yield return new WaitForEndOfFrame();
 
+        print("Before Enable");
 
         playerMovement.IsUncontrolable = false;
         touchDetection.OnEnableControlButton();
 
 
         player.OnEndGravityTransfer();
+
+        print("After Enable");
+
+                    yield return new WaitForEndOfFrame();
+
+
+        transform.rotation = targetRotation;
+        isRotating = false;
+
+
+
+        ResetTransform();
+
 
         /*
         float durationLimit = 1f;

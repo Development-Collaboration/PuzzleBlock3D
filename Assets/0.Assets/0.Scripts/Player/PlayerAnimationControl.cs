@@ -6,122 +6,200 @@ using UnityEngine;
 
 public class PlayerAnimationControl : MonoBehaviour
 {
-    /*
-    private enum PLAYERANIMATION
-    {
-        Stand,
-        Idle0, Idle1, Idle2,
-        Run0, Run1,
-        StandPushIdle0
-    }
+    private float time;
+    private bool setTime = false;
+    private bool timeDone = false;
 
-    private PLAYERANIMATION playerAnimation;
-    */
-
-    //
-    string Stand = "Stand";
-
-    string Idle0 = "Idle0";
-    string Idle1 = "Idle1";
-    string Idle2 = "Idle2";
-
-    string Run0 = "Run0";
-    string Run1 = "Run1";
-
-    string StandPushHold = "StandPushHold";
-
-    string StandPushIdle0 = "StandPushIdle0";
-    string StandPushIdle1 = "StandPushIdle1";
-
-    string StandPushWalk = "StandPushWalk";
-    string StandPushDenied = "StandPushDenied";
-
-
-
-    //
+    public AnimationName animationName = new AnimationName();
 
     [SerializeField] private Animator animator;
-
+   
+    private EmojiAnimationCtrl emojiAnimationCtrl;
 
     private void Awake()
     {
-        //playerAnimation = PLAYERANIMATION.Stand;
-        //animator.SetBool(PLAYERANIMATION.Stand, true);
+        emojiAnimationCtrl = FindObjectOfType<EmojiAnimationCtrl>();
+    }
 
+    // Animation 중 Bool 로 컨트롤 되는 것들 직접 꺼줘야함
+    public void OffAllAnimations()
+    {
 
+        OffIdleAnimations();
+
+        animator.SetBool(animationName.StandPushDeniedUp, false);
 
     }
 
-    public void OnIdle()
+    public void PlayAnimation(PLAYERSTATE ps)
+    {
+
+        // Idle 은 OffAllAnimation  타이밍이 다르기 때문ㅇ
+        if(ps == PLAYERSTATE.IDLE)
+        {
+            OnIdle();
+            return;
+        }
+
+        OffAllAnimations();
+
+        switch (ps)
+        {
+            case PLAYERSTATE.RUNNING:
+                OnRunning();
+                break;
+            case PLAYERSTATE.PUSHING_BLOCK:
+                OnBlock();
+                break;
+            case PLAYERSTATE.BLOCK_RESTRICTED:
+                OnBlockRestricted();
+                break;
+
+            case PLAYERSTATE.WALL_RESTRICTED:
+                OnWallRestriected();
+                break;
+            case PLAYERSTATE.GOAL_RESTRICTED:
+                OnGoalRestricted();
+                break;
+
+            case PLAYERSTATE.STAND_UP:
+                OnStandUp();
+                break;
+
+        }
+    }
+
+
+    private void OnIdle()
     {
 
         if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
             OffAllAnimations();
 
-            // Random,Range (mininclude, maxexclude!!!)
-
-            int min = 0, max = 2;
-
-            int randNum = Random.Range(min, max +1); 
-
-            switch (randNum)
+            switch (RandomNumberGenerate(2))
             {
                 case 0:
-                    animator.SetBool(Idle0, true);
+                    animator.SetBool(animationName.Idle0, true);
                     break;
                 case 1:
-                    animator.SetBool(Idle1, true);
+                    animator.SetBool(animationName.Idle1, true);
                     break;
                 case 2:
-                    animator.SetBool(Idle2, true);
+                    animator.SetBool(animationName.Idle2, true);
                     break;
 
             }
+
+
         }
-       
+
     }
 
-    public void OnRunning()
+    private void OnRunning()
     {
-        OffAllAnimations();
+        switch(RandomNumberGenerate(1))
+        {
+            case 0:
+                animator.SetTrigger(animationName.Run0);
 
-        animator.SetBool(Run0, true);
-        //animator.SetBool(Idle0, false);
+                break;
+            case 1:
+                animator.SetTrigger(animationName.Run1);
+                break;
+
+        }
+
     }
 
-    public void OnWallBlocked()
+    private void OnStandUp()
+    {
+        animator.SetBool(animationName.StandPushDeniedUp, true);
+
+        emojiAnimationCtrl.OffAllEmojiAnimation();
+    }
+
+
+    private void OnBlock()
+    {
+
+        animator.SetTrigger(animationName.StandPushWalk);
+
+
+    }
+
+    private void OnBlockRestricted()
+    {
+        animator.SetTrigger(animationName.StandPushDeniedBlock);
+
+
+        emojiAnimationCtrl.PlayEmojiAnimation(emojiAnimationCtrl.emojiName.EmojiHeartBroken);
+
+    }
+
+
+    // fix it later
+    private void OnWallRestriected()
+    {
+        animator.SetTrigger(animationName.StandPushDeniedBlock);
+
+        emojiAnimationCtrl.PlayEmojiAnimation(emojiAnimationCtrl.emojiName.EmojiSpiral);
+    }
+
+    private void OnGoalRestricted()
+    {
+        animator.SetTrigger(animationName.StandPushDeniedBlock);
+
+    }
+    //
+
+
+    private void OnGravityTransfer()
     {
 
     }
 
 
-    public void OnGravityTransfer()
+
+
+    private void OffIdleAnimations()
     {
+        animator.SetBool(animationName.Idle0, false);
+        animator.SetBool(animationName.Idle1, false);
+        animator.SetBool(animationName.Idle2, false);
+    }
+
+    //
+
+    // 나중에 Util 로 빼자.
+    private int RandomNumberGenerate(int maxNum)
+    {
+        int min = 0;
+
+        // Random,Range (mininclude, max Exclude!!!)
+        int randNum = Random.Range(min, maxNum + 1);
+
+        return randNum;
 
     }
 
-    public void OffAllAnimations()
+    IEnumerator Timer(float endTime)
     {
-        //animator.gameObject.SetActive(false);
-        //animator.gameObject.SetActive(true);
+        setTime = true;
+        timeDone = false;
 
-        
-        OffIdleAnimations();
-        animator.SetBool(Run0, false);
-        
-       
+        while (setTime)
+        {
+            yield return new WaitForSeconds(1f);
+
+            ++time;
+
+            if(time >= endTime)
+            {
+                setTime = false;
+                timeDone = true;
+            }
+
+        }
     }
-
-
-
-    public void OffIdleAnimations()
-    {
-        animator.SetBool(Idle0, false);
-        animator.SetBool(Idle1, false);
-        animator.SetBool(Idle2, false);
-
-    }
-
-     
 }

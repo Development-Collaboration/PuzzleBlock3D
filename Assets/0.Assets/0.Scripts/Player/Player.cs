@@ -15,81 +15,65 @@ using Cinemachine;
 [RequireComponent(typeof(PlayerAnimationControl))]
 [RequireComponent(typeof(PlayerState))]
 
+//
 
 
 
 public class Player : MonoBehaviour
 {
     private PlayerAnimationControl playerAnimationControl;
-    private PlayerState playerState;
-    //private PlayerMovement playerMovement;
+    //private EmojiAnimationCtrl emojiAnimationCtrl;
 
-    //[SerializeField] CameraControl cameraControl;
+
+    private PlayerState playerState;
+    private PlayerMovement playerMovement;
 
     private CameraControl cameraControl;
 
+    //
+
+
+
     private void Awake()
     {
+        playerMovement = GetComponent<PlayerMovement>();
         playerAnimationControl = GetComponent<PlayerAnimationControl>();
         playerState = GetComponent<PlayerState>();
 
-        //playerMovement = GetComponent<PlayerMovement>();
-
         cameraControl = FindObjectOfType<CameraControl>();
 
+        //emojiAnimationCtrl = FindObjectOfType<EmojiAnimationCtrl>();
+
+
+        playerState.PState = PLAYERSTATE.BEGIN;
 
     }
 
     private void FixedUpdate()
     {
-
-        switch(playerState.PState)
-        {
-            case PLAYERSTATE.IDLE:
-                {
-                    OnIdle();
-                }
-                break;
-
-                /*
-            case PLAYERSTATE.RUNNING:
-                {
-                    OnRunning();
-                }
-                break;
-                */
-        }
-
-       // print("PLAYERSTATE: " + playerState.PState);
-
-
+        print("Playerstate: " + playerState.PState);
 
     }
 
-    public void OnIdle()
+    public void SetPlayer(PLAYERSTATE ps)
     {
-        playerAnimationControl.OnIdle();
+        playerState.PState = ps;
+        playerAnimationControl.PlayAnimation(ps);
+        // Audio
+
+
 
     }
 
-
-
-    public void OnRunning()
+    public void OffAllAnimations()
     {
-        playerAnimationControl.OnRunning();
-
+        playerAnimationControl.OffAllAnimations();
     }
 
 
-    public void OnWallBlocked()
-    {
-        
-    }
 
     public void OnGravityTransfer()
     {
-        //playerState.PState = PLAYERSTATE.RUNNING;
-        //playerAnimationControl.OnGravityTransfer();
 
         cameraControl.InstantFollowPlayer();
     }
@@ -97,15 +81,11 @@ public class Player : MonoBehaviour
 
     public void OnEndGravityTransfer()
     {
-
-
         cameraControl.StartCamSetting();
     }
 
 
-    public void OffAllAnimations()
-    {
-        playerAnimationControl.OffAllAnimations();
-    }
+
+
 
 }
