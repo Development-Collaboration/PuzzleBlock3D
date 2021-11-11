@@ -11,6 +11,8 @@ public class PlayerMovement : BasicMovement
     //
     private BlockMovement[] blockArrays = new BlockMovement[4];
 
+    private CinemachineShake cinemachineShake;
+
     private float defaultMovementSpeed = 0f;
     private float newMovementSpeed = 0f;
     private float blockMovementSpeed = 0f;
@@ -30,6 +32,9 @@ public class PlayerMovement : BasicMovement
     private float movementSpeedExtra = 2f;
     */
 
+    public float time;
+
+
     protected override void Awake()
     {
         base.Awake();
@@ -40,6 +45,8 @@ public class PlayerMovement : BasicMovement
 
         player = GetComponent<Player>();
         playerState = GetComponent<PlayerState>();
+
+        cinemachineShake = FindObjectOfType<CinemachineShake>();
 
         IsUncontrolable = false;
 
@@ -108,7 +115,10 @@ public class PlayerMovement : BasicMovement
                 // Define why is Restricted
                 print("Restricted");
 
-                switch(stringCurrent)
+                //cinemachineShake.ShakeCamera(4f, 0.1f);
+                cinemachineShake.ShakeCamera();
+
+                switch (stringCurrent)
                 {
                     case stringBlock:
                         {
@@ -208,6 +218,7 @@ public class PlayerMovement : BasicMovement
             }
 
         }
+
         gameStatus.PlayerMovementCount(movementCounts);
 
     }

@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dissolve
-  m_Shader: {fileID: -6465566751694194690, guid: ab3020667d65148b68d18877e6f4de31, type: 3}
+  m_Name: CrystalGlow
+  m_Shader: {fileID: -6465566751694194690, guid: 66b6c59444b65451d8458586a0fb993d, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -32,17 +32,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_12c5a6b87a2b4a4ba748568b89a797c3: 0.5
-    - Vector1_2b7d5708c5bb4bdeb0b8f76abb326f3a: 0.05
-    - Vector1_58fdf6336c9d498f8bc216ddd39237e3: -1.1
-    - Vector1_e504fcf8135545658f8e110098f8a453: 10
-    - Vector1_fb37b46ab4c445f1bfd22021d7e5d2b1: 0
-    - _EdgeWidth: 0.05
-    - _Fade: 0
-    - _NoiseScale: 30
+    - _BottomLine: 0.91
+    - _Metallic: 1
+    - _Smoothness: 1
+    - _TopLine: 0.66
     m_Colors:
-    - Color_10b12ff0cf624396a5676a2fdbfb931f: {r: 0, g: 0.3137255, b: 4, a: 0}
-    - Color_c81fe92781cf49c0913c43e3673874b1: {r: 0.745283, g: 0.2917853, b: 0.2917853, a: 0}
-    - _BaseColor: {r: 0.9150943, g: 0.056114297, b: 0.056114297, a: 0}
-    - _EdgeColor: {r: 0, g: 16.94663, b: 51.37788, a: 0}
+    - _BaseColor: {r: 0, g: 0.3350792, b: 8, a: 1}
+    - _BottomColor: {r: 2.4066558, g: 0, b: 3.0672052, a: 1}
+    - _TopColor: {r: 3.031433, g: 0, b: 2.0818279, a: 1}
   m_BuildTextureStacks: []
