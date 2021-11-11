@@ -1,5 +1,8 @@
+using System.Collections;
 using UnityEngine;
 using System;
+
+using UnityEngine.VFX;
 
 
 [Flags]
@@ -13,8 +16,6 @@ public enum GoalType
     Moveable = 1 << 5,
 }
 
-
-
 //[RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
 
@@ -24,10 +25,19 @@ public class Goal : MonoBehaviour
     private BoxCollider boxCollider;
     // private ITweenUitility iTweenUtility;
 
-    [SerializeField] private GoalType glockType;
+    [SerializeField] private GoalType goalType;
 
-    public GoalType GlockType { get; set; }
+    public GoalType GloalType
+    {
+        get { return goalType; }
+        set { goalType = value; }
+    }
 
+
+    [Header("VFX at Goal")]
+    [SerializeField] private VisualEffect vfx;
+    [SerializeField] private float fireworksDuration;
+    [SerializeField] private uint fireworksSpawnRate;
 
     private void Awake()
     {
@@ -38,8 +48,24 @@ public class Goal : MonoBehaviour
 
         // iTweenUtility = GetComponent<ITweenUitility>();
 
+    }
+
+    private void Start()
+    {
+        //
+        StopFireworks();
 
     }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PlayFireworks();
+        }
+
+    }
+
 
     public void OnBlockReachedGoal()
     {
@@ -50,16 +76,44 @@ public class Goal : MonoBehaviour
     }
 
 
-
-    private void OnTriggerEnter(Collider other)
+    public void StopFireworks()
     {
-        /*
-        if (other.gameObject.CompareTag(block))
-        {
-            print("reached goal");
-            other.gameObject.SetActive(false);
-        }
-        */
+        vfx.SetUInt("SpawnRate", 0);
     }
+
+
+    public void PlayFireworks(uint spawnRate = 1, float duration = 0f)
+    {
+        StartCoroutine(FireworksTimer(spawnRate,duration));
+    }
+
+    IEnumerator FireworksTimer(uint spawnRate, float duration)
+    {
+
+        // default
+        if(duration == 0f)
+        {
+            // default, 1/1  convert from inspector;
+            duration = fireworksDuration;
+            spawnRate = fireworksSpawnRate;
+
+            vfx.SetUInt("SpawnRate", spawnRate);
+
+            while (duration >= 0)
+            {
+
+                duration -= Time.deltaTime;
+                print(duration + " fireworksDuration");
+                yield return null;
+
+            }
+
+        }
+
+        StopFireworks();
+        yield return null;
+    }
+
+
 
 }
