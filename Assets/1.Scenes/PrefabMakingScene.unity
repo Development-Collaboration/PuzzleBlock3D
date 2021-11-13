@@ -2167,6 +2167,7 @@ GameObject:
   - component: {fileID: 431617039}
   - component: {fileID: 431617038}
   - component: {fileID: 431617037}
+  - component: {fileID: 431617040}
   m_Layer: 0
   m_Name: ChangingMat
   m_TagString: Block
@@ -2228,6 +2229,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockType: 0
   breakCount: 1
+--- !u!114 &431617040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 431617035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f246dab96ee24132ba317adfa71de95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSwap: 1
+  materials:
+  - {fileID: 2100000, guid: 81445e74f0ae84415a4ba1f0c7f83c2b, type: 2}
+  - {fileID: 2100000, guid: e0f5b9afd6e394cdfb075625e536300f, type: 2}
+  - {fileID: 2100000, guid: 4a2ef5868ac864048a797ab473998e3d, type: 2}
+  changeInterval: 1
+  rend: {fileID: 0}
 --- !u!54 &431617041
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2276,7 +2296,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 00bf4d345097f420b9dbbd0a492a9eac, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8956,7 +8976,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 0.36470592, b: 0.3870614, a: 1}
+  m_BackGroundColor: {r: 0.27058825, g: 0.36470592, b: 0.3870614, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
