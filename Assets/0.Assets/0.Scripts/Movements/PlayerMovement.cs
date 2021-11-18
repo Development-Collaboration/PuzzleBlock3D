@@ -102,8 +102,6 @@ public class PlayerMovement : BasicMovement
             }
 
             //
-
-
             DirectionDecision(direction); // raycheck
             RaycastCheck(transform.forward, direction);
 
